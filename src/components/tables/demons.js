@@ -98,5 +98,4 @@ let macabreOni = {
     cardImage: 'macabreOni.png',
 }
 
-
 export const demons = [snake, demonBook, bogeyMan, porcus, legionNanny, belzeBzz, baelHound, mechanicalSatange, antechrist, mefilstopheles, devil, incesteDemon, demogorguignol, macabreOni];

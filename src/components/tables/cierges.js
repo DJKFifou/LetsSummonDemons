@@ -42,6 +42,6 @@ let devilCandle = {
     subDescription: ciergeSubDescription,
 };
 
-let cierges = [kindCandle, sweetCandle, beginnerCandle, evilCandle, devilCandle];
+export const cierges = [kindCandle, sweetCandle, beginnerCandle, evilCandle, devilCandle];
 
 console.log(cierges);
