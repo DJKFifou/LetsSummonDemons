@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import styles from "./game.module.scss";
 import { demons } from "../../tables/demons";
-import playerList from "../register/register";
 
-function Game() {
+function Game(props) {
   const [demonCards, setDemonCards] = useState([]);
+  const playerList = props.location.state && props.location.state.playerList;
+  console.log(playerList);
   
   for (let i = 0; i < playerList.length; i++) {
     const randomIndex = Math.floor(Math.random() * demons.length);
     const randomDemon = demons.splice(randomIndex, 1)[0];
-    setDemonCards(prevDemonCards => [...prevDemonCards, { player: playerList[i], demon: randomDemon }]);
+    const result = { player: playerList[i], demon: randomDemon };
+    console.log(result);
+    setDemonCards(prevDemonCards => [...prevDemonCards, result]);
   }
 
   function rollButton() {
