@@ -208,5 +208,3 @@ let goat = {
 }
 
 export const voisinage = [jane, lola, eve, adam, caroline, regan, tommy, calvin, dolores, sam, annie, jesus, chuck, louis, carrie, donnie, lisa, alice, marilyn, fifi, damien, cat, dog, redFish, araMacao, rabbit, goat];
-
-console.log(voisinage);

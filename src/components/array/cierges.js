@@ -43,5 +43,3 @@ let devilCandle = {
 };
 
 export const cierges = [kindCandle, sweetCandle, beginnerCandle, evilCandle, devilCandle];
-
-console.log(cierges);
