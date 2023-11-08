@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styles from "./game.module.scss";
 import { demons } from "../../tables/demons";
+import { useLocation } from "react-router-dom";
 
 function Game(props) {
   const [demonCards, setDemonCards] = useState([]);
-  const playerList = props.location.state && props.location.state.playerList;
+  let { playerList } = useLocation();
   console.log(playerList);
+  
   
   for (let i = 0; i < playerList.length; i++) {
     const randomIndex = Math.floor(Math.random() * demons.length);
