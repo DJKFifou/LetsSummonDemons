@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from "./register.module.scss";
 
-function Register() {
-  const [playerList, setPlayerList] = useState([]);
+function Register({ playerList, setPlayerList }) {
 
   function addPlayer() {
     const playerName = document.getElementById("playerName").value;
@@ -20,7 +19,7 @@ function Register() {
 
   return (
     <div className={styles.App}>
-      <input type="text" id="playerName" placeholder="Nom du joueur" />
+      <input className={styles.input} type="text" id="playerName" placeholder="Nom du joueur" />
       <button id="addPlayer" onClick={addPlayer}>Ajouter un joueur</button>
       <button id="removePlayer" onClick={removePlayer}>Enlever un joueur</button>
       <Link to={{
