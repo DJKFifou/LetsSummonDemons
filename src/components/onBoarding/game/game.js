@@ -1,27 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./game.module.scss";
-<<<<<<< HEAD
-import { demons } from "../../tables/demons";
-import { useLocation } from "react-router-dom";
-=======
 import { demons } from "../../array/demons";
 import { cierges } from "../../array/cierges";
->>>>>>> 7ade8fd52460fd0874593154c9aa819a58425059
 
 function Game({ playerList }) {
   const [demonCards, setDemonCards] = useState([]);
-<<<<<<< HEAD
-  let { playerList } = useLocation();
-  console.log(playerList);
-  
-  
-  for (let i = 0; i < playerList.length; i++) {
-    const randomIndex = Math.floor(Math.random() * demons.length);
-    const randomDemon = demons.splice(randomIndex, 1)[0];
-    const result = { player: playerList[i], demon: randomDemon };
-    console.log(result);
-    setDemonCards(prevDemonCards => [...prevDemonCards, result]);
-=======
   const [CiergeCards, setCiergeCards] = useState([]);
 
   function shuffleArray(array) {
@@ -29,10 +12,9 @@ function Game({ playerList }) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
->>>>>>> 7ade8fd52460fd0874593154c9aa819a58425059
   }
 
-  useEffect(() => {
+    useEffect(() => {
     shuffleArray(demons);
 
     const playerDemonCards = [];

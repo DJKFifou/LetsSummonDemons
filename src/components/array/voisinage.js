@@ -1,29 +1,36 @@
+let cardBack = document.createElement("img");
+cardBack.src = "@./cards/candles//neighbourhood.png";
+
 let jane = {
     name: 'JANE',
     description: 'Obtenez une carte ANIMAL du VOISINAGE.',
     number: 6,
-    genre: 'FILLE'
+    genre: 'FILLE',
+    cardBack,
 }
 
 let lola = {
     name: 'LOLA',
     description: 'Pour chacun de vos GARÇONS: récoltez une Âme.',
     number: 6,
-    genre: 'FILLE'
+    genre: 'FILLE',
+    cardBack,
 }
 
 let eve = {
     name: 'EVE',
     description: 'Récoltez une Âme.',
     number: 6,
-    genre: 'FILLE'
+    genre: 'FILLE',
+    cardBack,
 }
 
 let adam = {
     name: 'ADAM',
     description: 'Récoltez une Âme.',
     number: 8,
-    genre: 'GARÇON'
+    genre: 'GARÇON',
+    cardBack,
 }
 
 let caroline = {
@@ -31,7 +38,8 @@ let caroline = {
     description: 'Récoltez 5 Âmes.',
     number: 2,
     genre: 'FILLE',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let regan = {
@@ -39,7 +47,8 @@ let regan = {
     description: 'Récoltez une Âme.',
     number: 9,
     genre: 'FILLE',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let tommy = {
@@ -47,7 +56,7 @@ let tommy = {
     description: 'Défaussez la première carte de la PIOCHE VOISINAGE : si c\'est une FILLE, obtenez-la',
     number: 9,
     genre: 'GARÇON',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
 }
 
 let calvin = {
@@ -56,7 +65,8 @@ let calvin = {
     subDescription: '(aux autres joueurs et/ou depuis la réserve commune).',
     number: 9,
     genre: 'GARÇON',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let dolores = {
@@ -64,7 +74,8 @@ let dolores = {
     description: '???',
     number: 10,
     genre: 'FILLE',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let sam = {
@@ -72,7 +83,8 @@ let sam = {
     description: '???',
     number: 10,
     genre: 'GARÇON',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let annie = {
@@ -80,7 +92,8 @@ let annie = {
     description: '???',
     number: 9,
     genre: 'FILLE',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let jesus = {
@@ -88,7 +101,8 @@ let jesus = {
     description: 'Récoltez 2 Âmes.',
     number: 3,
     genre: 'GARÇON',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let chuck = {
@@ -96,7 +110,8 @@ let chuck = {
     description: 'Si vous avez un autre ADORABLE GAMIN : récoltez 2 Âmes.',
     number: 4,
     genre: 'GARÇON',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let louis = {
@@ -104,7 +119,8 @@ let louis = {
     description: '???',
     number: 5,
     genre: 'GARÇON',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let carrie = {
@@ -112,7 +128,8 @@ let carrie = {
     description: '???',
     number: 11,
     genre: 'FILLE',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let donnie = {
@@ -120,7 +137,8 @@ let donnie = {
     description: '???',
     number: 12,
     genre: 'GARÇON',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let lisa = {
@@ -128,7 +146,8 @@ let lisa = {
     description: '???',
     number: 3,
     genre: 'FILLE',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let alice = {
@@ -136,7 +155,8 @@ let alice = {
     description: 'Défaussez les 2 premières carte de la PIOCHE VOISINAGE : obtenez chaque carte ADORABLE GAMIN ainsi défaussée',
     number: '???',
     genre: 'FILLE',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let marilyn = {
@@ -144,7 +164,8 @@ let marilyn = {
     description: '???',
     number: 5,
     genre: 'FILLE',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let fifi = {
@@ -152,7 +173,8 @@ let fifi = {
     description: '???',
     number: 4,
     genre: 'FILLE',
-    type: 'ADORABLE'
+    type: 'ADORABLE',
+    cardBack,
 }
 
 let damien = {
@@ -161,42 +183,47 @@ let damien = {
     subDescription: '(cette action ne compte pas comme votre invocation pour ce tour.)',
     number: 11,
     genre: 'GARÇON',
-    type: 'HORRIBLE'
+    type: 'HORRIBLE',
+    cardBack,
 }
 
 let cat = {
     name: 'CHAT',
     description: 'Défaussez la 1re carte de la PIOCHE VOISINAGE : si c\'est un ANIMAL, obtenez-le.',
     number: 7,
-    type: 'ANIMAL'
+    type: 'ANIMAL',
+    cardBack,
 }
 
 let dog = {
     name: 'CHIEN',
     description: 'Si vous avez un GARÇON ou une FILLE : récoltez une Âme.',
     number: 7,
-    type: 'ANIMAL'
+    type: 'ANIMAL',
+    cardBack,
 }
 
 let redFish = {
     name: 'POISSOU ROUGE',
     description: 'Vous pouvez défaussez cette carte : dans ce cas, récoltez 5 Âmes.',
     number: 7,
-    type: 'ANIMAL'
+    type: 'ANIMAL',
 }
 
 let araMacao = {
     name: 'ARA MACAO',
     description: 'Si vous avez au moins 2 GARÇON ou 2 FILLES : récoltez 2 Âmes.',
     number: 7,
-    type: 'ANIMAL'
+    type: 'ANIMAL',
+    cardBack,
 }
 
 let rabbit = {
     name: 'LAPIN',
     description: 'Si vous avez au moins 3 ANIMAUX : récoltez 2 Âmes.',
     number: 7,
-    type: 'ANIMAL'
+    type: 'ANIMAL',
+    cardBack,
 }
 
 let goat = {
@@ -204,7 +231,8 @@ let goat = {
     description: 'Vous pouvez défausser exactement 1 GARÇON et 1 FILLE : invoquez le Démon du dessus de la pioche gratuitement.',
     subDescription: '(Il compte parmi vos 3 démons nécessaires à la victoire.)',
     number: 7,
-    type: 'ANIMAL'
+    type: 'ANIMAL',
+    cardBack,
 }
 
 export const voisinage = [jane, lola, eve, adam, caroline, regan, tommy, calvin, dolores, sam, annie, jesus, chuck, louis, carrie, donnie, lisa, alice, marilyn, fifi, damien, cat, dog, redFish, araMacao, rabbit, goat];

@@ -1,6 +1,9 @@
 let ciergeTitle = 'Récoltez une Âme.';
 let ciergeDescription = 'Les CIERGES ne peuvent JAMAIS être volés ou défaussés';
 let ciergeSubDescription = 'Vous ne pouvez donc pas les sacrifier pour invoquer un Démon';
+let cardBack = document.createElement("img");
+cardBack.src = "../public/cards/back/candles.png";
+
 
 let kindCandle = {
     name: 'GENTILLE BOUGIE',
@@ -8,6 +11,8 @@ let kindCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
+    cardImage: "@./cards/candles/kind_candle.png",
+    cardBack,
 };
 
 let sweetCandle = {
@@ -16,6 +21,8 @@ let sweetCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
+    cardImage: "@./cards/candles/sweet_candle.png",
+    cardBack,
 };
 
 let beginnerCandle = {
@@ -24,6 +31,8 @@ let beginnerCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
+    cardImage: "@./cards/candles/beginner_candle.png",
+    cardBack,
 };
 
 let evilCandle = {
@@ -32,6 +41,8 @@ let evilCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
+    cardImage: "@./cards/candles/maleficent_candle.png",
+    cardBack,
 };
 
 let devilCandle = {
@@ -40,6 +51,8 @@ let devilCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
+    cardImage: "@./cards/candles/diabolic_candle.png",
+    cardBack,
 };
 
 export const cierges = [kindCandle, sweetCandle, beginnerCandle, evilCandle, devilCandle];

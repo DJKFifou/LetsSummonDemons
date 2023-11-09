@@ -1,0 +1,58 @@
+NOMBRES DE CARTES DE LA PIOCHE VOISINAGE:
+
+32 Animaux:
+
+-Chèvre:1
+-Faucon:1
+-Moufette:1
+-Alligator:1
+-Chien enragé:2
+-Ara macao:2
+-Lapin:2
+-Chat enragé:2
+-Chouette:4
+-Poisson rouge:4
+-Chat:6
+-Chien:6
+
+34 Filles (12 Adorables, 12 Horribles, 10 neutres):
+
+Adorables:
+-Lisa:2
+-Alice:2
+-Marylin:2
+-Destiny:2
+-Caroline:2
+-Fifi:2
+
+Horribles:
+-Annie:2
+-Dolores:2
+-Carrie:4
+-Regan:4
+
+neutres:
+-Lola:2
+-Jane:2
+-Eve:6
+
+34 Garçons (12 Adorables, 12 Horribles, 10 neutres):
+
+Adorables:
+-Chuck:2
+-Glen:2
+-Jesus:4
+-Louis:4
+
+Horribles:
+-Dillinger:2
+-Calvin:2
+-Tommy:2
+-Donnie:2
+-Sam:2
+-Damien:2
+
+neutres:
+-Roméo:2
+-Irwin:2
+-Adam:6
