@@ -2,7 +2,7 @@ let ciergeTitle = 'Récoltez une Âme.';
 let ciergeDescription = 'Les CIERGES ne peuvent JAMAIS être volés ou défaussés';
 let ciergeSubDescription = 'Vous ne pouvez donc pas les sacrifier pour invoquer un Démon';
 let cardBack = document.createElement("img");
-cardBack.src = "../public/cards/back/candles.png";
+cardBack.src = "/cards/back/candles.png";
 
 
 let kindCandle = {
@@ -11,7 +11,7 @@ let kindCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
-    cardImage: "@./cards/candles/kind_candle.png",
+    cardImage: "/cards/candles/kind_candle.png",
     cardBack,
 };
 
@@ -21,7 +21,7 @@ let sweetCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
-    cardImage: "@./cards/candles/sweet_candle.png",
+    cardImage: "/cards/candles/sweet_candle.png",
     cardBack,
 };
 
@@ -31,7 +31,7 @@ let beginnerCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
-    cardImage: "@./cards/candles/beginner_candle.png",
+    cardImage: "/cards/candles/beginner_candle.png",
     cardBack,
 };
 
@@ -41,7 +41,7 @@ let evilCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
-    cardImage: "@./cards/candles/maleficent_candle.png",
+    cardImage: "/cards/candles/maleficent_candle.png",
     cardBack,
 };
 
@@ -51,7 +51,7 @@ let devilCandle = {
     title: ciergeTitle,
     description: ciergeDescription,
     subDescription: ciergeSubDescription,
-    cardImage: "@./cards/candles/diabolic_candle.png",
+    cardImage: "/cards/candles/diabolic_candle.png",
     cardBack,
 };
 
