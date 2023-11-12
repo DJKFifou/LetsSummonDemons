@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./game.module.scss";
+import { Player } from "../../players/player";
 import { demons } from "../../array/demons";
 import { cierges } from "../../array/cierges";
 import { neighbour } from "../../array/voisinage";
 import { neighbourStack } from "../../array/voisinage";
+
 
 function Game({ playerList }) {
   const [demonCards, setDemonCards] = useState([]);
