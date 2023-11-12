@@ -9,7 +9,7 @@ function Game({ playerList }) {
   const [demonCards, setDemonCards] = useState([]);
   const [ciergeCards, setCiergeCards] = useState([]);
   const [neighbourCards, setNeighbourCards] = useState([]);
-  const [remainingNeighbourCards, setRemainingNeighbourCards] = useState(neighbour);
+  const [remainingNeighbourCards, setRemainingNeighbourCards] = useState(neighbourStack);
 
   
 
@@ -20,6 +20,7 @@ function Game({ playerList }) {
       const j = Math.floor(Math.random() * (i + 1));
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
+    console.log('Shuffled Array:', newArray);
     return newArray;
   }
 
@@ -27,7 +28,9 @@ function Game({ playerList }) {
     // Créez des copies des tableaux de démons, de cierges et de voisinnages
     const shuffledDemons = shuffleArray(demons);
     const shuffledCierges = shuffleArray(cierges);
+    const shuffledNeighbourStack = shuffleArray(neighbourStack);
 
+    setRemainingNeighbourCards(shuffledNeighbourStack);
 
     const playerDemonCards = [];
     const playerCiergeCards = [];
@@ -102,6 +105,12 @@ function Game({ playerList }) {
           </p>
         </div>
       ))}
+      {remainingNeighbourCards.length > 0 && (
+        <div>
+         <p>Neighbour Deck:</p>
+         <img src={remainingNeighbourCards[0].backImage} alt={`Ouais ouais`} />
+        </div>
+      )}
       {neighbourCards.map((card, index) => (
         <div key={index}>
           <p>Neighbour Card {index + 1}:</p>

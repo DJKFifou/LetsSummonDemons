@@ -1,4 +1,4 @@
-const cardBack = "@./cards/back/neighbourhood.png";
+const cardBack = "/cards/back/neighbourhood.png";
 
 let jane = {
     name: 'JANE',
@@ -380,7 +380,7 @@ function createCardStack(card, count) {
   }
 
   // Créez la pile de la pioche voisinnage
-const neighbourDeck = [
+ const neighbourDeck = [
     // Animaux
     ...createCardStack(goat, 1),
     ...createCardStack(falcon, 1),
@@ -426,15 +426,18 @@ const neighbourDeck = [
     ...createCardStack(adam, 6),
   ];
   
-  // La fonction de mélange (à utiliser avec la pile de la pioche voisinnage)
-function shuffleArray(array) {
+  // Fonction de mélange spécifique pour le voisinage
+export function shuffleNeighbourCards(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
   }
-
-export const neighbourStack = shuffleArray(neighbourDeck);
+  
+  const shuffledNeighbourDeck = shuffleNeighbourCards(neighbourDeck);
+  
+  // Exportez la pile de la pioche voisinnage mélangée
+  export const neighbourStack = shuffledNeighbourDeck;
 
 export const neighbour = [jane, lola, eve, adam, caroline, regan, tommy, calvin, dolores, sam, annie, jesus, chuck, louis, carrie, donnie, lisa, alice, marilyn, fifi, damien, cat, dog, goldenFish, araMacao, rabbit, goat, alligator, destiny, dillinger, falcon, glen, irwin, owl, rabidDog, romeo, skunk, strayCat];
