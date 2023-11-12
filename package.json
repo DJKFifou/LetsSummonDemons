@@ -1,10 +1,9 @@
 {
-  "author": "",
   "dependencies": {
+    "@types/uuid": "^9.0.7",
     "tslib": "~2.6",
     "uuid": "^9.0.1"
   },
-  "description": "",
   "devDependencies": {
     "@types/jest": "~29.5",
     "@types/lodash": "^4.14.201",
@@ -24,10 +23,8 @@
   "engines": {
     "node": ">= 18.12 <=19"
   },
-  "license": "Apache-2.0",
   "name": "letssummondemons",
   "private": true,
-  "scripts": {},
   "type": "module",
   "version": "0.0.0",
   "workspaces": [

@@ -1,9 +1,8 @@
-import { GameId } from '@letssummondemons/common/definitions/game.js';
-import { v4 as uuidv4 } from 'uuid';
+import { GameId } from '@letssummondemons/common/src/contracts/game/game.js';
 import { Game } from './game.js';
 
 export class GameRepository {
-  private readonly games: Map<uuidv4, Game>;
+  private readonly games: Map<string, Game>;
 
   constructor() {
     this.games = new Map();
