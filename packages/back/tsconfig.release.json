@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "sourceMap": false
+  },
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*"]
+}
