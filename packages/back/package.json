@@ -1,0 +1,29 @@
+{
+  "author": "Arthaud Proust",
+  "dependencies": {
+    "@letssummondemons/common": "^0.0.0",
+    "lodash": "^4.17.21",
+    "socket.io": "^4.7.2"
+  },
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^8.2.0"
+  },
+  "name": "@letssummondemons/back",
+  "private": true,
+  "scripts": {
+    "dev": "npm run build:watch & npm run start",
+    "build": "tsc -p tsconfig.json",
+    "build:release": "npm run clean && tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.json",
+    "clean": "rimraf coverage build tmp",
+    "lint": "eslint . --ext .ts --ext .mts",
+    "prebuild": "npm run lint",
+    "prettier": "prettier --config .prettierrc --write .",
+    "start": "node build/src/main.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}

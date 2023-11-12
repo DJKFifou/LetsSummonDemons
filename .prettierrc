@@ -1,0 +1,12 @@
+{
+  "overrides": [
+    {
+      "files": ["*.ts", "*.mts"],
+      "options": {
+        "parser": "typescript"
+      }
+    }
+  ],
+  "singleQuote": true,
+  "trailingComma": "all"
+}
