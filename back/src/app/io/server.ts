@@ -3,7 +3,7 @@ import {
   IServerToClientEvents,
   IServerToServerEvents,
   ISocketSessionData,
-} from '@lsd/common/src/contracts/io.js';
+} from '@lsd/common/contracts/io.js';
 import { Server } from 'socket.io';
 import { httpServer } from '../http/server.js';
 

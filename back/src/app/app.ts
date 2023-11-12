@@ -1,4 +1,4 @@
-import { IoServer } from '@lsd/common/src/contracts/io.js';
+import { IoServer } from '@lsd/common/contracts/io.js';
 import * as http from 'http';
 import { httpServer } from './http/server.js';
 import { ioServer } from './io/server.js';

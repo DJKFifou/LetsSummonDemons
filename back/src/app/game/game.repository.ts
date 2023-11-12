@@ -1,4 +1,4 @@
-import { GameId } from '@lsd/common/src/contracts/game/game.js';
+import { GameId } from '@lsd/common/contracts/game/game.js';
 import { Game } from './game.js';
 
 export class GameRepository {
