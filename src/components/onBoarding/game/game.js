@@ -11,8 +11,6 @@ function Game({ playerList }) {
   const [neighbourCards, setNeighbourCards] = useState([]);
   const [remainingNeighbourCards, setRemainingNeighbourCards] = useState(neighbourStack);
 
-  
-
   function shuffleArray(array) {
     // Créez une copie du tableau avant de le mélanger
     const newArray = [...array];
@@ -29,8 +27,8 @@ function Game({ playerList }) {
     const shuffledDemons = shuffleArray(demons);
     const shuffledCierges = shuffleArray(cierges);
     const shuffledNeighbourStack = shuffleArray(neighbourStack);
-
     setRemainingNeighbourCards(shuffledNeighbourStack);
+    shuffleArray(demons);
 
     const playerDemonCards = [];
     const playerCiergeCards = [];
@@ -78,48 +76,57 @@ function Game({ playerList }) {
   }
 
   return (
-    <div className={styles.App}>
-      {demonCards.map((card, index) => (
-        <div key={index} className={styles.container}>
-          <p>Player: {card.player}</p>
-          <p>Demons:
-            {card.demons.map((demon, demonIndex) => (
-              <span key={demonIndex} className={styles.content}>
-                Name: {demon.name}, Number: {demon.number}, Description: {demon.description}, SubDescription: {demon.subDescription}
-                <img src={demon.cardImage} alt={`Card for ${demon.name}`} />
-              </span>
-            ))}
-          </p>
-        </div>
-      ))}
-      {ciergeCards.map((card, index) => (
-        <div key={index}>
-          <p>Player: {card.player}</p>
-          <p>Cierges:
-            {card.cierges.map((cierge, ciergeIndex) => (
-              <span key={ciergeIndex}>
-                Name: {cierge.name}, Number: {cierge.number.join(", ")}, Description: {cierge.description}, SubDescription: {cierge.subDescription}
-                <img src={cierge.cardImage} alt={`Card for ${cierge.name}`} />
-              </span>
-            ))}
-          </p>
-        </div>
-      ))}
-      {remainingNeighbourCards.length > 0 && (
-        <div>
-         <p>Neighbour Deck:</p>
-         <img src={remainingNeighbourCards[0].backImage} alt={`Ouais ouais`} />
-        </div>
-      )}
-      {neighbourCards.map((card, index) => (
-        <div key={index}>
-          <p>Neighbour Card {index + 1}:</p>
-          <p>Name: {card.name}, Number: {card.number}, Description: {card.description}, SubDescription: {card.subDescription}</p>
-          <img src={card.cardImage} alt={`Card for ${card.name}`} />
-        </div>
-      ))}
-      <button id="rollButton" onClick={rollButton}>Lancer les dés</button>
+  <div className={styles.App}>
+    <div className={styles.entitled}>
+      <span className={styles.players}>Players</span>
+      <span className={styles.cards}>Cards</span>
     </div>
+    {demonCards.map((card, index) => (
+      <div className={styles.containerPlayer}>
+        <div key={index} className={styles.container}>
+          <div className={styles.contentPlayer}>{card.player}</div>
+          <div className={styles.containerCards}>
+            <div className={styles.containerCierge}>
+              {card.cierges.map((cierge, ciergeIndex) => (
+                <span key={ciergeIndex} className={styles.contentCierge}>
+                  {/* Name: {cierge.name}, Number: {cierge.number.join(", ")}, Description: {cierge.description}, SubDescription: {cierge.subDescription} */}
+                  <img src={cierge.cardImage} alt={`Card for ${cierge.name}`} />
+                </span>
+              ))}
+            </div>
+            <div className={styles.containerDemons}>
+              {card.demons.map((demon, demonIndex) => (
+                <span key={demonIndex} className={styles.contentDemons}>
+                  {/* Name: {demon.name}, Number: {demon.number}, Description: {demon.description}, SubDescription: {demon.subDescription} */}
+                  <img src={demon.cardImage} alt={`Card for ${demon.name}`} />
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+    <div className={styles.containerDeck}>
+      <div className={styles.deck}>
+        <span className={styles.neighbourhood}>Neighbourhood</span>
+      </div>
+      <div className={styles.containerNeighbours}>
+        {remainingNeighbourCards.length > 0 && (
+          <div>
+            <img src={remainingNeighbourCards[0].backImage} alt={`Ouais ouais`} />
+          </div>
+        )}
+        {neighbourCards.map((card, index) => (
+          <div key={index} className={styles.containerNeighbours}>
+            {/* <p>Neighbour Card {index + 1}:</p> */}
+            {/* <p>Name: {card.name}, Number: {card.number}, Description: {card.description}, SubDescription: {card.subDescription}</p> */}
+            <img src={card.cardImage} alt={`Card for ${card.name}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+    <button id="rollButton" onClick={rollButton}>Lancer les dés</button>
+  </div>
   );
 }
 

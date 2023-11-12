@@ -1,12 +1,81 @@
 .App {
     display: flex;
     flex-direction: column;
-    .container {
+    img {
+        max-width: 250px;
+        max-height: 250px;
+    }
+    button{
+        height: 50px;
+        cursor: pointer;
+    }
+    .entitled {
+        display: flex;
+        font-weight: bold;
+        .players {
+            display: flex;
+            justify-content: center;
+            min-width: 150px;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+        }
+        .cards {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            border-right: 1px solid black;
+        }
+    }
+    .containerPlayer {
         display: flex;
         flex-direction: column;
-        .content {
+        .container {
             display: flex;
-            flex-direction: column;
+            border: 1px solid black;
+            .contentPlayer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-right: 1px solid black;
+                min-width: 150px;
+            }
+            .containerCards {
+                display: flex;
+                flex-direction: column;
+                .containerCierge {
+                    display: flex;
+                    flex-direction: column;
+                    .contentCierge {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+                .containerDemons {
+                    display: flex;
+                    .contentDemons {
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+            }
+        }
+    }
+    .containerDeck {
+        display: flex;
+        .deck {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 150px;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+        }
+        .containerNeighbours {
+            display: flex;
+            .contentNeighbours {
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 }
