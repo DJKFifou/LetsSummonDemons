@@ -1,48 +1,45 @@
-# Let Summon Demons
+# Let Summon Demons (@lsd)
 
-## Front end
-Created with Create React App
-### Available Scripts
+## Explication de l'architecture
 
-In the front directory, you can run:
+#### Monorepo de 3 dossiers:
 
-#### `npm start`
+- `back/` : là où toute la logique du jeu est controllée (pour éviter la triche côté front). Communique au front via socket.io (pour les données en temps réel)
+- `common/` : définitions et types partagés entre le front et le back (par exemple les constantes des règles du jeu, ou les types des données qui seront échangés via socket.io entre le front et le back)
+- `front/` : toute l'interface utilisateur en React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Travailler
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Initialisation
 
-#### `npm test`
+#### `npm i --workspaces`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Installe les modules globaux et spécifiques à chaque dossier.
 
-#### `npm run build`
+### Ajouter un package
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Si le package est global à tous les dossiers, éxécutez la commande `npm i {le_nom_du_package}` à la racine. Sinon, éxécutez la commande dans le dossier en question (`cd {front|common|back} && npm i {le_nom_du_package}`)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Travailler sur le Front
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### `cd front && npm start`
 
-#### `npm run eject`
+Exécute l'application front en mode développement.
+Ouvrez [http://localhost:3000](http://localhost:3000) pour l'afficher dans votre navigateur.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+La page se rechargera lorsque vous ferez des changements.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### `cd front && npm test`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Lance le programme de test de l'application en mode interactif (watch).
+Voir la section sur [l'exécution des tests](https://facebook.github.io/create-react-app/docs/running-tests) pour plus d'informations.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Travailler sur le Back
 
-#### Deployment
+#### `cd back && npm start`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Exécute le serveur en mode développement sur [http://localhost:3010](http://localhost:3010).
 
-### `npm run build` fails to minify
+#### `cd back && npm test`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Lance le programme de test du serveur en mode interactif (watch).

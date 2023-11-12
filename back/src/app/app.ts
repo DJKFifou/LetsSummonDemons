@@ -15,7 +15,7 @@ class App {
   start(): App {
     console.log('App started');
 
-    this.http.listen(3000);
+    this.http.listen(3010);
 
     return this;
   }

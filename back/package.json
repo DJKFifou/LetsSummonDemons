@@ -11,16 +11,14 @@
   "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "build:release": "npm run clean && tsc -p tsconfig.release.json",
     "build:watch": "tsc -w -p tsconfig.json",
-    "clean": "rimraf coverage build tmp",
-    "dev": "npm run build:watch & npm run start",
     "lint": "eslint . --ext .ts --ext .mts",
     "prebuild": "npm run lint",
     "prettier": "prettier --config .prettierrc --write .",
-    "start": "node build/src/main.js",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "start": "npm run build:watch & npm run start:build",
+    "start:build": "node build/src/main.js",
+    "test": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "type": "module",
   "version": "0.0.0"
