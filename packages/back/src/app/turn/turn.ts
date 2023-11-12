@@ -1,5 +1,5 @@
-import { PlayerId } from '@letssummondemons/common/src/contracts/game/player.js';
-import { TurnData } from '@letssummondemons/common/src/contracts/game/turn.js';
+import { PlayerId } from '@lsd/common/src/contracts/game/player.js';
+import { TurnData } from '@lsd/common/src/contracts/game/turn.js';
 import * as _ from 'lodash';
 import { NoMorePlayersToPlayInTurnError } from './turn.errors.js';
 

@@ -2,8 +2,8 @@ import {
   GameData,
   GameId,
   GameState,
-} from '@letssummondemons/common/src/contracts/game/game.js';
-import { TurnData } from '@letssummondemons/common/src/contracts/game/turn.js';
+} from '@lsd/common/src/contracts/game/game.js';
+import { TurnData } from '@lsd/common/src/contracts/game/turn.js';
 import { v4 as uuidv4 } from 'uuid';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';

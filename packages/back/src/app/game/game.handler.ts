@@ -1,4 +1,4 @@
-import { IoSocket } from '@letssummondemons/common/src/contracts/io.js';
+import { IoSocket } from '@lsd/common/src/contracts/io.js';
 import { Player } from '../player/player.js';
 import { gameRepository } from './game.repository.js';
 
