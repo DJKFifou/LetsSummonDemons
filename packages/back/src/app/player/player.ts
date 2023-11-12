@@ -1,9 +1,9 @@
+import { CardData } from '@letssummondemons/common/src/contracts/game/material/card.js';
 import {
-  CardData,
   PlayerData,
   PlayerId,
   PlayerInputData,
-} from '@letssummondemons/common/definitions/game.js';
+} from '@letssummondemons/common/src/contracts/game/player.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Player implements PlayerData {

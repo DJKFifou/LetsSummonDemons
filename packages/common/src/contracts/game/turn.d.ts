@@ -1,4 +1,4 @@
-import { PlayerId } from './game.js';
+import { PlayerId } from './player.js';
 
 export interface TurnData {
   playedPlayers: Array<PlayerId>;
