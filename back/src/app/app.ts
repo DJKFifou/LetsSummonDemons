@@ -21,5 +21,4 @@ class App {
   }
 }
 
-// singleton
 export const app = new App();
