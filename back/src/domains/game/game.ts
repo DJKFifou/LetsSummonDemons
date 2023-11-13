@@ -1,4 +1,8 @@
 import {
+  MAX_GAME_PLAYERS,
+  MIN_GAME_PLAYERS,
+} from '@lsd/common/constants/game/game.js';
+import {
   GameData,
   GameId,
   GameState,
@@ -14,9 +18,6 @@ import {
 } from './game.errors.js';
 
 export class Game implements GameData {
-  readonly MIN_PLAYER = 2;
-  readonly MAX_PLAYER = 10;
-
   id: GameId;
   players: Player[];
   state: GameState;
@@ -34,7 +35,7 @@ export class Game implements GameData {
       throw new JoinAlreadyStartedGameError();
     }
 
-    if (this.players.length >= this.MAX_PLAYER) {
+    if (this.players.length >= MAX_GAME_PLAYERS) {
       throw new JoinFullGameError();
     }
 
@@ -44,7 +45,7 @@ export class Game implements GameData {
   }
 
   start(): Game {
-    if (this.players.length < this.MIN_PLAYER) {
+    if (this.players.length < MIN_GAME_PLAYERS) {
       throw new StartWithoutEnoughPlayersError();
     }
 

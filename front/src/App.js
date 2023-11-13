@@ -12,7 +12,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<StartGame />} />
-        <Route path="/register" element={<Register playerList={playerList} setPlayerList={setPlayerList} />} />
+        <Route
+          path="/register"
+          element={
+            <Register playerList={playerList} setPlayerList={setPlayerList} />
+          }
+        />
         <Route path="/game" element={<Game playerList={playerList} />} />
       </Routes>
     </BrowserRouter>
