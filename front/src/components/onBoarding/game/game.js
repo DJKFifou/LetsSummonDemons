@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./game.module.scss";
-import { Player } from "../../players/player";
-import { demons } from "../../array/demons";
-import { cierges } from "../../array/cierges";
-import { neighbourStack } from "../../array/voisinage";
+import styles from './game.module.scss';
+import { Player } from '../../players/player';
+import { demons } from '../../array/demons';
+import { cierges } from '../../array/cierges';
+import { neighbourStack } from '../../array/voisinage';
 
 function Game({ playerList }) {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState();
   const [demonCards, setDemonCards] = useState([]);
   const [ciergeCards, setCiergeCards] = useState([]);
   const [neighbourCards, setNeighbourCards] = useState([]);
-  const [remainingNeighbourCards, setRemainingNeighbourCards] = useState(neighbourStack);
+  const [remainingNeighbourCards, setRemainingNeighbourCards] =
+    useState(neighbourStack);
 
   function shuffleArray(array) {
     const newArray = [...array];
@@ -56,26 +57,26 @@ function Game({ playerList }) {
     setRemainingNeighbourCards(remainingNeighbourCards.slice(5));
     setNeighbourCards(drawnCards);
     console.log(playerList);
-    setCurrentPlayerIndex(0)
+    setCurrentPlayerIndex(0);
   }, [playerList]);
 
   function nextTurn() {
     // Calculer le prochain indice du joueur
     const nextPlayerIndex = (currentPlayerIndex + 1) % playerList.length;
-    
+
     // Mettre à jour l'indice du joueur actif
     setCurrentPlayerIndex(nextPlayerIndex);
-  };
+  }
 
   function buyCard(card) {
     console.log(currentPlayerIndex);
-    const index=playerList.findIndex(currentPlayerIndex);
+    const index = playerList.findIndex(currentPlayerIndex);
     console.log(index);
-    if(currentPlayerIndex == (playerList.findIndex(currentPlayerIndex)+1)){
-      console.log("ok");
+    if (currentPlayerIndex == playerList.findIndex(currentPlayerIndex) + 1) {
+      console.log('ok');
       playerList[currentPlayerIndex].neighbourhoodCards.push(card);
     }
-  };
+  }
 
   function rollButton() {
     function diceShuffle() {
@@ -103,7 +104,10 @@ function Game({ playerList }) {
             <div className={styles.containerCards}>
               <div className={styles.containerCierge}>
                 <span className={styles.contentCierge}>
-                  <img src={player.cierge.cardImage} alt={`Card for ${player.cierge.name}`} />
+                  <img
+                    src={player.cierge.cardImage}
+                    alt={`Card for ${player.cierge.name}`}
+                  />
                 </span>
               </div>
               <div className={styles.containerDemons}>
@@ -124,22 +128,29 @@ function Game({ playerList }) {
         <div className={styles.containerNeighbours}>
           {remainingNeighbourCards.length > 0 && (
             <div>
-              <img src={remainingNeighbourCards[0].backImage} alt={`Ouais ouais`} />
+              <img
+                src={remainingNeighbourCards[0].backImage}
+                alt={`Ouais ouais`}
+              />
             </div>
           )}
           {neighbourCards.map((card, index) => (
             <div key={index} className={styles.containerNeighbours}>
               <button onClick={() => buyCard(card)}>
-              <img src={card.cardImage} alt={`Card for ${card.name}`} />
+                <img src={card.cardImage} alt={`Card for ${card.name}`} />
               </button>
             </div>
           ))}
         </div>
       </div>
-      <button id="rollButton" onClick={rollButton}>Lancer les dés</button>
+      <button id="rollButton" onClick={rollButton}>
+        Lancer les dés
+      </button>
       {/*<button id="buyCard" onClick={buyCard}>Acheter une carte du voisinage</button>*/}
       {/*<button id="summonDemon" onClick={summonDemon}>Invoquer un démon</button>*/}
-      <button id="endOfTurn" onClick={nextTurn}>Fin du tour</button>
+      <button id="endOfTurn" onClick={nextTurn}>
+        Fin du tour
+      </button>
     </div>
   );
 }

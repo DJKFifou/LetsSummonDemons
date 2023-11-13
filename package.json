@@ -31,5 +31,8 @@
     "./back",
     "./common",
     "./front"
-  ]
+  ],
+  "scripts": {
+    "prettier": "prettier --config .prettierrc --write ."
+  }
 }

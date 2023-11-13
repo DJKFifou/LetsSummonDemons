@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from "./register.module.scss";
-import { Player } from "../../players/player";
+import styles from './register.module.scss';
+import { Player } from '../../players/player';
 
 function Register({ playerList, setPlayerList }) {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
@@ -17,22 +17,22 @@ function Register({ playerList, setPlayerList }) {
   }, [message]);
 
   function addPlayer() {
-    const playerName = document.getElementById("playerName").value;
+    const playerName = document.getElementById('playerName').value;
 
     if (playerList.length < 5) {
       const player = new Player(playerName);
       setPlayerList([...playerList, player]);
       console.log(playerList);
-    } 
-  
-    else {
-      setMessage("Le nombre maximum de joueurs (5) a été atteint.");
+    } else {
+      setMessage('Le nombre maximum de joueurs (5) a été atteint.');
     }
   }
 
   function removePlayer() {
     if (selectedPlayer) {
-      const updatedList = playerList.filter(player => player !== selectedPlayer);
+      const updatedList = playerList.filter(
+        (player) => player !== selectedPlayer,
+      );
       setPlayerList(updatedList);
       // Clear the selection after removal
       setSelectedPlayer(null);
@@ -41,8 +41,15 @@ function Register({ playerList, setPlayerList }) {
 
   return (
     <div className={styles.App}>
-      <input className={styles.input} type="text" id="playerName" placeholder="Nom du joueur" />
-      <button id="addPlayer" onClick={addPlayer}>Ajouter un joueur</button>
+      <input
+        className={styles.input}
+        type="text"
+        id="playerName"
+        placeholder="Nom du joueur"
+      />
+      <button id="addPlayer" onClick={addPlayer}>
+        Ajouter un joueur
+      </button>
 
       <ul>
         {playerList.map((player, index) => (
@@ -56,12 +63,16 @@ function Register({ playerList, setPlayerList }) {
         ))}
       </ul>
 
-      <button id="removePlayer" onClick={removePlayer}>Poubelle, Hop ! Il dégage celui la !</button>
+      <button id="removePlayer" onClick={removePlayer}>
+        Poubelle, Hop ! Il dégage celui la !
+      </button>
 
-      <Link to={{
-        pathname: "/game",
-        state: { playerList }
-      }}>
+      <Link
+        to={{
+          pathname: '/game',
+          state: { playerList },
+        }}
+      >
         <button>Commencer la partie</button>
       </Link>
       {message && <p className={styles.message}>{message}</p>}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from "./startGame.module.scss";
+import styles from './startGame.module.scss';
 
 function StartGame() {
   return (
