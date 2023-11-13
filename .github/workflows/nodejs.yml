@@ -8,10 +8,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: volta-cli/action@v1
-      - run: npm ci --no-audit
-      - run: npm run lint --if-present
-      - run: npm test
-      - run: npm run build --if-present
+      - run: npm i
+      - run: npm run test:ci --workspaces --if-present
+      - run: npm run build --workspaces --if-present
         env:
           CI: true

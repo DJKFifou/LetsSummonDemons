@@ -38,7 +38,8 @@
     "prebuild": "npm run lint",
     "prettier": "prettier --config .prettierrc --write .",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "test:ci": "react-scripts test --watchAll=false"
   },
-  "version": "0.1.0"
+  "version": "0.0.0"
 }
