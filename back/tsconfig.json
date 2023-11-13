@@ -5,8 +5,8 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "lib": ["ES2022", "DOM"],
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
@@ -17,7 +17,11 @@
     "rootDir": ".",
     "sourceMap": true,
     "strictNullChecks": false,
-    "target": "es2022"
+    "target": "ES2022",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["./**/*"]
+  "include": ["./**/*"],
+  "exclude": ["node_modules"]
 }
