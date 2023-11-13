@@ -16,8 +16,8 @@
     "lint": "eslint . --ext .ts --ext .js --ext .mjs --ext .mts --ext tsx --ext jsx",
     "prebuild": "npm run lint",
     "prettier": "prettier --config .prettierrc --write .",
-    "start": "npm run build:watch & npm run start:build",
-    "start:build": "node build/src/main.js",
+    "dev": "npm run build:watch & npm run start:build",
+    "start": "node build/src/main.js",
     "test": "jest --watch",
     "test:ci": "jest"
   },

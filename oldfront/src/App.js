@@ -1,10 +1,12 @@
+import { MIN_GAME_PLAYER } from '@lsd/common/contracts/game/game';
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Register from './components/onBoarding/register/register';
-import Game from './components/onBoarding/game/game';
-import StartGame from './components/onBoarding/startGame/startGame';
 import './App.scss';
-import Register from './components/onBoarding/Register/register.tsx';
+import Game from './components/onBoarding/game/game';
+import Register from './components/onBoarding/register/register';
+import StartGame from './components/onBoarding/startGame/startGame';
+
+console.log(MIN_GAME_PLAYER);
 
 function App() {
   const [playerList, setPlayerList] = useState([]);
