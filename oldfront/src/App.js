@@ -1,4 +1,4 @@
-import { MIN_GAME_PLAYER } from '@lsd/common/contracts/game/game';
+import { MIN_GAME_PLAYER } from '@lsd/common/contracts';
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.scss';

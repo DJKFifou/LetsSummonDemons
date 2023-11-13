@@ -1,4 +1,4 @@
-import { CardData } from './material/card.js';
+import { CardData } from './card.js';
 
 export type PlayerId = string;
 

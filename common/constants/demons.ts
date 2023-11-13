@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { DemonCardData } from '../../../contracts/game/material/card.js';
+import { DemonCardData } from '../contracts/card.js';
 
 export const DEMONS_CARD_COUNT = 20;
 

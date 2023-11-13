@@ -1,9 +1,9 @@
-import { CardData } from '@lsd/common/contracts/game/material/card.js';
+import { CardData } from '@lsd/common/contracts/card.js';
 import {
   PlayerData,
   PlayerId,
   PlayerInputData,
-} from '@lsd/common/contracts/game/player.js';
+} from '@lsd/common/contracts/player.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Player implements PlayerData {

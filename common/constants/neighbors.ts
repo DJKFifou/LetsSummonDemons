@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
-import { NeighborCardData } from '../../../contracts/game/material/card.js';
-import { createCardStack } from '../../../utils/cards.js';
+import { NeighborCardData } from '../contracts/card.js';
+import { createCardStack } from '../utils/cards.js';
 
 const cardBack = '/cards/back/neighbourhood.png';
 
