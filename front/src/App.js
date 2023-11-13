@@ -4,6 +4,7 @@ import Register from './components/onBoarding/register/register';
 import Game from './components/onBoarding/game/game';
 import StartGame from './components/onBoarding/startGame/startGame';
 import './App.scss';
+import Register from './components/onBoarding/Register/register.tsx';
 
 function App() {
   const [playerList, setPlayerList] = useState([]);
