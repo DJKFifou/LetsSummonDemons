@@ -1,3 +1,7 @@
+import {
+  MAX_GAME_PLAYERS,
+  MIN_GAME_PLAYERS,
+} from '@lsd/common/constants/game/game.js';
 import { playerFactory } from '../player/player.factory.js';
 import {
   JoinAlreadyStartedGameError,
@@ -21,7 +25,7 @@ describe('starting', () => {
 
   test('can start when minimum player is present', () => {
     const game = gameFactory.create();
-    for (let i = 0, iMax = game.MIN_PLAYER; i < iMax; i++) {
+    for (let i = 0, iMax = MIN_GAME_PLAYERS; i < iMax; i++) {
       game.addPlayer(playerFactory.create());
     }
 
@@ -50,7 +54,7 @@ describe('joining', () => {
   test('cannot join if full', () => {
     const game = gameFactory.create();
     const player = playerFactory.create();
-    for (let i = 0, iMax = game.MAX_PLAYER; i < iMax; i++) {
+    for (let i = 0, iMax = MAX_GAME_PLAYERS; i < iMax; i++) {
       game.addPlayer(playerFactory.create());
     }
 

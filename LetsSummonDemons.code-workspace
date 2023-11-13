@@ -1,14 +1,15 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-	],
-	"settings": {
-		"jest.disabledWorkspaceFolders": [
-			"common",
-			"back",
-			"front"
-		]
-	}
+  "extensions": {
+    "recommendations": ["esbenp.prettier-vscode"]
+  },
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "jest.disabledWorkspaceFolders": ["common", "back", "front"]
+  }
 }
