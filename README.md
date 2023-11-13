@@ -12,34 +12,34 @@
 
 ### Initialisation
 
-#### `npm i --workspaces`
+#### `npm i`
 
 Installe les modules globaux et spécifiques à chaque dossier.
 
 ### Ajouter un package
 
-Si le package est global à tous les dossiers, éxécutez la commande `npm i {le_nom_du_package}` à la racine. Sinon, éxécutez la commande dans le dossier en question (`cd {front|common|back} && npm i {le_nom_du_package}`)
+Si le package est global à tous les dossiers, éxécutez la commande `npm i {le_nom_du_package}`. Sinon, éxécutez la commande dans le dossier en question (`npm i {le_nom_du_package} -w {front|common|back}`)
 
 ## Travailler sur le Front
 
-#### `cd front && npm start`
+#### `npm start -w front`
 
 Exécute l'application front en mode développement.
 Ouvrez [http://localhost:3000](http://localhost:3000) pour l'afficher dans votre navigateur.
 
 La page se rechargera lorsque vous ferez des changements.
 
-#### `cd front && npm test`
+#### `npm test -w front`
 
 Lance le programme de test de l'application en mode interactif (watch).
 Voir la section sur [l'exécution des tests](https://facebook.github.io/create-react-app/docs/running-tests) pour plus d'informations.
 
 ## Travailler sur le Back
 
-#### `cd back && npm start`
+#### `npm start -w back`
 
 Exécute le serveur en mode développement sur [http://localhost:3010](http://localhost:3010).
 
-#### `cd back && npm test`
+#### `npm test -w back`
 
 Lance le programme de test du serveur en mode interactif (watch).
