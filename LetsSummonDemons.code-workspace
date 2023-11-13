@@ -4,12 +4,28 @@
   },
   "folders": [
     {
-      "path": "."
+      "name": "Back",
+      "path": "./back"
+    },
+    {
+      "name": "Front",
+      "path": "./front"
+    },
+    {
+      "name": "Old Front",
+      "path": "./oldfront"
+    },
+    {
+      "name": "Common",
+      "path": "./common"
+    },
+    {
+      "name": "Ressources",
+      "path": "./ressources"
     }
   ],
   "settings": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "jest.disabledWorkspaceFolders": ["common", "back", "front"]
+    "editor.formatOnSave": true
   }
 }
