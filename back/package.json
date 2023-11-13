@@ -13,7 +13,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
-    "lint": "eslint . --ext .ts --ext .mts",
+    "lint": "eslint . --ext .ts --ext .js --ext .mjs --ext .mts --ext tsx --ext jsx",
     "prebuild": "npm run lint",
     "prettier": "prettier --config .prettierrc --write .",
     "start": "npm run build:watch & npm run start:build",
