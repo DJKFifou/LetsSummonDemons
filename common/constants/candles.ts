@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { CandleCardData } from '../../../contracts/game/material/card.js';
+import { CandleCardData } from '../contracts/card.js';
 
 const candleAction = 'Récoltez une Âme.';
 const candleDescription =

@@ -1,4 +1,4 @@
-import { PlayerId } from '@lsd/common/contracts/game/player.js';
+import { PlayerId } from '@lsd/common/contracts/player.js';
 import { v4 as uuidv4 } from 'uuid';
 import { NoMorePlayersToPlayInTurnError } from './turn.errors.js';
 import { Turn } from './turn.js';
