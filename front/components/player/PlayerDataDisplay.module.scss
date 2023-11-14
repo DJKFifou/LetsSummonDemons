@@ -1,0 +1,12 @@
+.player {
+  display: flex;
+  flex-flow: column;
+  border: 1px solid;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.cards {
+  display: flex;
+  gap: 0.5rem;
+}

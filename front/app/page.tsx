@@ -1,4 +1,5 @@
 'use client';
+import { PlayerDataDisplay } from '@/components/player/PlayerDataDisplay';
 import { IngameScreen } from '@/components/screens/IngameScreen';
 import { JoinOrCreateGameScreen } from '@/components/screens/JoinOrCreateGameScreen';
 import { socket } from '@/socket';
@@ -22,6 +23,8 @@ export default function Home() {
   };
 
   const onPlayerData = (receivedPlayerData: PlayerData) => {
+    console.log(receivedPlayerData);
+
     setPlayerData(receivedPlayerData);
   };
 
@@ -46,7 +49,7 @@ export default function Home() {
   return (
     <main>
       <p>Connected to back: {isConnected ? 'true' : 'false'}</p>
-      <div>{JSON.stringify(playerData)}</div>
+      {playerData && <PlayerDataDisplay playerData={playerData} />}
       {isConnected ? (
         <>
           {gameData && playerData ? (

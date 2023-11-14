@@ -8,19 +8,20 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     const createdGame = gameRepository.createGame();
     socket.data.gameId = createdGame.id;
-    playerInputData;
+
     const player = new Player(playerInputData);
     createdGame.addPlayer(player);
     socket.data.playerId = player.id;
 
-    socket.emit('playerData', player);
-    socket.emit('gameData', createdGame);
+    socket.emit('playerData', player.getData());
+    socket.emit('gameData', createdGame.getData());
   });
 
   socket.on('gameJoin', ({ gameId, playerInputData }) => {
     const game = gameRepository.getGameById(gameId);
 
     if (!game) {
+      return;
       // todo handle no game found
     }
 
@@ -29,7 +30,7 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.data.gameId = game.id;
     socket.data.playerId = player.id;
 
-    socket.emit('playerData', player);
-    socket.emit('gameData', game);
+    socket.emit('playerData', player.getData());
+    socket.emit('gameData', game.getData());
   });
 };

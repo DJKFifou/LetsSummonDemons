@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { MAX_GAME_PLAYERS, MIN_GAME_PLAYERS } from '../../constants/game.js';
+import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
 import { TurnData } from '../../contracts/turn.js';
 import { Player } from '../player/player.js';
@@ -10,7 +11,7 @@ import {
   StartWithoutEnoughPlayersError,
 } from './game.errors.js';
 
-export class Game implements GameData {
+export class Game implements EntityClass<GameData> {
   id: GameId;
   players: Player[];
   state: GameState;
@@ -48,5 +49,14 @@ export class Game implements GameData {
     this.turn = new Turn(playerIds);
 
     return this;
+  }
+
+  getData(): GameData {
+    return {
+      id: this.id,
+      players: this.players,
+      state: this.state,
+      turn: this.turn,
+    };
   }
 }

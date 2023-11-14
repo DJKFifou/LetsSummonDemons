@@ -1,9 +1,10 @@
 import * as _ from 'lodash';
+import { EntityClass } from '../../contracts/entities.js';
 import { PlayerId } from '../../contracts/player.js';
 import { TurnData } from '../../contracts/turn.js';
 import { NoMorePlayersToPlayInTurnError } from './turn.errors.js';
 
-export class Turn implements TurnData {
+export class Turn implements EntityClass<TurnData> {
   playedPlayers: Array<PlayerId>;
   currentPlayer: PlayerId;
   remainingPlayers: Array<PlayerId>;
@@ -34,5 +35,13 @@ export class Turn implements TurnData {
     this.currentPlayer = nextPlayer;
 
     return this;
+  }
+
+  getData(): TurnData {
+    return {
+      playedPlayers: this.playedPlayers,
+      currentPlayer: this.currentPlayer,
+      remainingPlayers: this.remainingPlayers,
+    };
   }
 }
