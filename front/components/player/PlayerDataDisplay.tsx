@@ -37,7 +37,7 @@ export const PlayerDataDisplay = ({
       </div>
       <p>INVOKATED DEMON CARDS:</p>
       <div className={styles.cards}>
-        {playerData.invokatedDemonsCards.map((card) => (
+        {playerData.summonedDemonsCards.map((card) => (
           <CardDataDisplay cardData={card} key={card.id} />
         ))}
       </div>

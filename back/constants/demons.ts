@@ -219,7 +219,7 @@ const spectralux: DemonCardData = {
   cardBack,
 };
 
-export const demons = [
+export const demons:Array<DemonCardData> = [
   snake,
   demonBook,
   bogeyMan,
