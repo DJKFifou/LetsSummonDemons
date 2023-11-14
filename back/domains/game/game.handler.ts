@@ -1,9 +1,13 @@
-import { IoSocket } from '../../contracts/io.js';
+import { IoServer, IoSocket } from '../../contracts/io.js';
 import { Player } from '../player/player.js';
 import { gameRepository } from './game.repository.js';
 
-export const registerGameHandlers = (socket: IoSocket): void => {
+export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
+  console.log('connection');
+
   socket.on('gameCreate', (playerData) => {
+    console.log('create game');
+
     const createdGame = gameRepository.createGame();
 
     const player = new Player(playerData);

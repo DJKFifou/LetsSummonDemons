@@ -6,6 +6,7 @@ import {
   ISocketSessionData,
 } from '../../contracts/io.js';
 import { httpServer } from '../http/server.js';
+import { registerHandlers } from './handlers.js';
 
 // The ioServer is a singleton (single instance) because of module pattern :
 // Each time you import the ioServer, you will get the same instance, because
@@ -16,4 +17,11 @@ export const ioServer = new Server<
   IServerToClientEvents,
   IServerToServerEvents,
   ISocketSessionData
->(httpServer);
+>(httpServer, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  },
+});
+
+registerHandlers(ioServer);

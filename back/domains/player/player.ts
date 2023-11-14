@@ -1,6 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { CardData } from '../../contracts/card';
-import { PlayerData, PlayerId, PlayerInputData } from '../../contracts/player';
+import { CardData } from '../../contracts/card.js';
+import {
+  PlayerData,
+  PlayerId,
+  PlayerInputData,
+} from '../../contracts/player.js';
 
 export class Player implements PlayerData {
   id: PlayerId;
