@@ -63,7 +63,7 @@ const devilCandle: CandleCardData = {
   cardBack,
 };
 
-export const candles = [
+export const candles:Array<CandleCardData> = [
   kindCandle,
   sweetCandle,
   beginnerCandle,

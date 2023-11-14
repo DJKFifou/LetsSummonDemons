@@ -436,7 +436,7 @@ const rabidDog: NeighborCardData = {
   cardImage: '/cards/neighbourhood/rabid_dog.png',
 };
 
-export const neighbors = [
+export const neighbors:Array<NeighborCardData> = [
   // Animals
   ...createCardStack(goat, 1),
   ...createCardStack(falcon, 1),

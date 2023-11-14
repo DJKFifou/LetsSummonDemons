@@ -13,7 +13,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
-    "dev": "npm run build:watch & nodemon build/main.js",
+    "dev": "nodemon build/main.js",
     "start": "node build/main.js",
     "test": "jest --watch",
     "test:ci": "jest"

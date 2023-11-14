@@ -17,7 +17,7 @@ export class Player implements EntityClass<PlayerData> {
   protected soulsTokenCount: number;
   protected candleCard?: CandleCardData;
   protected coveredDemonsCards: Array<DemonCardData>;
-  protected invokatedDemonsCards: Array<DemonCardData>;
+  protected summonedDemonsCards: Array<DemonCardData>;
   protected neighborsCards: Array<NeighborCardData>;
 
   constructor(playerData: PlayerInputData) {
@@ -26,7 +26,7 @@ export class Player implements EntityClass<PlayerData> {
     this.soulsTokenCount = 0;
     this.candleCard = null;
     this.coveredDemonsCards = [];
-    this.invokatedDemonsCards = [];
+    this.summonedDemonsCards = [];
     this.neighborsCards = [];
   }
 
@@ -37,8 +37,28 @@ export class Player implements EntityClass<PlayerData> {
       soulsTokenCount: this.soulsTokenCount,
       candleCard: this.candleCard,
       coveredDemonsCards: this.coveredDemonsCards,
-      invokatedDemonsCards: this.invokatedDemonsCards,
+      summonedDemonsCards: this.summonedDemonsCards,
       neighborsCards: this.neighborsCards,
     };
   }
+
+  addSoulToken(count:number=1): void{
+    this.soulsTokenCount+=count;
+  }
+
+  setCandleCard(candleCard:CandleCardData): void {
+    this.candleCard=candleCard;
+  }
+
+  addDemonCard(demonCard:DemonCardData): void {
+    this.coveredDemonsCards.push(demonCard);
+  }
+
+  addNeighborCard(neighborCard:NeighborCardData): void {
+    this.neighborsCards.push(neighborCard);
+  }
+  
+
 }
+
+
