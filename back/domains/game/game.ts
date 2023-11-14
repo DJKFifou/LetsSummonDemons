@@ -3,6 +3,7 @@ import { MAX_GAME_PLAYERS, MIN_GAME_PLAYERS } from '../../constants/game.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
 import { TurnData } from '../../contracts/turn.js';
+import { playerFactory } from '../player/player.factory.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
@@ -12,14 +13,14 @@ import {
 } from './game.errors.js';
 
 export class Game implements EntityClass<GameData> {
-  id: GameId;
-  players: Player[];
-  state: GameState;
-  turn?: TurnData;
+  protected id: GameId;
+  protected players: Player[];
+  protected state: GameState;
+  protected turn?: TurnData;
 
   constructor() {
     this.id = uuidv4();
-    this.players = [];
+    this.players = [playerFactory.create()];
     this.turn = null;
     this.state = 'starting';
   }
@@ -45,7 +46,7 @@ export class Game implements EntityClass<GameData> {
 
     this.state = 'started';
 
-    const playerIds = this.players.map((player) => player.id);
+    const playerIds = this.players.map((player) => player.getData().id);
     this.turn = new Turn(playerIds);
 
     return this;
@@ -54,7 +55,7 @@ export class Game implements EntityClass<GameData> {
   getData(): GameData {
     return {
       id: this.id,
-      players: this.players,
+      players: this.players.map((player) => player.getData()),
       state: this.state,
       turn: this.turn,
     };

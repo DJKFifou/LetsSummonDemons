@@ -15,7 +15,7 @@ describe('retrieve game by id', () => {
 
     const game = gameRepo.createGame();
 
-    expect(gameRepo.getGameById(game.id)).toStrictEqual(game);
+    expect(gameRepo.getGameById(game.getData().id)).toStrictEqual(game);
   });
 
   test('should return null when not found', () => {

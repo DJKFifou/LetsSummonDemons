@@ -13,9 +13,23 @@ export const PlayerDataDisplay = ({ playerData }: PlayerDataDisplayProps) => {
       </p>
       <p>ID: {playerData.id}</p>
       <p>NAME: {playerData.name}</p>
-      <p>CARDS:</p>
-      <div className={styles.players}>
-        {playerData.cards.map((card) => (
+      <p>SOULS: {playerData.soulsTokenCount}</p>
+      <p>CANDLE CARD:</p>
+      <div className={styles.cards}>
+        {playerData.candleCard && (
+          <CardDataDisplay cardData={playerData.candleCard} />
+        )}
+      </div>
+      <p>COVERED DEMON CARDS COUNT: {playerData.coveredDemonsCardsCount}</p>
+      <p>INVOKATED DEMON CARDS:</p>
+      <div className={styles.cards}>
+        {playerData.invokatedDemonsCards.map((card) => (
+          <CardDataDisplay cardData={card} key={card.id} />
+        ))}
+      </div>
+      <p>NEIGHBORS CARDS:</p>
+      <div className={styles.cards}>
+        {playerData.neighborsCards.map((card) => (
           <CardDataDisplay cardData={card} key={card.id} />
         ))}
       </div>
