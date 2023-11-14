@@ -2,7 +2,6 @@
   "dependencies": {
     "@lsd/common": "^0.0.0",
     "jest": "^29",
-    "lodash": "^4",
     "nodemon": "^3.0.1",
     "socket.io": "^4"
   },

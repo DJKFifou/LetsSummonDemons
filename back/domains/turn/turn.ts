@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerId } from '../../contracts/player.js';
 import { TurnData } from '../../contracts/turn.js';
@@ -26,13 +25,15 @@ export class Turn implements EntityClass<TurnData> {
       this.playedPlayers.push(this.currentPlayer);
     }
 
-    const nextPlayer = this.getNextPlayer();
-    if (!nextPlayer) {
+    const nextPlayerId = this.getNextPlayer();
+    if (!nextPlayerId) {
       throw new NoMorePlayersToPlayInTurnError();
     }
 
-    _.remove(this.remainingPlayers, (value) => value === nextPlayer);
-    this.currentPlayer = nextPlayer;
+    this.remainingPlayers = this.remainingPlayers.filter(
+      (playerId) => playerId !== nextPlayerId,
+    );
+    this.currentPlayer = nextPlayerId;
 
     return this;
   }

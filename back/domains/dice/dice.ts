@@ -1,7 +1,7 @@
-import * as _ from 'lodash';
 import { DICE_FACES_COUNT } from '../../constants/dices.js';
 import { DiceData } from '../../contracts/dice.js';
 import { EntityClass } from '../../contracts/entities.js';
+import { randomInteger } from '../../utils/number.js';
 import {
   NotAnIntegerFacesCountDiceError,
   UnsufficientFacesCountDiceError,
@@ -17,7 +17,7 @@ export class Dice implements EntityClass<DiceData> {
       throw new UnsufficientFacesCountDiceError();
     }
 
-    if (!_.isInteger(facesCount)) {
+    if (!Number.isInteger(facesCount)) {
       throw new NotAnIntegerFacesCountDiceError();
     }
 
@@ -26,7 +26,7 @@ export class Dice implements EntityClass<DiceData> {
   }
 
   launch(): Dice {
-    this.displayNumber = _.random(this.MIN_DICE_NUMBER, this.facesCount);
+    this.displayNumber = randomInteger(this.MIN_DICE_NUMBER, this.facesCount);
 
     return this;
   }

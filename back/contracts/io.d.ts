@@ -11,6 +11,7 @@ export interface IServerToClientEvents {
 export interface IClientToServerEvents {
   gameCreate: ({ playerInputData: PlayerInputData }) => void;
   gameJoin: ({ gameId: GameId, playerInputData: PlayerInputData }) => void;
+  gameStart: () => void;
   gameTurnPlay: (card: CardData) => void;
 }
 
