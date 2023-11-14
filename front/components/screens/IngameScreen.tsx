@@ -1,6 +1,6 @@
-import { socket } from '@/socket';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
+import { GameActions } from '../game/GameActions';
 import { GameDataDisplay } from '../game/GameDataDisplay';
 
 type IngameScreenProps = {
@@ -8,17 +8,11 @@ type IngameScreenProps = {
   gameData: GameData;
 };
 
-export const IngameScreen = ({ gameData }: IngameScreenProps) => {
-  const startGame = () => {
-    socket.emit('gameStart');
-  };
-
+export const IngameScreen = ({ gameData, playerData }: IngameScreenProps) => {
   return (
     <article>
       <h1>En partie</h1>
-      {gameData.state === 'starting' && (
-        <button onClick={startGame}>Démarrer</button>
-      )}
+      <GameActions gameData={gameData} playerData={playerData} />
       <GameDataDisplay gameData={gameData} />
     </article>
   );

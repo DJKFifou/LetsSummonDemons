@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { MAX_GAME_PLAYERS, MIN_GAME_PLAYERS } from '../../constants/game.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
-import { TurnData } from '../../contracts/turn.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
@@ -15,7 +14,7 @@ export class Game implements EntityClass<GameData> {
   protected id: GameId;
   protected players: Player[];
   protected state: GameState;
-  protected turn?: TurnData;
+  turn?: Turn;
 
   constructor() {
     this.id = uuidv4();
@@ -56,7 +55,7 @@ export class Game implements EntityClass<GameData> {
       id: this.id,
       players: this.players.map((player) => player.getData()),
       state: this.state,
-      turn: this.turn,
+      turn: this.turn?.getData(),
     };
   }
 }
