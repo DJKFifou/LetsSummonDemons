@@ -7,7 +7,7 @@ export interface PlayerData {
   name: string;
   soulsTokenCount: number;
   candleCard?: CandleCardData;
-  coveredDemonsCardsCount: number;
+  coveredDemonsCards: Array<DemonCardData>;
   invokatedDemonsCards: Array<DemonCardData>;
   neighborsCards: Array<NeighborCardData>;
 }

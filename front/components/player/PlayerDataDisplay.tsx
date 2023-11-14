@@ -20,7 +20,12 @@ export const PlayerDataDisplay = ({ playerData }: PlayerDataDisplayProps) => {
           <CardDataDisplay cardData={playerData.candleCard} />
         )}
       </div>
-      <p>COVERED DEMON CARDS COUNT: {playerData.coveredDemonsCardsCount}</p>
+      <p>COVERED DEMON CARDS:</p>
+      <div className={styles.cards}>
+        {playerData.coveredDemonsCards.map((card) => (
+          <CardDataDisplay cardData={card} key={card.id} />
+        ))}
+      </div>
       <p>INVOKATED DEMON CARDS:</p>
       <div className={styles.cards}>
         {playerData.invokatedDemonsCards.map((card) => (

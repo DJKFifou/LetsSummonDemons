@@ -36,7 +36,7 @@ export class Player implements EntityClass<PlayerData> {
       name: this.name,
       soulsTokenCount: this.soulsTokenCount,
       candleCard: this.candleCard,
-      coveredDemonsCardsCount: this.coveredDemonsCards.length,
+      coveredDemonsCards: this.coveredDemonsCards,
       invokatedDemonsCards: this.invokatedDemonsCards,
       neighborsCards: this.neighborsCards,
     };
