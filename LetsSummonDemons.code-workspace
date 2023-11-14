@@ -4,24 +4,7 @@
   },
   "folders": [
     {
-      "name": "Back",
-      "path": "./back"
-    },
-    {
-      "name": "Front",
-      "path": "./front"
-    },
-    {
-      "name": "Old Front",
-      "path": "./oldfront"
-    },
-    {
-      "name": "Common",
-      "path": "./common"
-    },
-    {
-      "name": "Ressources",
-      "path": "./ressources"
+      "path": "."
     }
   ],
   "settings": {
