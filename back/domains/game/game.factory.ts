@@ -1,4 +1,4 @@
-import { MIN_GAME_PLAYERS } from '@lsd/common/constants/game.js';
+import { MIN_GAME_PLAYERS } from '../../constants/game.js';
 import { playerFactory } from '../player/player.factory.js';
 import { Game } from './game.js';
 

@@ -1,6 +1,6 @@
-import { PlayerId } from '@lsd/common/contracts/player.js';
-import { TurnData } from '@lsd/common/contracts/turn.js';
 import * as _ from 'lodash';
+import { PlayerId } from '../../contracts/player.js';
+import { TurnData } from '../../contracts/turn.js';
 import { NoMorePlayersToPlayInTurnError } from './turn.errors.js';
 
 export class Turn implements TurnData {

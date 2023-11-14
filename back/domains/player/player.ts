@@ -1,10 +1,6 @@
-import { CardData } from '@lsd/common/contracts/card.js';
-import {
-  PlayerData,
-  PlayerId,
-  PlayerInputData,
-} from '@lsd/common/contracts/player.js';
 import { v4 as uuidv4 } from 'uuid';
+import { CardData } from '../../contracts/card';
+import { PlayerData, PlayerId, PlayerInputData } from '../../contracts/player';
 
 export class Player implements PlayerData {
   id: PlayerId;

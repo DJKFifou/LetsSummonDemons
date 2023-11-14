@@ -17,10 +17,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "strictNullChecks": false,
-    "target": "ES2022",
-    "paths": {
-      "@/*": ["./*"]
-    }
+    "target": "ES2022"
   },
   "include": ["./**/*"],
   "exclude": ["node_modules"]

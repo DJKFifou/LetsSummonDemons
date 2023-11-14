@@ -1,10 +1,7 @@
-import {
-  MAX_GAME_PLAYERS,
-  MIN_GAME_PLAYERS,
-} from '@lsd/common/constants/game.js';
-import { GameData, GameId, GameState } from '@lsd/common/contracts/game.js';
-import { TurnData } from '@lsd/common/contracts/turn.js';
 import { v4 as uuidv4 } from 'uuid';
+import { MAX_GAME_PLAYERS, MIN_GAME_PLAYERS } from '../../constants/game.js';
+import { GameData, GameId, GameState } from '../../contracts/game.js';
+import { TurnData } from '../../contracts/turn.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {

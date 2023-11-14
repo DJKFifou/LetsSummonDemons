@@ -1,10 +1,10 @@
+import { Server } from 'socket.io';
 import {
   IClientToServerEvents,
   IServerToClientEvents,
   IServerToServerEvents,
   ISocketSessionData,
-} from '@lsd/common/contracts/io.js';
-import { Server } from 'socket.io';
+} from '../../contracts/io.js';
 import { httpServer } from '../http/server.js';
 
 // The ioServer is a singleton (single instance) because of module pattern :

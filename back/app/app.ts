@@ -1,5 +1,5 @@
-import { IoServer } from '@lsd/common/contracts/io.js';
 import * as http from 'http';
+import { IoServer } from '../contracts/io.js';
 import { httpServer } from './http/server.js';
 import { ioServer } from './io/server.js';
 

@@ -1,7 +1,4 @@
-import {
-  MAX_GAME_PLAYERS,
-  MIN_GAME_PLAYERS,
-} from '@lsd/common/constants/game.js';
+import { MAX_GAME_PLAYERS, MIN_GAME_PLAYERS } from '../../constants/game.js';
 import { playerFactory } from '../player/player.factory.js';
 import {
   JoinAlreadyStartedGameError,
