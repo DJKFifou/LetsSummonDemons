@@ -30,7 +30,6 @@
   "version": "0.0.0",
   "workspaces": [
     "./back",
-    "./common",
     "./front"
   ],
   "scripts": {
