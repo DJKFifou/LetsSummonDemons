@@ -14,7 +14,7 @@ test('start by first player', () => {
 
   const turn = new Turn([playerA, playerB]);
 
-  expect(turn.getData().currentPlayer.id).toBe(playerA);
+  expect(turn.getData().current.id).toBe(playerA);
 });
 
 describe('player turn', () => {
@@ -33,7 +33,7 @@ describe('player turn', () => {
 
     turn.launchDices();
 
-    expect(turn.getData().currentPlayer.launchedDices).toBe(true);
+    expect(turn.getData().current.launchedDices).toBe(true);
   });
 
   test('can end turn if launched dices', () => {
@@ -44,7 +44,7 @@ describe('player turn', () => {
     turn.launchDices();
     turn.endTurn();
 
-    expect(turn.getData().playedPlayers).toContain(playerA);
+    expect(turn.getData().played).toContain(playerA);
   });
 
   test('cannot launch dices twice', () => {
@@ -64,7 +64,7 @@ describe('player turn', () => {
 
     turn.buyNeighbor();
 
-    expect(turn.getData().currentPlayer.bougthNeighbor).toBe(true);
+    expect(turn.getData().current.bougthNeighbor).toBe(true);
   });
 
   test('cannot buy neighbor twice', () => {
@@ -84,7 +84,7 @@ describe('player turn', () => {
 
     turn.invokeDemon();
 
-    expect(turn.getData().currentPlayer.invokedDemon).toBe(true);
+    expect(turn.getData().current.invokedDemon).toBe(true);
   });
 
   test('cannot invoke demon twice', () => {
@@ -106,5 +106,5 @@ test('next player is the next in the list', () => {
   turn.launchDices();
   turn.endTurn();
 
-  expect(turn.getData().currentPlayer.id).toBe(playerB);
+  expect(turn.getData().current.id).toBe(playerB);
 });

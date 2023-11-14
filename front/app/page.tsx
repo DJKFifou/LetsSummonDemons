@@ -49,7 +49,12 @@ export default function Home() {
   return (
     <main>
       <p>Connected to back: {isConnected ? 'true' : 'false'}</p>
-      {playerData && <PlayerDataDisplay playerData={playerData} />}
+      {playerData && (
+        <PlayerDataDisplay
+          playerData={playerData}
+          itsTurn={gameData?.turn?.current.player.id === playerData.id}
+        />
+      )}
       {isConnected ? (
         <>
           {gameData && playerData ? (

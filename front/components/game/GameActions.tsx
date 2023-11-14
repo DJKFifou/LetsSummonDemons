@@ -36,24 +36,24 @@ export const GameActions = ({ gameData, playerData }: GameActionsProps) => {
     );
   }
 
-  const currentPlayer = gameData.turn?.currentPlayer;
+  const current = gameData.turn?.current;
 
-  if (!currentPlayer || currentPlayer.id !== playerData.id) {
+  if (!current || current.player.id !== playerData.id) {
     return <article></article>;
   }
 
   return (
     <article>
-      {!currentPlayer.launchedDices && (
+      {!current.launchedDices && (
         <button onClick={launchDices}>Lancer les dés</button>
       )}
-      {!currentPlayer.bougthNeighbor && (
+      {!current.bougthNeighbor && (
         <button onClick={buyNeighbor}>Acheter le voisin sélectionné</button>
       )}
-      {!currentPlayer.invokedDemon && (
+      {!current.invokedDemon && (
         <button onClick={invokeDemon}>Invoquer le démon sélectionné</button>
       )}
-      {currentPlayer.launchedDices && (
+      {current.launchedDices && (
         <button onClick={endTurn}>Terminer le tour</button>
       )}
     </article>

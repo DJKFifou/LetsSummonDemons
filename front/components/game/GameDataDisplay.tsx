@@ -18,7 +18,7 @@ export const GameDataDisplay = ({ gameData }: GameDataDisplayProps) => {
         {gameData.players.map((player) => (
           <PlayerDataDisplay
             playerData={player}
-            itsTurn={gameData.turn?.currentPlayer.id === player.id}
+            itsTurn={gameData.turn?.current.id === player.id}
             key={player.id}
           />
         ))}

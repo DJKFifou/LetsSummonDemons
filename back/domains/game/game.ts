@@ -44,10 +44,14 @@ export class Game implements EntityClass<GameData> {
 
     this.state = 'started';
 
-    const playerIds = this.players.map((player) => player.getData().id);
-    this.turn = new Turn(playerIds);
+    this.turn = new Turn(this);
 
     return this;
+  }
+
+  end(): void {
+    this.state = 'ended';
+    console.log('game end');
   }
 
   getData(): GameData {
