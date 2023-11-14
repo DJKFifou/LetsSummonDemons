@@ -7,11 +7,11 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     console.log('create game');
 
     const createdGame = gameRepository.createGame();
-    socket.data.gameId = createdGame.id;
+    socket.data.gameId = createdGame.getData().id;
 
     const player = new Player(playerInputData);
     createdGame.addPlayer(player);
-    socket.data.playerId = player.id;
+    socket.data.playerId = player.getData().id;
 
     socket.emit('playerData', player.getData());
     socket.emit('gameData', createdGame.getData());
@@ -27,8 +27,8 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     const player = new Player(playerInputData);
     game.addPlayer(player);
-    socket.data.gameId = game.id;
-    socket.data.playerId = player.id;
+    socket.data.gameId = game.getData().id;
+    socket.data.playerId = player.getData().id;
 
     socket.emit('playerData', player.getData());
     socket.emit('gameData', game.getData());

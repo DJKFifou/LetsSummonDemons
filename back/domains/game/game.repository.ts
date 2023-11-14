@@ -11,7 +11,7 @@ export class GameRepository {
   createGame(): Game {
     const newGame: Game = new Game();
 
-    this.games.set(newGame.id, newGame);
+    this.games.set(newGame.getData().id, newGame);
 
     return newGame;
   }

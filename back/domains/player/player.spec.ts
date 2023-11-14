@@ -6,13 +6,5 @@ test('should have an id', () => {
     name: faker.person.fullName(),
   });
 
-  expect(player.id).not.toBe(null);
+  expect(player.getData().id).not.toBe(null);
 });
-
-// test('can receive card', () => {
-//   const player = new Player();
-
-//   player.receiveCard();
-
-//   expect(player.id).not.toBe(null);
-// });

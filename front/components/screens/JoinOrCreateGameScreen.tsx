@@ -2,7 +2,7 @@ import { socket } from '@/socket';
 import { useState } from 'react';
 
 export const JoinOrCreateGameScreen = () => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState('Bob');
   const [gameId, setGameId] = useState('');
 
   const createGame = () => {
