@@ -4,13 +4,22 @@ import styles from './PlayerDataDisplay.module.scss';
 
 type PlayerDataDisplayProps = {
   playerData: PlayerData;
+  itsTurn: boolean;
 };
-export const PlayerDataDisplay = ({ playerData }: PlayerDataDisplayProps) => {
+export const PlayerDataDisplay = ({
+  playerData,
+  itsTurn,
+}: PlayerDataDisplayProps) => {
   return (
     <article className={styles.player}>
       <p>
         <b>PLAYER</b>
       </p>
+      {itsTurn && (
+        <p>
+          <b>It&apos;s his turn</b>
+        </p>
+      )}
       <p>ID: {playerData.id}</p>
       <p>NAME: {playerData.name}</p>
       <p>SOULS: {playerData.soulsTokenCount}</p>

@@ -8,12 +8,13 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     console.log('create game');
 
     const createdGame = gameRepository.createGame();
-    createdGame.addPlayer(playerFactory.create());
     socket.data.gameId = createdGame.getData().id;
 
     const player = new Player(playerInputData);
     createdGame.addPlayer(player);
     socket.data.playerId = player.getData().id;
+
+    createdGame.addPlayer(playerFactory.create());
 
     socket.emit('playerData', player.getData());
     socket.emit('gameData', createdGame.getData());
@@ -44,6 +45,54 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     }
 
     game.start();
+    socket.emit('gameData', game.getData());
+  });
+
+  socket.on('turnLaunchDices', () => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+
+    if (!game) {
+      return;
+    }
+
+    game.turn.launchDices();
+
+    socket.emit('gameData', game.getData());
+  });
+
+  socket.on('turnBuyNeighbor', () => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+
+    if (!game) {
+      return;
+    }
+
+    game.turn.buyNeighbor();
+
+    socket.emit('gameData', game.getData());
+  });
+
+  socket.on('turnInvokeDemon', () => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+
+    if (!game) {
+      return;
+    }
+
+    game.turn.invokeDemon();
+
+    socket.emit('gameData', game.getData());
+  });
+
+  socket.on('turnEnd', () => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+
+    if (!game) {
+      return;
+    }
+
+    game.turn.endTurn();
+
     socket.emit('gameData', game.getData());
   });
 };

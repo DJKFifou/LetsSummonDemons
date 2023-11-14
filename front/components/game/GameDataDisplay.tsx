@@ -16,7 +16,11 @@ export const GameDataDisplay = ({ gameData }: GameDataDisplayProps) => {
       <p>PLAYERS:</p>
       <div className={styles.players}>
         {gameData.players.map((player) => (
-          <PlayerDataDisplay playerData={player} key={player.id} />
+          <PlayerDataDisplay
+            playerData={player}
+            itsTurn={gameData.turn?.currentPlayer.id === player.id}
+            key={player.id}
+          />
         ))}
       </div>
     </article>
