@@ -1,65 +1,63 @@
 'use client';
-import {
-  IClientToServerEvents,
-  IServerToClientEvents,
-} from '@lsd/back/contracts/io';
+import { IngameScreen } from '@/components/screens/IngameScreen';
+import { JoinOrCreateGameScreen } from '@/components/screens/JoinOrCreateGameScreen';
+import { socket } from '@/socket';
+import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
 import { useEffect, useState } from 'react';
-import io, { Socket } from 'socket.io-client';
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
-  const [socket, setSocket] = useState<Socket<
-    IServerToClientEvents,
-    IClientToServerEvents
-  > | null>(null);
-  const [name, setName] = useState('');
+  const [gameData, setGameData] = useState<GameData | null>(null);
   const [playerData, setPlayerData] = useState<PlayerData | null>(null);
 
+  const onConnect = () => {
+    setIsConnected(true);
+    console.log('connected');
+  };
+
+  const onDisconnect = () => {
+    setIsConnected(false);
+    console.log('disconnected');
+  };
+
+  const onPlayerData = (receivedPlayerData: PlayerData) => {
+    setPlayerData(receivedPlayerData);
+  };
+
+  const onGameData = (receivedGameData: GameData) => {
+    setGameData(receivedGameData);
+  };
+
   useEffect(() => {
-    // Create a socket connection
-    const socket: Socket<IServerToClientEvents, IClientToServerEvents> = io(
-      'ws://localhost:3010',
-    );
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    socket.on('playerData', onPlayerData);
+    socket.on('gameData', onGameData);
 
-    socket.on('connect', () => {
-      setIsConnected(true);
-      console.log('connected');
-    });
-
-    socket.on('disconnect', () => {
-      setIsConnected(false);
-      console.log('disconnected');
-    });
-
-    socket.on('playerData', (receivedPlayerData) =>
-      setPlayerData(receivedPlayerData),
-    );
-
-    setSocket(socket);
-
-    // Clean up the socket connection on unmount
     return () => {
-      socket.disconnect();
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.on('playerData', onPlayerData);
+      socket.off('gameData', onGameData);
     };
   }, []);
-
-  const createGame = () => {
-    if (!socket) {
-      return;
-    }
-
-    console.log('create game');
-
-    socket.emit('gameCreate', { name });
-  };
 
   return (
     <main>
       <p>Connected to back: {isConnected ? 'true' : 'false'}</p>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-      <button onClick={createGame}>Créer une partie</button>
       <div>{JSON.stringify(playerData)}</div>
+      {isConnected ? (
+        <>
+          {gameData && playerData ? (
+            <IngameScreen gameData={gameData} playerData={playerData} />
+          ) : (
+            <JoinOrCreateGameScreen />
+          )}
+        </>
+      ) : (
+        ''
+      )}
     </main>
   );
 }

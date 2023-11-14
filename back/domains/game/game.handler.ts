@@ -3,31 +3,33 @@ import { Player } from '../player/player.js';
 import { gameRepository } from './game.repository.js';
 
 export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
-  console.log('connection');
-
-  socket.on('gameCreate', (playerData) => {
+  socket.on('gameCreate', ({ playerInputData }) => {
     console.log('create game');
 
     const createdGame = gameRepository.createGame();
-
-    const player = new Player(playerData);
-    socket.emit('playerData', player);
-
+    socket.data.gameId = createdGame.id;
+    playerInputData;
+    const player = new Player(playerInputData);
     createdGame.addPlayer(player);
+    socket.data.playerId = player.id;
+
+    socket.emit('playerData', player);
     socket.emit('gameData', createdGame);
   });
 
-  socket.on('gameJoin', (gameId, playerData) => {
+  socket.on('gameJoin', ({ gameId, playerInputData }) => {
     const game = gameRepository.getGameById(gameId);
 
     if (!game) {
       // todo handle no game found
     }
 
-    const player = new Player(playerData);
-    socket.emit('playerData', player);
-
+    const player = new Player(playerInputData);
     game.addPlayer(player);
+    socket.data.gameId = game.id;
+    socket.data.playerId = player.id;
+
+    socket.emit('playerData', player);
     socket.emit('gameData', game);
   });
 };
