@@ -1,9 +1,8 @@
-import { CardId } from '@lsd/back/contracts/card';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
-import { useState } from 'react';
 import { CardDataDisplay } from '../card/CardDataDisplay';
-import { GameActions } from './GameActions';
+import { CoveredDemonCardDataDisplay } from '../card/CoveredDemonCardDataDisplay';
+import { PlayerActions } from './PlayerActions';
 import styles from './PlayerDataDisplay.module.scss';
 
 type PlayerDataDisplayProps = {
@@ -18,9 +17,6 @@ export const PlayerDataDisplay = ({
   itsTurn,
   itsYou,
 }: PlayerDataDisplayProps) => {
-  const [selectedCoveredDemonId, setSelectedCoveredDemonId] =
-    useState<CardId | null>(null);
-
   return (
     <article className={styles.player}>
       <p>
@@ -32,11 +28,7 @@ export const PlayerDataDisplay = ({
         </p>
       )}
       {itsTurn && itsYou && (
-        <GameActions
-          gameData={gameData}
-          playerData={playerData}
-          selectedCoveredDemonId={selectedCoveredDemonId}
-        />
+        <PlayerActions gameData={gameData} playerData={playerData} />
       )}
       <p>ID: {playerData.id}</p>
       <p>NAME: {playerData.name}</p>
@@ -50,13 +42,10 @@ export const PlayerDataDisplay = ({
       <p>COVERED DEMON CARDS:</p>
       <div className={styles.cards}>
         {playerData.coveredDemonsCards.map((card) => (
-          <CardDataDisplay
-            isSelected={selectedCoveredDemonId === card.id}
-            isSelectable={
+          <CoveredDemonCardDataDisplay
+            isSummonable={
               itsYou && itsTurn && !gameData.turn?.current.invokedDemon
             }
-            onSelect={() => setSelectedCoveredDemonId(card.id)}
-            onUnselect={() => setSelectedCoveredDemonId(null)}
             cardData={card}
             key={card.id}
           />
