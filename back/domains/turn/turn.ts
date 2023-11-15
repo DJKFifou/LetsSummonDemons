@@ -33,6 +33,8 @@ export class Turn implements EntityClass<TurnData> {
       throw new AlreadyLaunchedDicesInTurnError();
     }
     this.current.launchedDices = true;
+
+    this.game.emitDataToSockets();
   }
 
   buyNeighbor(): void {
@@ -40,6 +42,8 @@ export class Turn implements EntityClass<TurnData> {
       throw new AlreadyBoughtNeighborInTurnError();
     }
     this.current.bougthNeighbor = true;
+
+    this.game.emitDataToSockets();
   }
 
   invokeDemon(): void {
@@ -47,6 +51,8 @@ export class Turn implements EntityClass<TurnData> {
       throw new AlreadyInvokedDemonInTurnError();
     }
     this.current.invokedDemon = true;
+
+    this.game.emitDataToSockets();
   }
 
   endTurn(): void {
@@ -58,6 +64,8 @@ export class Turn implements EntityClass<TurnData> {
       this.game.end();
     } else {
       this.nextPlayer();
+
+      this.game.emitDataToSockets();
     }
   }
 
