@@ -1,11 +1,21 @@
 import { IoServer, IoSocket } from '../../contracts/io.js';
+import { Game } from '../game/game.js';
 import { gameRepository } from '../game/game.repository.js';
+
+const isPlayerTurn = ({
+  game,
+  socket,
+}: {
+  game?: Game;
+  socket: IoSocket;
+}): boolean =>
+  game && game.getData().turn.current.player.id == socket.data.playerId;
 
 export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('turnLaunchDices', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
-    if (!game) {
+    if (!isPlayerTurn({ socket, game })) {
       return;
     }
 
@@ -15,7 +25,7 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('turnBuyNeighbor', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
-    if (!game) {
+    if (!isPlayerTurn({ socket, game })) {
       return;
     }
 
@@ -27,7 +37,7 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('turnInvokeDemon', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
-    if (!game) {
+    if (!isPlayerTurn({ socket, game })) {
       return;
     }
 
@@ -39,7 +49,7 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('turnEnd', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
-    if (!game) {
+    if (!isPlayerTurn({ socket, game })) {
       return;
     }
 
