@@ -5,7 +5,7 @@ export const START_WITH_SOUL_TOKEN_COUNT = 5;
 export const START_WITH_CANDLE_COUNT = 1;
 export const START_WITH_DEMONS_COUNT = 3;
 
-export const NEIGHBOR_COUNT = 5;
+export const NEIGHBORS_MARKET_COUNT = 5;
 
 export const SOULS_COUNT_TO_BUY_NEIGHBOR_CARD = 3;
 export const DESTROY_CARDS_COUNT_TO_INVOKE_DEMON = 3;

@@ -1,5 +1,6 @@
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
+import { NeighborsDeck } from '../neighborsDeck/NeighborsDeck';
 import { PlayerDataDisplay } from '../player/PlayerDataDisplay';
 import styles from './GameDataDisplay.module.scss';
 
@@ -11,6 +12,9 @@ export const GameDataDisplay = ({
   gameData,
   playerId,
 }: GameDataDisplayProps) => {
+  const itsYourTurn = gameData.turn?.current.player.id === playerId;
+
+  const isMarketOpen = itsYourTurn && !gameData.turn?.current.bougthNeighbor;
   return (
     <article className={styles.game}>
       <p>
@@ -18,6 +22,12 @@ export const GameDataDisplay = ({
       </p>
       <p>ID: {gameData.id}</p>
       <p>STATE: {gameData.state}</p>
+      {gameData.neighborsDeck && (
+        <NeighborsDeck
+          isMarketOpen={isMarketOpen}
+          neighborsDeck={gameData.neighborsDeck}
+        />
+      )}
       <p>PLAYERS:</p>
       <div className={styles.players}>
         {gameData.players.map((player) => (

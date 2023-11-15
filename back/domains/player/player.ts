@@ -49,6 +49,10 @@ export class Player implements EntityClass<PlayerData> {
     this.soulsTokenCount += count;
   }
 
+  removeSoulToken(count: number = 1): void {
+    this.soulsTokenCount -= count;
+  }
+
   setCandleCard(candleCard: CandleCardData): void {
     this.candleCard = candleCard;
   }

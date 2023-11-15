@@ -1,3 +1,4 @@
+import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
 import { DemonCard } from '../card/demons/demon.js';
@@ -50,10 +51,13 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
-  buyNeighbor(): void {
+  buyNeighbor(neighborCardId: CardId): void {
     if (this.bougthNeighbor) {
       throw new AlreadyBoughtNeighborInTurnError();
     }
+
+    this.game.neighborsDeck.buyCard(this.player, neighborCardId);
+
     this.bougthNeighbor = true;
 
     this.game.emitDataToSockets();

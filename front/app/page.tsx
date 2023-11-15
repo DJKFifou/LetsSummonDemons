@@ -45,7 +45,6 @@ export default function Home() {
 
   return (
     <main>
-      <p>Connected to back: {isConnected ? 'true' : 'false'}</p>
       {isConnected ? (
         <>
           {gameData && playerId ? (

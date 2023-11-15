@@ -13,7 +13,7 @@ export interface IClientToServerEvents {
   gameJoin: ({ gameId: GameId, playerInputData: PlayerInputData }) => void;
   gameStart: () => void;
   turnLaunchDices: () => void;
-  turnBuyNeighbor: () => void;
+  turnBuyNeighbor: (neighborCardId: CardId) => void;
   turnInvokeDemon: (demonCardId: CardId) => void;
   turnEnd: () => void;
 }

@@ -10,7 +10,7 @@ import {
   START_WITH_SOUL_TOKEN_COUNT,
 } from '../../constants/game.js';
 import { neighbors } from '../../constants/neighbors.js';
-import { CandleCardData, NeighborCardData } from '../../contracts/card.js';
+import { CandleCardData } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
 import {
@@ -22,6 +22,7 @@ import { shuffleArray } from '../../utils/array.js';
 import { DemonCard } from '../card/demons/demon.js';
 import { demons } from '../card/demons/demons.js';
 import { Dice } from '../dice/dice.js';
+import { NeighborsDeck } from '../neighbors/neighborsDeck.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
@@ -41,7 +42,7 @@ export class Game implements EntityClass<GameData> {
 
   protected candlesDeck: Array<CandleCardData>;
   protected demonsDeck: Array<DemonCard>;
-  protected neighborsDeck: Array<NeighborCardData>;
+  neighborsDeck?: NeighborsDeck;
 
   constructor() {
     this.id = uuidv4();
@@ -96,7 +97,9 @@ export class Game implements EntityClass<GameData> {
   protected shuffleDecks(): void {
     this.candlesDeck = shuffleArray(candles);
     this.demonsDeck = shuffleArray(demons);
-    this.neighborsDeck = shuffleArray(neighbors);
+    this.neighborsDeck = new NeighborsDeck({
+      cards: neighbors,
+    });
   }
 
   protected distribute(): void {
@@ -117,6 +120,7 @@ export class Game implements EntityClass<GameData> {
       players: this.players.map((player) => player.getData()),
       state: this.state,
       turn: this.turn?.getData(),
+      neighborsDeck: this.neighborsDeck?.getData(),
     };
   }
 
