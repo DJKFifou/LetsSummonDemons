@@ -1,6 +1,6 @@
 import { PlayerData, PlayerId } from './player.js';
 
-export interface TurnPlayerData {
+export interface PlayerTurnData {
   player: PlayerData;
   launchedDices: boolean;
   dicesResult?: number;
@@ -10,6 +10,6 @@ export interface TurnPlayerData {
 
 export interface TurnData {
   played: Array<PlayerId>;
-  current: TurnPlayerData;
+  current: PlayerTurnData;
   remaining: Array<PlayerId>;
 }

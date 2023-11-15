@@ -1,12 +1,12 @@
 import { RULE_TO_WIN } from '../../constants/game.js';
+import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
-import { PlayerData, PlayerId } from '../../contracts/player.js';
-import { TurnData, TurnPlayerData } from '../../contracts/turn.js';
+import { PlayerId } from '../../contracts/player.js';
+import { TurnData } from '../../contracts/turn.js';
 import { Game } from '../game/game.js';
+import { Player } from '../player/player.js';
+import { PlayerTurn } from './playerTurn.js';
 import {
-  AlreadyBoughtNeighborInTurnError,
-  AlreadyInvokedDemonInTurnError,
-  AlreadyLaunchedDicesInTurnError,
   NeedToLaunchDicesInTurnError,
   NoMorePlayersToPlayInTurnError,
 } from './turn.errors.js';
@@ -15,7 +15,7 @@ export class Turn implements EntityClass<TurnData> {
   protected game: Game;
 
   protected played: Array<PlayerId>;
-  protected current: TurnPlayerData;
+  current: PlayerTurn;
   protected remaining: Array<PlayerId>;
 
   constructor(game: Game) {
@@ -29,46 +29,31 @@ export class Turn implements EntityClass<TurnData> {
   }
 
   launchDices(): void {
-    if (this.current.launchedDices) {
-      throw new AlreadyLaunchedDicesInTurnError();
-    }
-    this.current.launchedDices = true;
-
-    let dicesResult = 0;
-    this.game.dices.forEach((dice) => {
-      dice.launch();
-      dicesResult += dice.getData().result;
-    });
-    this.current.dicesResult = dicesResult;
-
-    this.game.emitDataToSockets();
+    this.current.launchDices();
   }
 
   buyNeighbor(): void {
-    if (this.current.bougthNeighbor) {
-      throw new AlreadyBoughtNeighborInTurnError();
-    }
-    this.current.bougthNeighbor = true;
-
-    this.game.emitDataToSockets();
+    this.current.buyNeighbor();
   }
 
-  invokeDemon(): void {
-    if (this.current.invokedDemon) {
-      throw new AlreadyInvokedDemonInTurnError();
-    }
-    this.current.invokedDemon = true;
+  invokeDemon(demonCardId: CardId): void {
+    const coveredDemonsCard =
+      this.current.player.getCoveredDemonCardById(demonCardId);
 
-    this.game.emitDataToSockets();
+    if (!coveredDemonsCard) {
+      return;
+    }
+
+    this.current.invokeDemon(coveredDemonsCard);
   }
 
   endTurn(): void {
-    if (!this.current.launchedDices) {
+    if (!this.current.getData().launchedDices) {
       throw new NeedToLaunchDicesInTurnError();
     }
 
     if (this.checkWin()) {
-      this.game.end();
+      this.game.end(this.current.getData().player);
     } else {
       this.nextPlayer();
 
@@ -76,19 +61,19 @@ export class Turn implements EntityClass<TurnData> {
     }
   }
 
-  checkWin(): boolean {
-    const currentPlayer = this.current.player;
+  protected checkWin(): boolean {
+    const currentPlayerData = this.current.getData().player;
 
     return (
-      currentPlayer.summonedDemonsCards.length >=
+      currentPlayerData.summonedDemonsCards.length >=
         RULE_TO_WIN.MIN_DEMONS_INVOCATED ||
-      currentPlayer.soulsTokenCount >= RULE_TO_WIN.MIN_SOUL
+      currentPlayerData.soulsTokenCount >= RULE_TO_WIN.MIN_SOUL
     );
   }
 
   protected nextPlayer(): void {
     if (this.current) {
-      this.played.push(this.current.player.id);
+      this.played.push(this.current.getData().player.id);
     }
 
     const newCurrentPlayer = this.getNextPlayer();
@@ -96,28 +81,27 @@ export class Turn implements EntityClass<TurnData> {
       throw new NoMorePlayersToPlayInTurnError();
     }
 
-    this.remaining = this.remaining.filter((id) => id !== newCurrentPlayer.id);
-    this.current = {
+    this.remaining = this.remaining.filter(
+      (id) => id !== newCurrentPlayer.getData().id,
+    );
+
+    this.current = new PlayerTurn({
+      game: this.game,
+      turn: this,
       player: newCurrentPlayer,
-      launchedDices: false,
-      dicesResult: null,
-      invokedDemon: false,
-      bougthNeighbor: false,
-    };
+    });
   }
 
-  protected getNextPlayer(): PlayerData | null {
+  protected getNextPlayer(): Player | null {
     const nextPlayerId = this.remaining[0] ?? null;
 
-    return this.game
-      .getData()
-      .players.find((player) => player.id === nextPlayerId);
+    return this.game.getPlayerById(nextPlayerId);
   }
 
   getData(): TurnData {
     return {
       played: this.played,
-      current: this.current,
+      current: this.current.getData(),
       remaining: this.remaining,
     };
   }

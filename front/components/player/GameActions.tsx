@@ -1,17 +1,19 @@
 import { socket } from '@/socket';
+import { CardId } from '@lsd/back/contracts/card';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
 
 type GameActionsProps = {
   playerData: PlayerData;
   gameData: GameData;
+  selectedCoveredDemonId: CardId | null;
 };
 
-export const GameActions = ({ gameData, playerData }: GameActionsProps) => {
-  const startGame = () => {
-    socket.emit('gameStart');
-  };
-
+export const GameActions = ({
+  gameData,
+  playerData,
+  selectedCoveredDemonId,
+}: GameActionsProps) => {
   const launchDices = () => {
     socket.emit('turnLaunchDices');
   };
@@ -21,20 +23,15 @@ export const GameActions = ({ gameData, playerData }: GameActionsProps) => {
   };
 
   const invokeDemon = () => {
-    socket.emit('turnInvokeDemon');
+    if (!selectedCoveredDemonId) {
+      return;
+    }
+    socket.emit('turnInvokeDemon', selectedCoveredDemonId);
   };
 
   const endTurn = () => {
     socket.emit('turnEnd');
   };
-
-  if (gameData.state === 'starting') {
-    return (
-      <article>
-        <button onClick={startGame}>Démarrer</button>
-      </article>
-    );
-  }
 
   const current = gameData.turn?.current;
 
@@ -50,7 +47,7 @@ export const GameActions = ({ gameData, playerData }: GameActionsProps) => {
       {!current.bougthNeighbor && (
         <button onClick={buyNeighbor}>Acheter le voisin sélectionné</button>
       )}
-      {!current.invokedDemon && (
+      {!current.invokedDemon && selectedCoveredDemonId && (
         <button onClick={invokeDemon}>Invoquer le démon sélectionné</button>
       )}
       {current.launchedDices && (

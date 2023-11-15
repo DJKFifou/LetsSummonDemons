@@ -1,19 +1,27 @@
+import { socket } from '@/socket';
 import { GameData } from '@lsd/back/contracts/game';
-import { PlayerData } from '@lsd/back/contracts/player';
-import { GameActions } from '../game/GameActions';
+import { PlayerId } from '@lsd/back/contracts/player';
 import { GameDataDisplay } from '../game/GameDataDisplay';
 
 type IngameScreenProps = {
-  playerData: PlayerData;
+  playerId: PlayerId;
   gameData: GameData;
 };
 
-export const IngameScreen = ({ gameData, playerData }: IngameScreenProps) => {
+export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
+  const startGame = () => {
+    socket.emit('gameStart');
+  };
+
   return (
     <article>
       <h1>En partie</h1>
-      <GameActions gameData={gameData} playerData={playerData} />
-      <GameDataDisplay gameData={gameData} />
+      {gameData.state === 'starting' && (
+        <article>
+          <button onClick={startGame}>Démarrer</button>
+        </article>
+      )}
+      <GameDataDisplay playerId={playerId} gameData={gameData} />
     </article>
   );
 };

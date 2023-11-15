@@ -34,14 +34,14 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.emit('gameData', game.getData());
   });
 
-  socket.on('turnInvokeDemon', () => {
+  socket.on('turnInvokeDemon', (demonCardId) => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
     if (!isPlayerTurn({ socket, game })) {
       return;
     }
 
-    game.turn.invokeDemon();
+    game.turn.invokeDemon(demonCardId);
 
     socket.emit('gameData', game.getData());
   });
