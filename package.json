@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@types/uuid": "^9.0.7",
+    "concurrently": "^8.2.2",
     "tslib": "~2.6",
     "uuid": "^9.0.1"
   },
@@ -35,6 +36,7 @@
   "scripts": {
     "prepare": "husky install",
     "lint": "eslint . --ext .ts --ext .js --ext .mjs --ext .mts --ext tsx --ext jsx",
-    "prettier": "prettier --config .prettierrc --write ."
+    "prettier": "prettier --config .prettierrc --write .",
+    "dev": "concurrently --names \"BUILD,BACK,FRONT\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"npm run build:watch -w back\" \"npm run dev -w back\" \"npm run dev -w front\""
   }
 }

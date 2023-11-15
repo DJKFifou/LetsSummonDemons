@@ -20,20 +20,18 @@ Installe les modules globaux et spécifiques à chaque dossier.
 
 Si le package est global à tous les dossiers, éxécutez la commande `npm i {le_nom_du_package}`. Sinon, éxécutez la commande dans le dossier en question (`npm i {le_nom_du_package} -w {front|common|back}`)
 
-## Travailler sur le Front
+## Lancer les serveurs
 
-#### `npm run dev -w front`
+#### `npm run dev`
 
-Exécute l'application front en mode développement.
-Ouvrez [http://localhost:3000](http://localhost:3000) pour l'afficher dans votre navigateur.
+Exécute l'application front en mode développement et exécute le serveur en mode développement.
+Ouvrez [http://localhost:3000](http://localhost:3000) pour l'afficher le front dans votre navigateur.
 
 La page se rechargera lorsque vous ferez des changements.
 
-## Travailler sur le Back
+Le serveur est accessible sur [http://localhost:3010](http://localhost:3010).
 
-#### `npm run dev -w back`
-
-Exécute le serveur en mode développement sur [http://localhost:3010](http://localhost:3010).
+## Lancer les tests
 
 #### `npm test -w back`
 
