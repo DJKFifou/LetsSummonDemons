@@ -1,5 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
-import { PlayerId } from '../../contracts/player.js';
+import { gameFactory } from '../game/game.factory.js';
 import {
   AlreadyBoughtNeighborInTurnError,
   AlreadyInvokedDemonInTurnError,
@@ -9,27 +8,26 @@ import {
 import { Turn } from './turn.js';
 
 test('start by first player', () => {
-  const playerA: PlayerId = uuidv4();
-  const playerB: PlayerId = uuidv4();
+  const game = gameFactory.createStarted();
+  const playerA = game.getData().players[0];
 
-  const turn = new Turn([playerA, playerB]);
+  const turn = new Turn(game);
 
-  expect(turn.getData().current.id).toBe(playerA);
+  expect(turn.getData().current.player.id).toBe(playerA);
 });
 
 describe('player turn', () => {
   test("cannot end turn if hasn't launched dices", () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const turn = new Turn(game);
 
     expect(() => turn.endTurn()).toThrow(NeedToLaunchDicesInTurnError);
   });
 
   test('can launch dices', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+
+    const turn = new Turn(game);
 
     turn.launchDices();
 
@@ -37,9 +35,9 @@ describe('player turn', () => {
   });
 
   test('can end turn if launched dices', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const playerA = game.getData().players[0];
+    const turn = new Turn(game);
 
     turn.launchDices();
     turn.endTurn();
@@ -48,9 +46,8 @@ describe('player turn', () => {
   });
 
   test('cannot launch dices twice', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const turn = new Turn(game);
 
     turn.launchDices();
 
@@ -58,9 +55,8 @@ describe('player turn', () => {
   });
 
   test('can buy neighbor', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const turn = new Turn(game);
 
     turn.buyNeighbor();
 
@@ -68,9 +64,8 @@ describe('player turn', () => {
   });
 
   test('cannot buy neighbor twice', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const turn = new Turn(game);
 
     turn.buyNeighbor();
 
@@ -78,9 +73,8 @@ describe('player turn', () => {
   });
 
   test('can invoke demon', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const turn = new Turn(game);
 
     turn.invokeDemon();
 
@@ -88,9 +82,8 @@ describe('player turn', () => {
   });
 
   test('cannot invoke demon twice', () => {
-    const playerA: PlayerId = uuidv4();
-    const playerB: PlayerId = uuidv4();
-    const turn = new Turn([playerA, playerB]);
+    const game = gameFactory.createStarted();
+    const turn = new Turn(game);
 
     turn.invokeDemon();
 
@@ -99,12 +92,13 @@ describe('player turn', () => {
 });
 
 test('next player is the next in the list', () => {
-  const playerA: PlayerId = uuidv4();
-  const playerB: PlayerId = uuidv4();
-  const turn = new Turn([playerA, playerB]);
+  const game = gameFactory.createStarted();
+  const playerB = game.getData().players[1];
+
+  const turn = new Turn(game);
 
   turn.launchDices();
   turn.endTurn();
 
-  expect(turn.getData().current.id).toBe(playerB);
+  expect(turn.getData().current.player.id).toBe(playerB);
 });

@@ -1,12 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
+import { candles } from '../../constants/candles.js';
+import { demons } from '../../constants/demons.js';
 import {
   MAX_GAME_PLAYERS,
   MIN_GAME_PLAYERS,
   START_WITH_DEMONS_COUNT,
   START_WITH_SOUL_TOKEN_COUNT,
 } from '../../constants/game.js';
+import { neighbors } from '../../constants/neighbors.js';
+import {
+  CandleCardData,
+  DemonCardData,
+  NeighborCardData,
+} from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
+import { shuffleArray } from '../../utils/array.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
@@ -14,15 +23,6 @@ import {
   JoinFullGameError,
   StartWithoutEnoughPlayersError,
 } from './game.errors.js';
-import { neighbors } from '../../constants/neighbors.js';
-import { shuffleArray } from '../../utils/array.js';
-import { demons } from '../../constants/demons.js';
-import { candles } from '../../constants/candles.js';
-import {
-  CandleCardData,
-  DemonCardData,
-  NeighborCardData,
-} from '../../contracts/card.js';
 
 export class Game implements EntityClass<GameData> {
   protected id: GameId;
@@ -58,12 +58,13 @@ export class Game implements EntityClass<GameData> {
     if (this.players.length < MIN_GAME_PLAYERS) {
       throw new StartWithoutEnoughPlayersError();
     }
+
     this.shuffleDecks();
     this.distribute();
     this.state = 'started';
 
-    const playerIds = this.players.map((player) => player.getData().id);
     this.turn = new Turn(this);
+
     return this;
   }
 
@@ -78,7 +79,7 @@ export class Game implements EntityClass<GameData> {
     this.neighborsDeck = shuffleArray(neighbors);
   }
 
-  distribute(): void { 
+  distribute(): void {
     this.players.forEach((player) => {
       player.setCandleCard(this.candlesDeck.pop());
 
