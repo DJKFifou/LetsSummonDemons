@@ -10,8 +10,6 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     }
 
     game.turn.launchDices();
-
-    socket.emit('gameData', game.getData());
   });
 
   socket.on('turnBuyNeighbor', () => {

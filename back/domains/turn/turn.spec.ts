@@ -13,7 +13,7 @@ test('start by first player', () => {
 
   const turn = new Turn(game);
 
-  expect(turn.getData().current.player.id).toBe(playerA);
+  expect(turn.getData().current.player.id).toBe(playerA.id);
 });
 
 describe('player turn', () => {
@@ -42,7 +42,7 @@ describe('player turn', () => {
     turn.launchDices();
     turn.endTurn();
 
-    expect(turn.getData().played).toContain(playerA);
+    expect(turn.getData().played).toContain(playerA.id);
   });
 
   test('cannot launch dices twice', () => {
@@ -100,5 +100,5 @@ test('next player is the next in the list', () => {
   turn.launchDices();
   turn.endTurn();
 
-  expect(turn.getData().current.player.id).toBe(playerB);
+  expect(turn.getData().current.player.id).toBe(playerB.id);
 });

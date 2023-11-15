@@ -1,4 +1,6 @@
+import { BroadcastOperator } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
+import { ioServer } from '../../app/io/server.js';
 import { candles } from '../../constants/candles.js';
 import { demons } from '../../constants/demons.js';
 import {
@@ -15,6 +17,10 @@ import {
 } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
+import {
+  IServerToClientEvents,
+  ISocketSessionData,
+} from '../../contracts/io.js';
 import { shuffleArray } from '../../utils/array.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
@@ -40,7 +46,7 @@ export class Game implements EntityClass<GameData> {
     this.state = 'starting';
   }
 
-  addPlayer(player: Player): Game {
+  addPlayer(player: Player): void {
     if (this.state !== 'starting') {
       throw new JoinAlreadyStartedGameError();
     }
@@ -51,10 +57,10 @@ export class Game implements EntityClass<GameData> {
 
     this.players.push(player);
 
-    return this;
+    this.emitDataToSockets();
   }
 
-  start(): Game {
+  start(): void {
     if (this.players.length < MIN_GAME_PLAYERS) {
       throw new StartWithoutEnoughPlayersError();
     }
@@ -65,21 +71,23 @@ export class Game implements EntityClass<GameData> {
 
     this.turn = new Turn(this);
 
-    return this;
+    this.emitDataToSockets();
   }
 
   end(): void {
     this.state = 'ended';
     console.log('game end');
+
+    this.emitDataToSockets();
   }
 
-  shuffleDecks(): void {
+  protected shuffleDecks(): void {
     this.candlesDeck = shuffleArray(candles);
     this.demonsDeck = shuffleArray(demons);
     this.neighborsDeck = shuffleArray(neighbors);
   }
 
-  distribute(): void {
+  protected distribute(): void {
     this.players.forEach((player) => {
       player.setCandleCard(this.candlesDeck.pop());
 
@@ -98,5 +106,16 @@ export class Game implements EntityClass<GameData> {
       state: this.state,
       turn: this.turn?.getData(),
     };
+  }
+
+  protected toSockets(): BroadcastOperator<
+    IServerToClientEvents,
+    ISocketSessionData
+  > {
+    return ioServer.to(this.id);
+  }
+
+  emitDataToSockets(): void {
+    this.toSockets().emit('gameData', this.getData());
   }
 }
