@@ -65,7 +65,7 @@ export class Turn implements EntityClass<TurnData> {
     const currentPlayer = this.current.player;
 
     return (
-      currentPlayer.invokatedDemonsCards.length >=
+      currentPlayer.summonedDemonsCards.length >=
         RULE_TO_WIN.MIN_DEMONS_INVOCATED ||
       currentPlayer.soulsTokenCount >= RULE_TO_WIN.MIN_SOUL
     );
