@@ -42,7 +42,7 @@ export class Game implements EntityClass<GameData> {
 
   protected candlesDeck: Array<CandleCardData>;
   protected demonsDeck: Array<DemonCard>;
-  protected neighborsDeck?: NeighborsDeck;
+  neighborsDeck?: NeighborsDeck;
 
   constructor() {
     this.id = uuidv4();

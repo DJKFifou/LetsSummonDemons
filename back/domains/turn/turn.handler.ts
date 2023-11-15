@@ -22,14 +22,14 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     game.turn.launchDices();
   });
 
-  socket.on('turnBuyNeighbor', () => {
+  socket.on('turnBuyNeighbor', (neighborCardId) => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
     if (!isPlayerTurn({ socket, game })) {
       return;
     }
 
-    game.turn.buyNeighbor();
+    game.turn.buyNeighbor(neighborCardId);
 
     socket.emit('gameData', game.getData());
   });

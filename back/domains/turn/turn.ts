@@ -32,8 +32,8 @@ export class Turn implements EntityClass<TurnData> {
     this.current.launchDices();
   }
 
-  buyNeighbor(): void {
-    this.current.buyNeighbor();
+  buyNeighbor(neighborCardId: CardId): void {
+    this.current.buyNeighbor(neighborCardId);
   }
 
   invokeDemon(demonCardId: CardId): void {
