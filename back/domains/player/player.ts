@@ -20,6 +20,7 @@ export class Player implements EntityClass<PlayerData> {
   protected coveredDemonsCards: Array<DemonCard>;
   protected summonedDemonsCards: Array<DemonCard>;
   protected neighborsCards: Array<NeighborCardData>;
+  protected isBot: boolean;
 
   constructor(playerData: PlayerInputData) {
     this.id = uuidv4();
@@ -29,6 +30,7 @@ export class Player implements EntityClass<PlayerData> {
     this.coveredDemonsCards = [];
     this.summonedDemonsCards = [];
     this.neighborsCards = [];
+    this.isBot = false;
   }
 
   getData(): PlayerData {
@@ -42,7 +44,12 @@ export class Player implements EntityClass<PlayerData> {
         card.getData(),
       ),
       neighborsCards: this.neighborsCards,
+      isBot: this.isBot,
     };
+  }
+
+  setIsBot(isBot: boolean = true): void {
+    this.isBot = isBot;
   }
 
   addSoulToken(count: number = 1): void {

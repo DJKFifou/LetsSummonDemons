@@ -1,7 +1,6 @@
 import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
-import { DemonCard } from '../demon/demon.js';
 import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
 import {
@@ -11,11 +10,12 @@ import {
 } from './turn.errors.js';
 import { Turn } from './turn.js';
 
-interface PlayerTurnArgs {
+export interface PlayerTurnArgs {
   game: Game;
   turn: Turn;
   player: Player;
 }
+
 export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected game: Game;
   protected turn: Turn;
@@ -63,9 +63,15 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
-  invokeDemon(demonCard: DemonCard): void {
+  invokeDemon(demonCardId: CardId): void {
     if (this.invokedDemon) {
       throw new AlreadyInvokedDemonInTurnError();
+    }
+
+    const demonCard = this.player.getCoveredDemonCardById(demonCardId);
+
+    if (!demonCard) {
+      return;
     }
 
     this.player.removeCoveredDemonCardById(demonCard.getData().id);

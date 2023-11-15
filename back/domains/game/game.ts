@@ -80,9 +80,13 @@ export class Game implements EntityClass<GameData> {
     this.distribute();
     this.state = 'started';
 
-    this.turn = new Turn(this);
+    this.nextTurn();
 
     this.emitDataToSockets();
+  }
+
+  nextTurn(): void {
+    this.turn = new Turn(this);
   }
 
   end(playerData: PlayerData): void {
