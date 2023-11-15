@@ -10,6 +10,8 @@ export const gameFactory = {
       game.addPlayer(playerFactory.create());
     }
 
-    return game.start();
+    game.start();
+
+    return game;
   },
 };
