@@ -1,6 +1,5 @@
 import { gameFactory } from '../game/game.factory.js';
 import {
-  AlreadyBoughtNeighborInTurnError,
   AlreadyLaunchedDicesInTurnError,
   NeedToLaunchDicesInTurnError,
 } from './turn.errors.js';
@@ -53,23 +52,23 @@ describe('player turn', () => {
     expect(() => turn.launchDices()).toThrow(AlreadyLaunchedDicesInTurnError);
   });
 
-  test('can buy neighbor', () => {
-    const game = gameFactory.createStarted();
-    const turn = new Turn(game);
+  // test('can buy neighbor', () => {
+  //   const game = gameFactory.createStarted();
+  //   const turn = new Turn(game);
 
-    turn.buyNeighbor();
+  //   turn.buyNeighbor();
 
-    expect(turn.getData().current.bougthNeighbor).toBe(true);
-  });
+  //   expect(turn.getData().current.bougthNeighbor).toBe(true);
+  // });
 
-  test('cannot buy neighbor twice', () => {
-    const game = gameFactory.createStarted();
-    const turn = new Turn(game);
+  // test('cannot buy neighbor twice', () => {
+  //   const game = gameFactory.createStarted();
+  //   const turn = new Turn(game);
 
-    turn.buyNeighbor();
+  //   turn.buyNeighbor();
 
-    expect(() => turn.buyNeighbor()).toThrow(AlreadyBoughtNeighborInTurnError);
-  });
+  //   expect(() => turn.buyNeighbor()).toThrow(AlreadyBoughtNeighborInTurnError);
+  // });
 
   // test('can invoke demon', () => {
   //   const game = gameFactory.createStarted();

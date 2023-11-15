@@ -10,7 +10,7 @@ import {
   PlayerId,
   PlayerInputData,
 } from '../../contracts/player.js';
-import { DemonCard } from '../card/demons/demon.js';
+import { DemonCard } from '../demon/demon.js';
 
 export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;

@@ -19,8 +19,8 @@ import {
 } from '../../contracts/io.js';
 import { PlayerData, PlayerId } from '../../contracts/player.js';
 import { shuffleArray } from '../../utils/array.js';
-import { DemonCard } from '../card/demons/demon.js';
-import { demons } from '../card/demons/demons.js';
+import { DemonCard } from '../demon/demon.js';
+import { demons } from '../demon/demons.js';
 import { Dice } from '../dice/dice.js';
 import { NeighborsDeck } from '../neighbors/neighborsDeck.js';
 import { Player } from '../player/player.js';

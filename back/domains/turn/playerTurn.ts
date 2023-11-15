@@ -1,7 +1,7 @@
 import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
-import { DemonCard } from '../card/demons/demon.js';
+import { DemonCard } from '../demon/demon.js';
 import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
 import {
