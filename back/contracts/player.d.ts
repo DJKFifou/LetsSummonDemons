@@ -10,6 +10,7 @@ export interface PlayerData {
   coveredDemonsCards: Array<DemonCardData>;
   summonedDemonsCards: Array<DemonCardData>;
   neighborsCards: Array<NeighborCardData>;
+  isBot?: boolean;
 }
 
 export interface PlayerInputData {

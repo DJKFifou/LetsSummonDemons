@@ -5,11 +5,9 @@ import { PlayerId } from '../../contracts/player.js';
 import { TurnData } from '../../contracts/turn.js';
 import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
+import { BotTurn } from './botTurn.js';
 import { PlayerTurn } from './playerTurn.js';
-import {
-  NeedToLaunchDicesInTurnError,
-  NoMorePlayersToPlayInTurnError,
-} from './turn.errors.js';
+import { NeedToLaunchDicesInTurnError } from './turn.errors.js';
 
 export class Turn implements EntityClass<TurnData> {
   protected game: Game;
@@ -37,14 +35,7 @@ export class Turn implements EntityClass<TurnData> {
   }
 
   invokeDemon(demonCardId: CardId): void {
-    const coveredDemonsCard =
-      this.current.player.getCoveredDemonCardById(demonCardId);
-
-    if (!coveredDemonsCard) {
-      return;
-    }
-
-    this.current.invokeDemon(coveredDemonsCard);
+    this.current.invokeDemon(demonCardId);
   }
 
   endTurn(): void {
@@ -78,14 +69,17 @@ export class Turn implements EntityClass<TurnData> {
 
     const newCurrentPlayer = this.getNextPlayer();
     if (!newCurrentPlayer) {
-      throw new NoMorePlayersToPlayInTurnError();
+      this.game.nextTurn();
+      return;
     }
 
     this.remaining = this.remaining.filter(
       (id) => id !== newCurrentPlayer.getData().id,
     );
 
-    this.current = new PlayerTurn({
+    const turnClass = newCurrentPlayer.getData().isBot ? BotTurn : PlayerTurn;
+
+    this.current = new turnClass({
       game: this.game,
       turn: this,
       player: newCurrentPlayer,
