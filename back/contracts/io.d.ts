@@ -1,11 +1,11 @@
 import { Server, Socket } from 'socket.io';
-import { GameData, GameId } from './game.js';
+import { CardId } from './card.js';
+import { GameId } from './game.js';
 import { PlayerData, PlayerId } from './player.js';
 
 export interface IServerToClientEvents {
   playerData: (playerData: PlayerData) => void;
   playerId: (playerId: PlayerId) => void;
-  gameData: (gameData: GameData) => void;
 }
 
 export interface IClientToServerEvents {
@@ -14,7 +14,7 @@ export interface IClientToServerEvents {
   gameStart: () => void;
   turnLaunchDices: () => void;
   turnBuyNeighbor: () => void;
-  turnInvokeDemon: () => void;
+  turnInvokeDemon: (demonCardId: CardId) => void;
   turnEnd: () => void;
 }
 

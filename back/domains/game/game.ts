@@ -2,7 +2,7 @@ import { BroadcastOperator } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 import { ioServer } from '../../app/io/server.js';
 import { candles } from '../../constants/candles.js';
-import { demons } from '../../constants/demons.js';
+import { DICE_COUNT } from '../../constants/dices.js';
 import {
   MAX_GAME_PLAYERS,
   MIN_GAME_PLAYERS,
@@ -10,18 +10,18 @@ import {
   START_WITH_SOUL_TOKEN_COUNT,
 } from '../../constants/game.js';
 import { neighbors } from '../../constants/neighbors.js';
-import {
-  CandleCardData,
-  DemonCardData,
-  NeighborCardData,
-} from '../../contracts/card.js';
+import { CandleCardData, NeighborCardData } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
 import {
   IServerToClientEvents,
   ISocketSessionData,
 } from '../../contracts/io.js';
+import { PlayerData, PlayerId } from '../../contracts/player.js';
 import { shuffleArray } from '../../utils/array.js';
+import { DemonCard } from '../card/demons/demon.js';
+import { demons } from '../card/demons/demons.js';
+import { Dice } from '../dice/dice.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
@@ -34,9 +34,13 @@ export class Game implements EntityClass<GameData> {
   protected id: GameId;
   protected players: Player[];
   protected state: GameState;
+  protected winner?: PlayerId;
+
   turn?: Turn;
+  readonly dices: Array<Dice>;
+
   protected candlesDeck: Array<CandleCardData>;
-  protected demonsDeck: Array<DemonCardData>;
+  protected demonsDeck: Array<DemonCard>;
   protected neighborsDeck: Array<NeighborCardData>;
 
   constructor() {
@@ -44,6 +48,8 @@ export class Game implements EntityClass<GameData> {
     this.players = [];
     this.turn = null;
     this.state = 'starting';
+
+    this.dices = Array.from({ length: DICE_COUNT }, () => new Dice());
   }
 
   addPlayer(player: Player): void {
@@ -60,6 +66,10 @@ export class Game implements EntityClass<GameData> {
     this.emitDataToSockets();
   }
 
+  getPlayerById(id: PlayerId): Player {
+    return this.players.find((player) => player.getData().id === id);
+  }
+
   start(): void {
     if (this.players.length < MIN_GAME_PLAYERS) {
       throw new StartWithoutEnoughPlayersError();
@@ -74,9 +84,11 @@ export class Game implements EntityClass<GameData> {
     this.emitDataToSockets();
   }
 
-  end(): void {
+  end(playerData: PlayerData): void {
     this.state = 'ended';
-    console.log('game end');
+    this.winner = playerData.id;
+
+    console.log(`game won by ${playerData.name} (id: ${playerData.id})`);
 
     this.emitDataToSockets();
   }
@@ -92,7 +104,7 @@ export class Game implements EntityClass<GameData> {
       player.setCandleCard(this.candlesDeck.pop());
 
       for (let i = 0; i < START_WITH_DEMONS_COUNT; i++) {
-        player.addDemonCard(this.demonsDeck.pop());
+        player.addCoveredDemonCard(this.demonsDeck.pop());
       }
 
       player.addSoulToken(START_WITH_SOUL_TOKEN_COUNT);
