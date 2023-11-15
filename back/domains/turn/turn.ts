@@ -34,6 +34,13 @@ export class Turn implements EntityClass<TurnData> {
     }
     this.current.launchedDices = true;
 
+    let dicesResult = 0;
+    this.game.dices.forEach((dice) => {
+      dice.launch();
+      dicesResult += dice.getData().result;
+    });
+    this.current.dicesResult = dicesResult;
+
     this.game.emitDataToSockets();
   }
 
@@ -93,6 +100,7 @@ export class Turn implements EntityClass<TurnData> {
     this.current = {
       player: newCurrentPlayer,
       launchedDices: false,
+      dicesResult: null,
       invokedDemon: false,
       bougthNeighbor: false,
     };

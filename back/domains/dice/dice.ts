@@ -10,7 +10,7 @@ import {
 export class Dice implements EntityClass<DiceData> {
   private readonly MIN_DICE_NUMBER = 1;
   private facesCount: number;
-  private displayNumber: number;
+  private result: number;
 
   constructor(facesCount: number = DICE_FACES_COUNT) {
     if (facesCount < this.MIN_DICE_NUMBER) {
@@ -22,11 +22,11 @@ export class Dice implements EntityClass<DiceData> {
     }
 
     this.facesCount = facesCount;
-    this.displayNumber = null;
+    this.result = null;
   }
 
   launch(): Dice {
-    this.displayNumber = randomInteger(this.MIN_DICE_NUMBER, this.facesCount);
+    this.result = randomInteger(this.MIN_DICE_NUMBER, this.facesCount);
 
     return this;
   }
@@ -34,7 +34,7 @@ export class Dice implements EntityClass<DiceData> {
   getData(): DiceData {
     return {
       facesCount: this.facesCount,
-      displayNumber: this.displayNumber,
+      result: this.result,
     };
   }
 }

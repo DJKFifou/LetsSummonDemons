@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ioServer } from '../../app/io/server.js';
 import { candles } from '../../constants/candles.js';
 import { demons } from '../../constants/demons.js';
+import { DICE_COUNT } from '../../constants/dices.js';
 import {
   MAX_GAME_PLAYERS,
   MIN_GAME_PLAYERS,
@@ -22,6 +23,7 @@ import {
   ISocketSessionData,
 } from '../../contracts/io.js';
 import { shuffleArray } from '../../utils/array.js';
+import { Dice } from '../dice/dice.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
@@ -34,7 +36,10 @@ export class Game implements EntityClass<GameData> {
   protected id: GameId;
   protected players: Player[];
   protected state: GameState;
+
   turn?: Turn;
+  readonly dices: Array<Dice>;
+
   protected candlesDeck: Array<CandleCardData>;
   protected demonsDeck: Array<DemonCardData>;
   protected neighborsDeck: Array<NeighborCardData>;
@@ -44,6 +49,8 @@ export class Game implements EntityClass<GameData> {
     this.players = [];
     this.turn = null;
     this.state = 'starting';
+
+    this.dices = Array.from({ length: DICE_COUNT }, () => new Dice());
   }
 
   addPlayer(player: Player): void {
