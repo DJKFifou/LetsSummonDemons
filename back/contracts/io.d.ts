@@ -1,10 +1,10 @@
 import { Server, Socket } from 'socket.io';
 import { CardId } from './card.js';
-import { GameId } from './game.js';
-import { PlayerData, PlayerId } from './player.js';
+import { GameData, GameId } from './game.js';
+import { PlayerId } from './player.js';
 
 export interface IServerToClientEvents {
-  playerData: (playerData: PlayerData) => void;
+  gameData: (gameData: GameData) => void;
   playerId: (playerId: PlayerId) => void;
 }
 

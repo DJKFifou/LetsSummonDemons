@@ -20,7 +20,6 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     createdGame.addPlayer(playerFactory.create());
 
-    socket.emit('playerData', player.getData());
     socket.emit('playerId', player.getData().id);
   });
 
@@ -40,7 +39,7 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.data.gameId = game.getData().id;
     socket.data.playerId = player.getData().id;
 
-    socket.emit('playerData', player.getData());
+    socket.emit('playerId', player.getData().id);
   });
 
   socket.on('gameStart', () => {
