@@ -1,7 +1,7 @@
 import { socket } from '@/socket';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
-import { GameDataDisplay } from '../game/GameDataDisplay';
+import { GameDataDisplay } from '../game/Game';
 
 type IngameScreenProps = {
   playerId: PlayerId;

@@ -1,13 +1,36 @@
 .deck {
   display: flex;
   flex-flow: column;
-  border: 1px solid;
-  padding: 0.5rem;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 1rem;
+
+  & > h3 {
+    font-size: 1.5rem;
+  }
+
+  & > div {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
 }
 
-.cards {
-  display: flex;
-  flex-flow: row;
-  gap: 0.5rem;
+.coveredCardStack {
+  position: relative;
+
+  & > * {
+    position: absolute;
+  }
+
+  & > *:nth-child(1) {
+    transform: translate(-3px, 3px);
+  }
+
+  & > *:nth-child(2) {
+    transform: translate(-4px, -5px);
+  }
+
+  & > *:nth-child(3) {
+    transform: translate(6px, 3px);
+  }
 }

@@ -1,15 +1,15 @@
 import { socket } from '@/socket';
 import { CardData } from '@lsd/back/contracts/card';
-import { CardDataDisplay } from './CardDataDisplay';
+import { Card } from './Card';
 
-type CardDataDisplayProps = {
+type CoveredDemonCard = {
   cardData: CardData;
   isSummonable?: boolean;
 };
-export const CoveredDemonCardDataDisplay = ({
+export const CoveredDemonCard = ({
   cardData,
   isSummonable,
-}: CardDataDisplayProps) => {
+}: CoveredDemonCard) => {
   const summonDemon = () => {
     if (!isSummonable) {
       return;
@@ -20,7 +20,7 @@ export const CoveredDemonCardDataDisplay = ({
   return (
     <article>
       {isSummonable && <button onClick={summonDemon}>Summon</button>}
-      <CardDataDisplay cardData={cardData} />
+      <Card cardData={cardData} />
     </article>
   );
 };
