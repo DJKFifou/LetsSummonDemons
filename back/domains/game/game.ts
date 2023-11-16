@@ -9,7 +9,6 @@ import {
   START_WITH_DEMONS_COUNT,
   START_WITH_SOUL_TOKEN_COUNT,
 } from '../../constants/game.js';
-import { neighbors } from '../../constants/neighbors.js';
 import { CandleCardData } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
@@ -22,6 +21,7 @@ import { shuffleArray } from '../../utils/array.js';
 import { DemonCard } from '../demon/demon.js';
 import { demons } from '../demon/demons.js';
 import { Dice } from '../dice/dice.js';
+import { neighbors } from '../neighbor/neighbors.js';
 import { NeighborsDeck } from '../neighbor/neighborsDeck.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';

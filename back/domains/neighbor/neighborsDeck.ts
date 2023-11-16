@@ -2,20 +2,21 @@ import {
   NEIGHBORS_MARKET_COUNT,
   SOULS_COUNT_TO_BUY_NEIGHBOR_CARD,
 } from '../../constants/game.js';
-import { CardId, NeighborCardData } from '../../contracts/card.js';
+import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { NeighborsDeckData } from '../../contracts/neighborsDeck.js';
 import { shuffleArray } from '../../utils/array.js';
 import { Player } from '../player/player.js';
+import { NeighborCard } from './neighbor.js';
 import { InsuficientSoulsToBuyNeighborError } from './neighborsDeck.errors.js';
 
 interface NeighborsDeckArgs {
-  cards: Array<NeighborCardData>;
+  cards: Array<NeighborCard>;
 }
 
 export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
-  protected remainingCards: Array<NeighborCardData>;
-  protected market: Array<NeighborCardData | null>;
+  protected remainingCards: Array<NeighborCard>;
+  protected market: Array<NeighborCard | null>;
 
   constructor({ cards }: NeighborsDeckArgs) {
     this.remainingCards = shuffleArray(cards);
@@ -34,9 +35,9 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     }
   }
 
-  protected pickCardFromMarketById(cardId: CardId): NeighborCardData | null {
+  protected pickCardFromMarketById(cardId: CardId): NeighborCard | null {
     for (let i = 0, iMax = this.market.length; i < iMax; i++) {
-      if (this.market[i].id === cardId) {
+      if (this.market[i].getData().id === cardId) {
         const card = this.market[i];
         this.market[i] = null;
         return card;
@@ -62,7 +63,7 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
   getData(): NeighborsDeckData {
     return {
       remainingCardsCount: this.remainingCards.length,
-      market: this.market,
+      market: this.market.map((card) => card.getData()),
     };
   }
 }
