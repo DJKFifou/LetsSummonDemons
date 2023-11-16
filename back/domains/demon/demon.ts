@@ -1,4 +1,5 @@
-import { DemonCardData } from '../../contracts/card.js';
+import { v4 } from 'uuid';
+import { DemonCardData, DemonCardInputData } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
@@ -13,8 +14,8 @@ interface DemonResolveFunctionArgs {
 type DemonResolveFunction = (args: DemonResolveFunctionArgs) => void;
 
 // arguments de la classe
-interface DemonArgs {
-  data: DemonCardData;
+export interface DemonArgs {
+  data: DemonCardInputData;
   activateFn: DemonResolveFunction;
 }
 
@@ -23,7 +24,10 @@ export class DemonCard implements EntityClass<DemonCardData> {
   protected activateFn: DemonResolveFunction;
 
   constructor({ data, activateFn }: DemonArgs) {
-    this.data = data;
+    this.data = {
+      id: v4(),
+      ...data,
+    };
     // ici on stocke dans la classe la fonction
     // d'activation qui a été passée en paramètres
     this.activateFn = activateFn;

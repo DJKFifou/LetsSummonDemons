@@ -1,6 +1,6 @@
 import { DemonCardData } from '../contracts/card.js';
-import { demons as demonsClasses } from '../domains/demon/demons.js';
+import { demons as demonsCards } from '../domains/demon/demons.js';
 
-export const demons: Array<DemonCardData> = demonsClasses.map((demon) =>
+export const demons: Array<DemonCardData> = demonsCards.map((demon) =>
   demon.getData(),
 );

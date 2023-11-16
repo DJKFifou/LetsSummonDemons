@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { DemonCard } from './demon.js';
 
 const cardBack = '/cards/back/demons.png';
@@ -6,7 +5,6 @@ const cardBack = '/cards/back/demons.png';
 const snake = new DemonCard({
   data: {
     name: 'LE SERPENT',
-    id: v4(),
     activationNumbers: [2],
     description: 'Gagnez immédiatement la partie.',
     cardImage: '/cards/demons/snake.png',
@@ -21,7 +19,6 @@ const snake = new DemonCard({
 const demonBook = new DemonCard({
   data: {
     name: 'LE DÉGUEULIVRE DES DÉMONS',
-    id: v4(),
     activationNumbers: [3],
     description:
       'Parcourez la pioche Démon et invoquez le Démon de votre choix gratuitement.',
@@ -37,7 +34,6 @@ const demonBook = new DemonCard({
 const bogeyMan = new DemonCard({
   data: {
     name: 'LE PĖRE FOUETTARD',
-    id: v4(),
     activationNumbers: [4],
     isPermanent: false,
     description: 'Obtenez les 2 premières cartes de la pioche VOISINAGE.',
@@ -50,7 +46,6 @@ const bogeyMan = new DemonCard({
 const porcus = new DemonCard({
   data: {
     name: 'PORCUS',
-    id: v4(),
     activationNumbers: [5],
     isPermanent: false,
     description: 'Récoltez 5 Âmes.',
@@ -63,7 +58,6 @@ const porcus = new DemonCard({
 const legionNanny = new DemonCard({
   data: {
     name: 'NOUNOU SOMMES LÉGION',
-    id: v4(),
     activationNumbers: [6],
     isPermanent: false,
     description: 'Récoltez 5 Âmes.',
@@ -76,7 +70,6 @@ const legionNanny = new DemonCard({
 const belzeBzz = new DemonCard({
   data: {
     name: "BELZÉ'BZZ",
-    id: v4(),
     activationNumbers: [7],
     isPermanent: false,
     description: 'Activez toutes vos cartes GARÇONS et FILLES.',
@@ -89,7 +82,6 @@ const belzeBzz = new DemonCard({
 const baelHound = new DemonCard({
   data: {
     name: 'MOLOSSE DE BAËL',
-    id: v4(),
     activationNumbers: [8],
     isPermanent: false,
     description: 'Pour chacun de vos Animaux, volez 1 Âme',
@@ -103,7 +95,6 @@ const baelHound = new DemonCard({
 const mechanicalSatange = new DemonCard({
   data: {
     name: 'SATANGE MÉCANIQUE',
-    id: v4(),
     activationNumbers: [9],
     isPermanent: false,
     description:
@@ -117,7 +108,6 @@ const mechanicalSatange = new DemonCard({
 const antechrist = new DemonCard({
   data: {
     name: 'ANTÉCHRIST',
-    id: v4(),
     activationNumbers: [10],
     isPermanent: false,
     description: 'Volez 5 Âmes',
@@ -131,7 +121,6 @@ const antechrist = new DemonCard({
 const mefilstopheles = new DemonCard({
   data: {
     name: 'MÉFILSTOPHÉLES',
-    id: v4(),
     activationNumbers: [11],
     isPermanent: false,
     description:
@@ -146,7 +135,6 @@ const mefilstopheles = new DemonCard({
 const devil = new DemonCard({
   data: {
     name: 'LE DIABLE',
-    id: v4(),
     activationNumbers: [12],
     isPermanent: false,
     description: "Volez toutes les cartes d'un adversaire, dont ses Démons",
@@ -160,7 +148,6 @@ const devil = new DemonCard({
 const incesteDemon = new DemonCard({
   data: {
     name: 'DÉMON INCESTE',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
@@ -174,7 +161,6 @@ const incesteDemon = new DemonCard({
 const demogorguignol = new DemonCard({
   data: {
     name: 'DÉMOGORGUIGNOL',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
@@ -188,7 +174,6 @@ const demogorguignol = new DemonCard({
 const macabreOni = new DemonCard({
   data: {
     name: 'MACABRE ONI',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
@@ -202,7 +187,6 @@ const macabreOni = new DemonCard({
 const aneModee = new DemonCard({
   data: {
     name: 'ÂNE-MODÉE',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description: 'Chaque fois que vous obtenez un ANIMAL récoltez une Âme.',
@@ -215,7 +199,6 @@ const aneModee = new DemonCard({
 const baphometal = new DemonCard({
   data: {
     name: 'BAPHOMÉTAL',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
@@ -228,7 +211,6 @@ const baphometal = new DemonCard({
 const dedeZuzu = new DemonCard({
   data: {
     name: 'DÉDÉ-ZUZU',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
@@ -242,7 +224,6 @@ const dedeZuzu = new DemonCard({
 const relancifer = new DemonCard({
   data: {
     name: 'RELANCIFER',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description: 'A votre tour: vous pouvez relancer les dés une fois.',
@@ -256,7 +237,6 @@ const relancifer = new DemonCard({
 const rosemaryEgg = new DemonCard({
   data: {
     name: "L'OEUF DE ROSEMARY",
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
@@ -270,7 +250,6 @@ const rosemaryEgg = new DemonCard({
 const spectralux = new DemonCard({
   data: {
     name: 'SPECTRALUX',
-    id: v4(),
     activationNumbers: [],
     isPermanent: true,
     description:
