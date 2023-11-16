@@ -17,6 +17,14 @@ export const PlayerDataDisplay = ({
   itsTurn,
   itsYou,
 }: PlayerDataDisplayProps) => {
+
+  //Display souls
+  const soulImage = '/souls/soul.png';
+  const soulsImages = Array.from({ length: playerData.soulsTokenCount }, (_, index) => (
+    <img key={index} src={soulImage} className={styles.souls} alt={`Image for soul ${index}`} />
+  ));
+  //Display souls
+  
   return (
     <article className={styles.player}>
       <p>
@@ -33,6 +41,9 @@ export const PlayerDataDisplay = ({
       <p>ID: {playerData.id}</p>
       <p>NAME: {playerData.name}</p>
       <p>SOULS: {playerData.soulsTokenCount}</p>
+      <div className={styles.soulsContainer}>
+        {soulsImages}
+      </div>
       <p>CANDLE CARD:</p>
       <div className={styles.cards}>
         {playerData.candleCard && <Card cardData={playerData.candleCard} />}
