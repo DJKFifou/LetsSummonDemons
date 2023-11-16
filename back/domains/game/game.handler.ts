@@ -18,7 +18,7 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.data.gameId = createdGameId;
     socket.data.playerId = player.getData().id;
 
-    createdGame.addPlayer(playerFactory.create());
+    createdGame.addPlayer(playerFactory.createBot());
 
     socket.emit('playerId', player.getData().id);
   });
