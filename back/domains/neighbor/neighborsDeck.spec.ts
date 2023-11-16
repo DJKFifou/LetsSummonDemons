@@ -2,8 +2,8 @@ import {
   NEIGHBORS_MARKET_COUNT,
   SOULS_COUNT_TO_BUY_NEIGHBOR_CARD,
 } from '../../constants/game.js';
-import { neighbors } from '../../constants/neighbors.js';
 import { playerFactory } from '../player/player.factory.js';
+import { neighbors } from './neighbors.js';
 import { InsuficientSoulsToBuyNeighborError } from './neighborsDeck.errors.js';
 import { NeighborsDeck } from './neighborsDeck.js';
 

@@ -1,9 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import {
-  CandleCardData,
-  CardId,
-  NeighborCardData,
-} from '../../contracts/card.js';
+import { CandleCardData, CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import {
   PlayerData,
@@ -11,6 +7,7 @@ import {
   PlayerInputData,
 } from '../../contracts/player.js';
 import { DemonCard } from '../demon/demon.js';
+import { NeighborCard } from '../neighbor/neighbor.js';
 
 export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
@@ -19,7 +16,7 @@ export class Player implements EntityClass<PlayerData> {
   protected candleCard?: CandleCardData;
   protected coveredDemonsCards: Array<DemonCard>;
   protected summonedDemonsCards: Array<DemonCard>;
-  protected neighborsCards: Array<NeighborCardData>;
+  protected neighborsCards: Array<NeighborCard>;
   protected isBot: boolean;
 
   constructor(playerData: PlayerInputData) {
@@ -43,7 +40,7 @@ export class Player implements EntityClass<PlayerData> {
       summonedDemonsCards: this.summonedDemonsCards.map((card) =>
         card.getData(),
       ),
-      neighborsCards: this.neighborsCards,
+      neighborsCards: this.neighborsCards.map((card) => card.getData()),
       isBot: this.isBot,
     };
   }
@@ -114,7 +111,7 @@ export class Player implements EntityClass<PlayerData> {
     );
   }
 
-  addNeighborCard(neighborCard: NeighborCardData): void {
+  addNeighborCard(neighborCard: NeighborCard): void {
     this.neighborsCards.push(neighborCard);
   }
 }
