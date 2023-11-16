@@ -22,7 +22,7 @@ import { shuffleArray } from '../../utils/array.js';
 import { DemonCard } from '../demon/demon.js';
 import { demons } from '../demon/demons.js';
 import { Dice } from '../dice/dice.js';
-import { NeighborsDeck } from '../neighbors/neighborsDeck.js';
+import { NeighborsDeck } from '../neighbor/neighborsDeck.js';
 import { Player } from '../player/player.js';
 import { Turn } from '../turn/turn.js';
 import {
