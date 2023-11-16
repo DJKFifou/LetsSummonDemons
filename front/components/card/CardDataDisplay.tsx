@@ -12,6 +12,7 @@ export const CardDataDisplay = ({ cardData }: CardDataDisplayProps) => {
       </p>
       <p>ID: {cardData.id}</p>
       <p>NAME: {cardData.name}</p>
+      <img className={styles.cardsImage} src={cardData.cardImage} alt={`Image for ${cardData.name}`} />
     </article>
   );
 };
