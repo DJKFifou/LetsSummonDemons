@@ -1,7 +1,7 @@
 import { socket } from '@/socket';
 import { CardData } from '@lsd/back/contracts/card';
-import { CardDataDisplay } from './CardDataDisplay';
-
+import { Card } from './Card';
+import styles from './MarketNeighborCard.module.scss';
 type MarketNeighborCardProps = {
   cardData: CardData;
   isBuyable?: boolean;
@@ -18,9 +18,11 @@ export const MarketNeighborCard = ({
   };
 
   return (
-    <article>
-      {isBuyable && <button onClick={buyNeighbor}>Buy</button>}
-      <CardDataDisplay cardData={cardData} />
+    <article className={styles.marketCard}>
+      <Card cardData={cardData} />
+      {isBuyable && (
+        <button onClick={buyNeighbor}>Acheter {cardData.name}</button>
+      )}
     </article>
   );
 };

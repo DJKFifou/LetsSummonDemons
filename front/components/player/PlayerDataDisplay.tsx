@@ -1,7 +1,7 @@
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
-import { CardDataDisplay } from '../card/CardDataDisplay';
-import { CoveredDemonCardDataDisplay } from '../card/CoveredDemonCardDataDisplay';
+import { Card } from '../card/Card';
+import { CoveredDemonCard } from '../card/CoveredDemonCard';
 import { PlayerActions } from './PlayerActions';
 import styles from './PlayerDataDisplay.module.scss';
 
@@ -35,14 +35,12 @@ export const PlayerDataDisplay = ({
       <p>SOULS: {playerData.soulsTokenCount}</p>
       <p>CANDLE CARD:</p>
       <div className={styles.cards}>
-        {playerData.candleCard && (
-          <CardDataDisplay cardData={playerData.candleCard} />
-        )}
+        {playerData.candleCard && <Card cardData={playerData.candleCard} />}
       </div>
       <p>COVERED DEMON CARDS:</p>
       <div className={styles.cards}>
         {playerData.coveredDemonsCards.map((card) => (
-          <CoveredDemonCardDataDisplay
+          <CoveredDemonCard
             isSummonable={
               itsYou && itsTurn && !gameData.turn?.current.invokedDemon
             }
@@ -54,13 +52,13 @@ export const PlayerDataDisplay = ({
       <p>INVOKATED DEMON CARDS:</p>
       <div className={styles.cards}>
         {playerData.summonedDemonsCards.map((card) => (
-          <CardDataDisplay cardData={card} key={card.id} />
+          <Card cardData={card} key={card.id} />
         ))}
       </div>
       <p>NEIGHBORS CARDS:</p>
       <div className={styles.cards}>
         {playerData.neighborsCards.map((card) => (
-          <CardDataDisplay cardData={card} key={card.id} />
+          <Card cardData={card} key={card.id} />
         ))}
       </div>
     </article>

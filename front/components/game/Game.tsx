@@ -2,7 +2,7 @@ import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
 import { NeighborsDeck } from '../neighborsDeck/NeighborsDeck';
 import { PlayerDataDisplay } from '../player/PlayerDataDisplay';
-import styles from './GameDataDisplay.module.scss';
+import styles from './Game.module.scss';
 
 type GameDataDisplayProps = {
   playerId: PlayerId;

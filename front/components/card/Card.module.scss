@@ -1,0 +1,18 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999999px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+
+  .cardImage {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+
+  .cardDescription {
+    position: absolute;
+  }
+}
