@@ -1,33 +1,37 @@
+import {
+  SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON,
+  SOULS_COUNT_TO_BUY_NEIGHBOR_CARD,
+} from '../../constants/game.js';
 import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
 import { Game } from '../game/game.js';
+import {
+  NotEnoughNeighborsProdivedToSummonDemonError,
+  TooManyNeighborsProdivedToSummonDemonError,
+} from '../player/player.errors.js';
 import { Player } from '../player/player.js';
 import {
-  AlreadyBoughtNeighborInTurnError,
-  AlreadyInvokedDemonInTurnError,
-  AlreadyLaunchedDicesInTurnError,
+  CannotBuyNeighborError,
+  CannotLaunchDicesError,
+  CannotSummonDemonError,
 } from './turn.errors.js';
-import { Turn } from './turn.js';
 
 export interface PlayerTurnArgs {
   game: Game;
-  turn: Turn;
   player: Player;
 }
 
 export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected game: Game;
-  protected turn: Turn;
   player: Player;
   protected launchedDices: boolean;
   protected dicesResult?: number;
   protected summonedDemon: boolean;
   protected bougthNeighbor: boolean;
 
-  constructor({ game, turn, player }: PlayerTurnArgs) {
+  constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
-    this.turn = turn;
     this.player = player;
     this.launchedDices = false;
     this.dicesResult = null;
@@ -36,8 +40,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   launchDices(): void {
-    if (this.launchedDices) {
-      throw new AlreadyLaunchedDicesInTurnError();
+    if (!this.canLaunchDices) {
+      throw new CannotLaunchDicesError();
     }
     this.launchedDices = true;
 
@@ -78,8 +82,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   buyNeighbor(neighborCardId: CardId): void {
-    if (this.bougthNeighbor) {
-      throw new AlreadyBoughtNeighborInTurnError();
+    if (!this.canBuyNeighbor) {
+      throw new CannotBuyNeighborError();
     }
 
     this.game.neighborsDeck.buyCard(this.player, neighborCardId);
@@ -90,15 +94,56 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
-    if (this.summonedDemon) {
-      throw new AlreadyInvokedDemonInTurnError();
+    if (!this.canSummonDemon) {
+      throw new CannotSummonDemonError();
     }
 
-    this.player.summonDemon(demonCardId, neighborsSacrifiedIds);
+    if (
+      neighborsSacrifiedIds.length < SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+    ) {
+      throw new NotEnoughNeighborsProdivedToSummonDemonError();
+    }
+
+    if (
+      neighborsSacrifiedIds.length > SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+    ) {
+      throw new TooManyNeighborsProdivedToSummonDemonError();
+    }
+
+    neighborsSacrifiedIds.forEach((neighborId) => {
+      this.player.removeNeighborCardById(neighborId);
+    });
+
+    const summonedCard = this.player.removeCoveredDemonCardById(demonCardId);
+    this.player.addSummonedDemonCard(summonedCard);
 
     this.summonedDemon = true;
 
     this.game.emitDataToSockets();
+  }
+
+  get canLaunchDices(): boolean {
+    return !this.launchedDices;
+  }
+
+  get canBuyNeighbor(): boolean {
+    return (
+      !this.bougthNeighbor &&
+      this.player.getData().soulsTokenCount >= SOULS_COUNT_TO_BUY_NEIGHBOR_CARD
+    );
+  }
+
+  get canSummonDemon(): boolean {
+    return (
+      !this.summonedDemon &&
+      this.player.getCoveredDemonCards().length &&
+      this.player.getNeighborCards().length >=
+        SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+    );
+  }
+
+  get canEndTurn(): boolean {
+    return this.launchedDices;
   }
 
   getData(): PlayerTurnData {
@@ -108,6 +153,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       dicesResult: this.dicesResult,
       summonedDemon: this.summonedDemon,
       bougthNeighbor: this.bougthNeighbor,
+      canEndTurn: this.canEndTurn,
+      canBuyNeighbor: this.canBuyNeighbor,
+      canSummonDemon: this.canSummonDemon,
+      canLaunchDices: this.canLaunchDices,
     };
   }
 }

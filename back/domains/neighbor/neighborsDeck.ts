@@ -8,7 +8,10 @@ import { NeighborsDeckData } from '../../contracts/neighborsDeck.js';
 import { shuffleArray } from '../../utils/array.js';
 import { Player } from '../player/player.js';
 import { NeighborCard } from './neighbor.js';
-import { InsuficientSoulsToBuyNeighborError } from './neighborsDeck.errors.js';
+import {
+  NeighborNotInMarketError,
+  NotEnoughtSoulsToBuyNeighborError,
+} from './neighborsDeck.errors.js';
 
 interface NeighborsDeckArgs {
   cards: Array<NeighborCard>;
@@ -35,21 +38,31 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     }
   }
 
+  protected getCardInMarketById(cardId: CardId): NeighborCard {
+    const card = this.market.find((card) => card.getData().id === cardId);
+
+    if (!card) {
+      throw new NeighborNotInMarketError();
+    }
+
+    return card;
+  }
+
   protected pickCardFromMarketById(cardId: CardId): NeighborCard | null {
+    const card = this.getCardInMarketById(cardId);
+
     for (let i = 0, iMax = this.market.length; i < iMax; i++) {
       if (this.market[i].getData().id === cardId) {
-        const card = this.market[i];
         this.market[i] = null;
-        return card;
       }
     }
 
-    return null;
+    return card;
   }
 
   buyCard(player: Player, cardId: CardId): void {
     if (player.getData().soulsTokenCount < SOULS_COUNT_TO_BUY_NEIGHBOR_CARD) {
-      throw new InsuficientSoulsToBuyNeighborError();
+      throw new NotEnoughtSoulsToBuyNeighborError();
     }
 
     player.removeSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);

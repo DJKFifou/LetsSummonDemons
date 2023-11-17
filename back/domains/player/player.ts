@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import { SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON } from '../../constants/game.js';
 import { CandleCardData, CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import {
@@ -12,8 +11,6 @@ import { NeighborCard } from '../neighbor/neighbor.js';
 import {
   DoesNotHaveThisDemonCoveredError,
   DoesNotHaveThisNeighborError,
-  NotEnoughNeighborsProdivedToSummonDemonError,
-  TooManyNeighborsProdivedToSummonDemonError,
 } from './player.errors.js';
 
 export class Player implements EntityClass<PlayerData> {
@@ -95,29 +92,12 @@ export class Player implements EntityClass<PlayerData> {
     return card;
   }
 
-  addSummonedDemonCard(demonCard: DemonCard): void {
-    this.summonedDemonsCards.push(demonCard);
+  getCoveredDemonCards(): Array<DemonCard> {
+    return this.coveredDemonsCards;
   }
 
-  summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
-    if (
-      neighborsSacrifiedIds.length < SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
-    ) {
-      throw new NotEnoughNeighborsProdivedToSummonDemonError();
-    }
-
-    if (
-      neighborsSacrifiedIds.length > SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
-    ) {
-      throw new TooManyNeighborsProdivedToSummonDemonError();
-    }
-
-    neighborsSacrifiedIds.forEach((neighborId) => {
-      this.removeNeighborCardById(neighborId);
-    });
-
-    const summonedCard = this.removeCoveredDemonCardById(demonCardId);
-    this.addSummonedDemonCard(summonedCard);
+  addSummonedDemonCard(demonCard: DemonCard): void {
+    this.summonedDemonsCards.push(demonCard);
   }
 
   removeSummonedDemonCardById(demonCardId: CardId): DemonCard {

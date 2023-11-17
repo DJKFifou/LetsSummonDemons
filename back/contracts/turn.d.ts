@@ -6,6 +6,10 @@ export interface PlayerTurnData {
   dicesResult?: number;
   bougthNeighbor: boolean;
   summonedDemon: boolean;
+  canEndTurn: boolean;
+  canSummonDemon: boolean;
+  canBuyNeighbor: boolean;
+  canLaunchDices: boolean;
 }
 
 export interface TurnData {
