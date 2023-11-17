@@ -25,10 +25,10 @@ export const PlayerDataDisplay = ({
       </p>
       {itsTurn && (
         <p>
-          <b>It&apos;s his turn</b>
+          <b>C&apos;est son tour</b>
         </p>
       )}
-      {itsTurn && itsYou && (
+      {itsYourTurn && (
         <PlayerActions gameData={gameData} playerData={playerData} />
       )}
       <p>ID: {playerData.id}</p>
@@ -42,9 +42,7 @@ export const PlayerDataDisplay = ({
       <div className={styles.cards}>
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
-            isSummonable={
-              itsYou && itsTurn && !gameData.turn?.current.summonedDemon
-            }
+            isSummonable={itsYourTurn && gameData.turn?.current.canSummonDemon}
             cardData={card}
             key={card.id}
           />
