@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { socket } from '@/socket';
 import { CardData } from '@lsd/back/contracts/card';
 import { Card } from './Card';
@@ -10,6 +11,8 @@ export const CoveredDemonCard = ({
   cardData,
   isSummonable,
 }: CoveredDemonCard) => {
+  const [isCovered, setIsCovered] = useState(false);
+
   const summonDemon = () => {
     if (!isSummonable) {
       return;
@@ -18,9 +21,12 @@ export const CoveredDemonCard = ({
   };
 
   return (
-    <article>
+    <article
+      onMouseEnter={() => setIsCovered(true)}
+      onMouseLeave={() => setIsCovered(false)}
+    >
       {isSummonable && <button onClick={summonDemon}>Summon</button>}
-      <Card covered={true} cardData={cardData} />
+      <Card covered={!isCovered} cardData={cardData} />
     </article>
   );
 };
