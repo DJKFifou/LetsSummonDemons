@@ -41,6 +41,12 @@ export class NeighborCard implements EntityClass<NeighborCardData> {
    */
   activate(args: NeighborActivateFnArgs): void {
     this.activateFn(args);
+
+    args.game.emitDataToSockets();
+  }
+
+  isActivatedByNumber(number: number): boolean {
+    return this.data.activationNumbers.includes(number);
   }
 
   /**
