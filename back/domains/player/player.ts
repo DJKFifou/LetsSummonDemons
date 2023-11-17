@@ -65,6 +65,10 @@ export class Player implements EntityClass<PlayerData> {
     this.candleCard = candleCard;
   }
 
+  getCandleCard(): CandleCardData | null {
+    return this.candleCard;
+  }
+
   addCoveredDemonCard(demonCard: DemonCard): void {
     this.coveredDemonsCards.push(demonCard);
   }

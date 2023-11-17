@@ -1,10 +1,11 @@
+import { CandleCardData, CardId } from '../../contracts/card.js';
 import {
   SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON,
   SOULS_COUNT_TO_BUY_NEIGHBOR_CARD,
 } from '../../constants/game.js';
-import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
+import { CandleCard } from '../candle/candle.js';
 import { Game } from '../game/game.js';
 import {
   NotEnoughNeighborsProdivedToSummonDemonError,
@@ -66,8 +67,19 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
           game: this.game,
           player: player,
         });
+      });
+
+      const candleCard: CandleCard = new CandleCard(
+        this.player.getCandleCard().data,
+      );
+
+      if (candleCard.isActivatedByNumber(dicesResult)) {
+        candleCard.activate({
+          game: this.game,
+          player: this.player,
+        });
       }
-    }
+    });
 
     for await (const demonCard of this.player.getSummonedDemonCards()) {
       if (!demonCard.isActivatedByNumber(dicesResult)) {

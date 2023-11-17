@@ -20,8 +20,8 @@ export interface CandleArgs {
 }
 
 export class CandleCard implements EntityClass<CandleCardData> {
-  protected data: CandleCardData;
-  protected activateFn: CandleResolveFunction;
+  data: CandleCardData;
+  activateFn: CandleResolveFunction;
 
   constructor({ data, activateFn }: CandleArgs) {
     this.data = {
@@ -47,7 +47,7 @@ export class CandleCard implements EntityClass<CandleCardData> {
   }
 
   /**
-   * Données pour la transmisison au front
+   * Données pour la transmission au front
    */
   getData(): CandleCardData {
     return this.data;
