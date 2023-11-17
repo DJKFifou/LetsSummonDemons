@@ -43,7 +43,7 @@ export const PlayerDataDisplay = ({
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
             isSummonable={
-              itsYou && itsTurn && !gameData.turn?.current.invokedDemon
+              itsYou && itsTurn && !gameData.turn?.current.summonedDemon
             }
             cardData={card}
             key={card.id}

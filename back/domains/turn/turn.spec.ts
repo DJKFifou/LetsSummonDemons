@@ -74,18 +74,18 @@ describe('player turn', () => {
   //   const game = gameFactory.createStarted();
   //   const turn = new Turn(game);
 
-  //   turn.invokeDemon();
+  //   turn.summonDemon();
 
-  //   expect(turn.getData().current.invokedDemon).toBe(true);
+  //   expect(turn.getData().current.summonedDemon).toBe(true);
   // });
 
   // test('cannot invoke demon twice', () => {
   //   const game = gameFactory.createStarted();
   //   const turn = new Turn(game);
 
-  //   turn.invokeDemon();
+  //   turn.summonDemon();
 
-  //   expect(() => turn.invokeDemon()).toThrow(AlreadyInvokedDemonInTurnError);
+  //   expect(() => turn.summonDemon()).toThrow(AlreadyInvokedDemonInTurnError);
   // });
 });
 

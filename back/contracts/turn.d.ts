@@ -5,7 +5,7 @@ export interface PlayerTurnData {
   launchedDices: boolean;
   dicesResult?: number;
   bougthNeighbor: boolean;
-  invokedDemon: boolean;
+  summonedDemon: boolean;
 }
 
 export interface TurnData {

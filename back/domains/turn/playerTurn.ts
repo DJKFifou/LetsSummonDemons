@@ -22,7 +22,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   player: Player;
   protected launchedDices: boolean;
   protected dicesResult?: number;
-  protected invokedDemon: boolean;
+  protected summonedDemon: boolean;
   protected bougthNeighbor: boolean;
 
   constructor({ game, turn, player }: PlayerTurnArgs) {
@@ -31,7 +31,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.player = player;
     this.launchedDices = false;
     this.dicesResult = null;
-    this.invokedDemon = false;
+    this.summonedDemon = false;
     this.bougthNeighbor = false;
   }
 
@@ -89,21 +89,14 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
-  invokeDemon(demonCardId: CardId): void {
-    if (this.invokedDemon) {
+  summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
+    if (this.summonedDemon) {
       throw new AlreadyInvokedDemonInTurnError();
     }
 
-    const demonCard = this.player.getCoveredDemonCardById(demonCardId);
+    this.player.summonDemon(demonCardId, neighborsSacrifiedIds);
 
-    if (!demonCard) {
-      return;
-    }
-
-    this.player.removeCoveredDemonCardById(demonCard.getData().id);
-    this.player.addSummonedDemonCard(demonCard);
-
-    this.invokedDemon = true;
+    this.summonedDemon = true;
 
     this.game.emitDataToSockets();
   }
@@ -113,7 +106,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       player: this.player.getData(),
       launchedDices: this.launchedDices,
       dicesResult: this.dicesResult,
-      invokedDemon: this.invokedDemon,
+      summonedDemon: this.summonedDemon,
       bougthNeighbor: this.bougthNeighbor,
     };
   }

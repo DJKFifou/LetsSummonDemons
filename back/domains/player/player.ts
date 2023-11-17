@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON } from '../../constants/game.js';
 import { CandleCardData, CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import {
@@ -8,6 +9,12 @@ import {
 } from '../../contracts/player.js';
 import { DemonCard } from '../demon/demon.js';
 import { NeighborCard } from '../neighbor/neighbor.js';
+import {
+  DoesNotHaveThisDemonCoveredError,
+  DoesNotHaveThisNeighborError,
+  NotEnoughNeighborsProdivedToSummonDemonError,
+  TooManyNeighborsProdivedToSummonDemonError,
+} from './player.errors.js';
 
 export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
@@ -65,29 +72,52 @@ export class Player implements EntityClass<PlayerData> {
     this.coveredDemonsCards.push(demonCard);
   }
 
-  removeCoveredDemonCardById(demonCardId: CardId): DemonCard {
-    let removedCard: DemonCard;
+  removeCoveredDemonCardById(demonIdToRemove: CardId): DemonCard {
+    const removedCard: DemonCard =
+      this.getCoveredDemonCardById(demonIdToRemove);
 
-    this.coveredDemonsCards = this.coveredDemonsCards.filter((card) => {
-      if (card.getData().id !== demonCardId) {
-        return true;
-      }
-
-      removedCard = card;
-      return false;
-    });
+    this.coveredDemonsCards = this.coveredDemonsCards.filter(
+      (card) => card.getData().id !== demonIdToRemove,
+    );
 
     return removedCard;
   }
 
   getCoveredDemonCardById(demonCardId: CardId): DemonCard {
-    return this.coveredDemonsCards.find(
+    const card = this.coveredDemonsCards.find(
       (card) => card.getData().id === demonCardId,
     );
+
+    if (!card) {
+      throw new DoesNotHaveThisDemonCoveredError();
+    }
+
+    return card;
   }
 
   addSummonedDemonCard(demonCard: DemonCard): void {
     this.summonedDemonsCards.push(demonCard);
+  }
+
+  summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
+    if (
+      neighborsSacrifiedIds.length < SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+    ) {
+      throw new NotEnoughNeighborsProdivedToSummonDemonError();
+    }
+
+    if (
+      neighborsSacrifiedIds.length > SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+    ) {
+      throw new TooManyNeighborsProdivedToSummonDemonError();
+    }
+
+    neighborsSacrifiedIds.forEach((neighborId) => {
+      this.removeNeighborCardById(neighborId);
+    });
+
+    const summonedCard = this.removeCoveredDemonCardById(demonCardId);
+    this.addSummonedDemonCard(summonedCard);
   }
 
   removeSummonedDemonCardById(demonCardId: CardId): DemonCard {
@@ -117,6 +147,29 @@ export class Player implements EntityClass<PlayerData> {
 
   addNeighborCard(neighborCard: NeighborCard): void {
     this.neighborsCards.push(neighborCard);
+  }
+
+  removeNeighborCardById(neighborIdToRemove: CardId): NeighborCard {
+    const removedCard: NeighborCard =
+      this.getNeighborCardById(neighborIdToRemove);
+
+    this.neighborsCards = this.neighborsCards.filter(
+      (card) => card.getData().id !== neighborIdToRemove,
+    );
+
+    return removedCard;
+  }
+
+  getNeighborCardById(neighborCardId: CardId): NeighborCard {
+    const card = this.neighborsCards.find(
+      (card) => card.getData().id === neighborCardId,
+    );
+
+    if (!card) {
+      throw new DoesNotHaveThisNeighborError();
+    }
+
+    return card;
   }
 
   getNeighborCards(): Array<NeighborCard> {
