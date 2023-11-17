@@ -8,7 +8,7 @@ import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
 
 // les arguments que reçoit la fonction d'activation de la carte
-interface NeighborActivateFnArgs {
+export interface NeighborActivateFnArgs {
   game: Game;
   player: Player;
 }

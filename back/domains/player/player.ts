@@ -114,4 +114,8 @@ export class Player implements EntityClass<PlayerData> {
   addNeighborCard(neighborCard: NeighborCard): void {
     this.neighborsCards.push(neighborCard);
   }
+
+  getNeighborCards():  Array<NeighborCard> {
+    return this.neighborsCards;
+  }
 }
