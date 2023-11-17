@@ -71,6 +71,10 @@ export class Game implements EntityClass<GameData> {
     return this.players.find((player) => player.getData().id === id);
   }
 
+  getPlayerList(): Player[] {
+    return this.players;
+  }
+
   start(): void {
     if (this.players.length < MIN_GAME_PLAYERS) {
       throw new StartWithoutEnoughPlayersError();

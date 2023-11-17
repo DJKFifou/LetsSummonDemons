@@ -8,7 +8,7 @@ import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
 
 // les arguments que reçoit la fonction d'activation de la carte
-interface NeighborActivateFnArgs {
+export interface NeighborActivateFnArgs {
   game: Game;
   player: Player;
 }
@@ -41,6 +41,12 @@ export class NeighborCard implements EntityClass<NeighborCardData> {
    */
   activate(args: NeighborActivateFnArgs): void {
     this.activateFn(args);
+
+    args.game.emitDataToSockets();
+  }
+
+  isActivatedByNumber(number: number): boolean {
+    return this.data.activationNumbers.includes(number);
   }
 
   /**

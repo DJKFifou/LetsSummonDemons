@@ -24,7 +24,9 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
 
   return (
     <article>
-      {!current.launchedDices && (
+      {current.launchedDices ? (
+        <span>Vous avez fait {current.dicesResult}</span>
+      ) : (
         <button onClick={launchDices}>Lancer les dés</button>
       )}
       {current.launchedDices && (

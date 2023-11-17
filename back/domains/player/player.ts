@@ -111,7 +111,15 @@ export class Player implements EntityClass<PlayerData> {
     );
   }
 
+  getSummonedDemonCards(): Array<DemonCard> {
+    return this.summonedDemonsCards;
+  }
+
   addNeighborCard(neighborCard: NeighborCard): void {
     this.neighborsCards.push(neighborCard);
+  }
+
+  getNeighborCards(): Array<NeighborCard> {
+    return this.neighborsCards;
   }
 }

@@ -20,7 +20,7 @@ export const CoveredDemonCard = ({
   return (
     <article>
       {isSummonable && <button onClick={summonDemon}>Summon</button>}
-      <Card cardData={cardData} />
+      <Card covered={true} cardData={cardData} />
     </article>
   );
 };

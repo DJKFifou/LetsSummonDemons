@@ -43,12 +43,38 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
     let dicesResult = 0;
     this.game.dices.forEach((dice) => {
-      dice.launch();
-      dicesResult += dice.getData().result;
+      dicesResult += dice.launch();
     });
     this.dicesResult = dicesResult;
-
     this.game.emitDataToSockets();
+
+    this.diceListening(this.dicesResult);
+  }
+
+  protected diceListening(dicesResult: number): void {
+    this.game.getPlayerList().forEach((player) => {
+      player.getNeighborCards().forEach((neighborCard) => {
+        if (!neighborCard.isActivatedByNumber(dicesResult)) {
+          return;
+        }
+
+        neighborCard.activate({
+          game: this.game,
+          player: player,
+        });
+      });
+    });
+
+    this.player.getSummonedDemonCards().forEach((demonCard) => {
+      if (!demonCard.isActivatedByNumber(dicesResult)) {
+        return;
+      }
+
+      demonCard.activate({
+        game: this.game,
+        player: this.player,
+      });
+    });
   }
 
   buyNeighbor(neighborCardId: CardId): void {

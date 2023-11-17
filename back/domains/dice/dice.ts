@@ -25,10 +25,10 @@ export class Dice implements EntityClass<DiceData> {
     this.result = null;
   }
 
-  launch(): Dice {
+  launch(): number {
     this.result = randomInteger(this.MIN_DICE_NUMBER, this.facesCount);
 
-    return this;
+    return this.result;
   }
 
   getData(): DiceData {

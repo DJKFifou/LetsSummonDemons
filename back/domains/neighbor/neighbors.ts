@@ -1,4 +1,8 @@
-import { NeighborArgs, NeighborCard } from './neighbor.js';
+import {
+  NeighborActivateFnArgs,
+  NeighborArgs,
+  NeighborCard,
+} from './neighbor.js';
 
 const createNeighborCards = (
   data: NeighborArgs,
@@ -45,7 +49,10 @@ const eve: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/eve.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(1);
+  },
 };
 
 const adam: NeighborArgs = {
@@ -58,7 +65,10 @@ const adam: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/adam.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(1);
+  },
 };
 
 const caroline: NeighborArgs = {

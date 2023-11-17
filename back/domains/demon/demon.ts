@@ -38,6 +38,14 @@ export class DemonCard implements EntityClass<DemonCardData> {
    */
   activate(args: DemonResolveFunctionArgs): void {
     this.activateFn(args);
+
+    console.log(`${this.data.name} activated by ${args.player.getData().name}`);
+
+    args.game.emitDataToSockets();
+  }
+
+  isActivatedByNumber(number: number): boolean {
+    return this.data.activationNumbers.includes(number);
   }
 
   /**
