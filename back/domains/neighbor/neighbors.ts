@@ -3,6 +3,7 @@ import {
   NeighborArgs,
   NeighborCard,
 } from './neighbor.js';
+import { NeighborsDeck } from './neighborsDeck.js';
 
 const createNeighborCards = (
   data: NeighborArgs,
@@ -36,7 +37,12 @@ const lola: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/lola.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const boys = player.getBoyNeighborCards();
+    const soulTokens = boys.length;
+    player.addSoulToken(soulTokens);
+  },
 };
 
 const eve: NeighborArgs = {
@@ -81,7 +87,10 @@ const caroline: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/caroline.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(5);
+  },
 };
 
 const regan: NeighborArgs = {
@@ -94,7 +103,10 @@ const regan: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/regan.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(1);
+  },
 };
 
 const tommy: NeighborArgs = {
@@ -179,7 +191,10 @@ const jesus: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/jesus.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(2);
+  },
 };
 
 const chuck: NeighborArgs = {
@@ -192,7 +207,13 @@ const chuck: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/chuck.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const adorable = player.getAdorableNeighborCards();
+    if (adorable.length > 1) {
+      player.addSoulToken(2);
+    }
+  },
 };
 
 const louis: NeighborArgs = {
@@ -205,7 +226,10 @@ const louis: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/louis.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(1);
+  },
 };
 
 const carrie: NeighborArgs = {
@@ -218,7 +242,10 @@ const carrie: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/carrie.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    player.addSoulToken(2);
+  },
 };
 
 const donnie: NeighborArgs = {
@@ -246,7 +273,12 @@ const lisa: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/lisa.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const adorable = player.getAdorableNeighborCards();
+    const soulTokens = adorable.length;
+    player.addSoulToken(soulTokens);
+  },
 };
 
 const alice: NeighborArgs = {
@@ -266,7 +298,7 @@ const alice: NeighborArgs = {
 const marilyn: NeighborArgs = {
   inputData: {
     name: 'MARILYN',
-    description: 'Obtenez une carte BOY du VOISINNAGE.',
+    description: 'Obtenez une carte GARÇON du VOISINNAGE.',
     activationNumbers: [5],
     type: 'GIRL',
     kindness: 'ADORABLE',
@@ -286,7 +318,12 @@ const fifi: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/fifi.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const animals = player.getAnimalNeighborCards();
+    const soulTokens = animals.length;
+    player.addSoulToken(soulTokens);
+  },
 };
 
 const damien: NeighborArgs = {
@@ -308,7 +345,7 @@ const damien: NeighborArgs = {
 const destiny: NeighborArgs = {
   inputData: {
     name: 'DESTINY',
-    description: 'Acvtivez un autre de vos ADORABLES GAMINS.',
+    description: 'Activez un autre de vos ADORABLES GAMINS.',
     activationNumbers: [5],
     type: 'GIRL',
     kindness: 'ADORABLE',
@@ -369,7 +406,12 @@ const romeo: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/romeo.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const girls = player.getGirlNeighborCards();
+    const soulTokens = girls.length;
+    player.addSoulToken(soulTokens);
+  },
 };
 
 const cat: NeighborArgs = {
@@ -388,13 +430,20 @@ const cat: NeighborArgs = {
 const dog: NeighborArgs = {
   inputData: {
     name: 'CHIEN',
-    description: 'Si vous avez un BOY ou une FILLE : récoltez une Âme.',
+    description: 'Si vous avez un GARÇON ou une FILLE : récoltez une Âme.',
     activationNumbers: [7],
     type: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/dog.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const boys = player.getBoyNeighborCards();
+    const girls = player.getGirlNeighborCards();
+    if ((boys.length + girls.length) > 0) {
+      player.addSoulToken(1);
+    }
+  },
 };
 
 const goldenFish: NeighborArgs = {
@@ -413,13 +462,21 @@ const goldenFish: NeighborArgs = {
 const araMacao: NeighborArgs = {
   inputData: {
     name: 'ARA MACAO',
-    description: 'Si vous avez au moins 2 BOY ou 2 FILLES : récoltez 2 Âmes.',
+    description:
+      'Si vous avez au moins 2 GARÇONS ou 2 FILLES : récoltez 2 Âmes.',
     activationNumbers: [7],
     type: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/macao_ara.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const boys = player.getBoyNeighborCards();
+    const girls = player.getGirlNeighborCards();
+    if (boys.length > 1 || girls.length > 1) {
+      player.addSoulToken(2);
+    }
+  },
 };
 
 const rabbit: NeighborArgs = {
@@ -431,7 +488,13 @@ const rabbit: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/rabbit.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const animals = player.getAnimalNeighborCards();
+    if (animals.length > 2) {
+      player.addSoulToken(2);
+    }
+  },
 };
 
 const goat: NeighborArgs = {
@@ -478,7 +541,7 @@ const owl: NeighborArgs = {
   inputData: {
     name: 'CHOUETTE',
     description:
-      'Vous pouvez défausser cette carte: dans ce cas récoltez 4 Âmes et remplacez une oui plusieurs cartes du VOISINNAGE.',
+      'Vous pouvez défausser cette carte: dans ce cas récoltez 4 Âmes et remplacez une ou plusieurs cartes du VOISINNAGE.',
     subDescription:
       '(Défaussez-les et remplacez-les immédiatement par de nouvelles cartes de la PIOCHE VOISINNAGE)',
     activationNumbers: [7],
@@ -524,7 +587,14 @@ const rabidDog: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/rabid_dog.png',
   },
-  activateFn: (): void => {},
+  activateFn: (args: NeighborActivateFnArgs): void => {
+    const player = args.player;
+    const boys = player.getBoyNeighborCards();
+    const girls = player.getGirlNeighborCards();
+    if (boys.length == 0 && girls.length == 0) {
+      player.addSoulToken(2);
+    }
+  },
 };
 
 export const neighbors: Array<NeighborCard> = [

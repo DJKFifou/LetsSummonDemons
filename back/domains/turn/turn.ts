@@ -57,7 +57,7 @@ export class Turn implements EntityClass<TurnData> {
 
     return (
       currentPlayerData.summonedDemonsCards.length >=
-        RULE_TO_WIN.MIN_DEMONS_INVOCATED ||
+        RULE_TO_WIN.MIN_DEMONS_INVOCATED &&
       currentPlayerData.soulsTokenCount >= RULE_TO_WIN.MIN_SOUL
     );
   }
