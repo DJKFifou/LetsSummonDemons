@@ -210,7 +210,7 @@ const chuck: NeighborArgs = {
   activateFn: (args: NeighborActivateFnArgs): void => {
     const player = args.player;
     const adorable = player.getAdorableNeighborCards();
-    if (adorable.length > 0) {
+    if (adorable.length > 1) {
       player.addSoulToken(2);
     }
   },
@@ -275,8 +275,8 @@ const lisa: NeighborArgs = {
   },
   activateFn: (args: NeighborActivateFnArgs): void => {
     const player = args.player;
-    const horrible = player.getBoyNeighborCards();
-    const soulTokens = horrible.length;
+    const adorable = player.getAdorableNeighborCards();
+    const soulTokens = adorable.length;
     player.addSoulToken(soulTokens);
   },
 };
@@ -430,7 +430,7 @@ const cat: NeighborArgs = {
 const dog: NeighborArgs = {
   inputData: {
     name: 'CHIEN',
-    description: 'Si vous avez un BOY ou une FILLE : récoltez une Âme.',
+    description: 'Si vous avez un GARÇON ou une FILLE : récoltez une Âme.',
     activationNumbers: [7],
     type: 'ANIMAL',
     cardBack: cardBack,
@@ -440,7 +440,7 @@ const dog: NeighborArgs = {
     const player = args.player;
     const boys = player.getBoyNeighborCards();
     const girls = player.getGirlNeighborCards();
-    if (boys.length + girls.length > 0) {
+    if ((boys.length + girls.length) > 0) {
       player.addSoulToken(1);
     }
   },
