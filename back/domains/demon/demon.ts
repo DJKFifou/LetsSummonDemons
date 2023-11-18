@@ -11,7 +11,7 @@ interface DemonResolveFunctionArgs {
 }
 
 // le type de la fonction d'activation
-type DemonResolveFunction = (args: DemonResolveFunctionArgs) => void;
+type DemonResolveFunction = (args: DemonResolveFunctionArgs) => Promise<void>;
 
 // arguments de la classe
 export interface DemonArgs {
@@ -36,8 +36,8 @@ export class DemonCard implements EntityClass<DemonCardData> {
   /**
    * Appelle la fonction d'activation de la carte
    */
-  activate(args: DemonResolveFunctionArgs): void {
-    this.activateFn(args);
+  async activate(args: DemonResolveFunctionArgs): Promise<void> {
+    await this.activateFn(args);
 
     console.log(`${this.data.name} activated by ${args.player.getData().name}`);
 

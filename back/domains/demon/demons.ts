@@ -12,7 +12,7 @@ const snake = new DemonCard({
     cardBack,
     isPermanent: false,
   },
-  activateFn: ({ game, player }): void => {
+  activateFn: async ({ game, player }): Promise<void> => {
     game.end(player.getData());
   },
 });
@@ -30,7 +30,7 @@ const demonBook = new DemonCard({
     cardBack,
     isPermanent: false,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const bogeyMan = new DemonCard({
@@ -43,7 +43,7 @@ const bogeyMan = new DemonCard({
     cardImage: '/cards/demons/fouettard_father.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const porcus = new DemonCard({
@@ -56,7 +56,7 @@ const porcus = new DemonCard({
     cardImage: '/cards/demons/porcus.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const legionNanny = new DemonCard({
@@ -69,7 +69,7 @@ const legionNanny = new DemonCard({
     cardImage: '/cards/demons/nounou_sommes_legion.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const belzeBzz = new DemonCard({
@@ -82,7 +82,7 @@ const belzeBzz = new DemonCard({
     cardImage: '/cards/demons/belze_bzz.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const baelHound = new DemonCard({
@@ -96,7 +96,7 @@ const baelHound = new DemonCard({
     cardImage: '/cards/demons/bael_hound.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const mechanicalSatange = new DemonCard({
@@ -110,7 +110,7 @@ const mechanicalSatange = new DemonCard({
     cardImage: '/cards/demons/satange_mecanique.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const antechrist = new DemonCard({
@@ -124,7 +124,7 @@ const antechrist = new DemonCard({
     cardImage: '/cards/demons/antechrist.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const mefilstopheles = new DemonCard({
@@ -139,7 +139,7 @@ const mefilstopheles = new DemonCard({
     cardImage: '/cards/demons/mefilstopheles.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const devil = new DemonCard({
@@ -153,7 +153,7 @@ const devil = new DemonCard({
     cardImage: '/cards/demons/devil.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const incesteDemon = new DemonCard({
@@ -167,7 +167,7 @@ const incesteDemon = new DemonCard({
     cardImage: '/cards/demons/incest_demon.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const demogorguignol = new DemonCard({
@@ -181,7 +181,7 @@ const demogorguignol = new DemonCard({
     cardImage: '/cards/demons/demogorguignol.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const macabreOni = new DemonCard({
@@ -195,7 +195,7 @@ const macabreOni = new DemonCard({
     cardImage: '/cards/demons/gruesome_oni.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const aneModee = new DemonCard({
@@ -208,7 +208,7 @@ const aneModee = new DemonCard({
     cardImage: '/cards/demons/ane_modee.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const baphometal = new DemonCard({
@@ -222,7 +222,7 @@ const baphometal = new DemonCard({
     cardImage: '/cards/demons/baphometal.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 const dedeZuzu = new DemonCard({
   data: {
@@ -235,7 +235,7 @@ const dedeZuzu = new DemonCard({
     cardImage: '/cards/demons/dede_zuzu.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const relancifer = new DemonCard({
@@ -250,7 +250,7 @@ const relancifer = new DemonCard({
     cardImage: '/cards/demons/relancifer.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 const rosemaryEgg = new DemonCard({
   data: {
@@ -263,7 +263,7 @@ const rosemaryEgg = new DemonCard({
     cardImage: '/cards/demons/gruesome_oni.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 const spectralux = new DemonCard({
@@ -277,7 +277,7 @@ const spectralux = new DemonCard({
     cardImage: '/cards/demons/spectralux.png',
     cardBack,
   },
-  activateFn: (): void => {},
+  activateFn: async (): Promise<void> => {},
 });
 
 export const demons: Array<DemonCard> = [

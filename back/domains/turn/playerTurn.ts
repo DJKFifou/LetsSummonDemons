@@ -52,33 +52,33 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.dicesResult = dicesResult;
     this.game.emitDataToSockets();
 
-    this.diceListening(this.dicesResult);
+    this.activateCards(this.dicesResult);
   }
 
-  protected diceListening(dicesResult: number): void {
-    this.game.playerList.forEach((player) => {
-      player.getNeighborCards().forEach((neighborCard) => {
+  protected async activateCards(dicesResult: number): Promise<void> {
+    for await (const player of this.game.turn.playerListFromCurrent) {
+      for await (const neighborCard of player.getNeighborCards()) {
         if (!neighborCard.isActivatedByNumber(dicesResult)) {
           return;
         }
 
-        neighborCard.activate({
+        await neighborCard.activate({
           game: this.game,
           player: player,
         });
-      });
-    });
+      }
+    }
 
-    this.player.getSummonedDemonCards().forEach((demonCard) => {
+    for await (const demonCard of this.player.getSummonedDemonCards()) {
       if (!demonCard.isActivatedByNumber(dicesResult)) {
         return;
       }
 
-      demonCard.activate({
+      await demonCard.activate({
         game: this.game,
         player: this.player,
       });
-    });
+    }
   }
 
   buyNeighbor(neighborCardId: CardId): void {

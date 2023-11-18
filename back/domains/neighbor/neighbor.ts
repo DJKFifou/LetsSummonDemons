@@ -14,7 +14,7 @@ export interface NeighborActivateFnArgs {
 }
 
 // le type de la fonction d'activation
-type NeighborActivateFn = (args: NeighborActivateFnArgs) => void;
+type NeighborActivateFn = (args: NeighborActivateFnArgs) => Promise<void>;
 
 // arguments de la classe
 export interface NeighborArgs {
@@ -39,8 +39,8 @@ export class NeighborCard implements EntityClass<NeighborCardData> {
   /**
    * Appelle la fonction d'activation de la carte
    */
-  activate(args: NeighborActivateFnArgs): void {
-    this.activateFn(args);
+  async activate(args: NeighborActivateFnArgs): Promise<void> {
+    await this.activateFn(args);
 
     args.game.emitDataToSockets();
   }
