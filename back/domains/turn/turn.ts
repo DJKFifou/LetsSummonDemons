@@ -91,6 +91,18 @@ export class Turn implements EntityClass<TurnData> {
     return this.game.getPlayerById(nextPlayerId);
   }
 
+  get playerListFromCurrent(): Array<Player> {
+    const playerList = this.game.getPlayerList();
+    const indexOfCurrent = playerList.findIndex(
+      (player) => player.getData().id === this.current.player.getData().id,
+    );
+
+    return [
+      ...playerList.slice(indexOfCurrent),
+      ...playerList.slice(0, indexOfCurrent),
+    ];
+  }
+
   getData(): TurnData {
     return {
       played: this.played,
