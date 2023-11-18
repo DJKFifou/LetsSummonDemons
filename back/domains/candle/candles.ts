@@ -10,6 +10,7 @@ const cardBack = '/cards/back/candles.png';
 const kindCandle = new CandleCard({
   data: {
     name: 'GENTILLE BOUGIE',
+    type: 'CHURCH_CANDLE',
     activationNumbers: [3, 4, 5],
     action: candleAction,
     description: candleDescription,
@@ -25,6 +26,7 @@ const kindCandle = new CandleCard({
 const sweetCandle = new CandleCard({
   data: {
     name: 'DOUCE BOUGIE',
+    type: 'CHURCH_CANDLE',
     activationNumbers: [5, 6],
     action: candleAction,
     description: candleDescription,
@@ -40,6 +42,7 @@ const sweetCandle = new CandleCard({
 const beginnerCandle = new CandleCard({
   data: {
     name: 'BOUGIE DE DÉBUTANT',
+    type: 'CHURCH_CANDLE',
     activationNumbers: [6, 8],
     action: candleAction,
     description: candleDescription,
@@ -55,6 +58,7 @@ const beginnerCandle = new CandleCard({
 const evilCandle = new CandleCard({
   data: {
     name: 'CIERGE MALÉFIQUE',
+    type: 'CHURCH_CANDLE',
     activationNumbers: [8, 9],
     action: candleAction,
     description: candleDescription,
@@ -70,6 +74,7 @@ const evilCandle = new CandleCard({
 const devilCandle = new CandleCard({
   data: {
     name: 'CIERGE DIABOLIQUE',
+    type: 'CHURCH_CANDLE',
     activationNumbers: [9, 10, 11],
     action: candleAction,
     description: candleDescription,

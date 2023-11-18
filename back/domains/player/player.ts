@@ -157,28 +157,32 @@ export class Player implements EntityClass<PlayerData> {
   }
 
   getBoyNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter((card) => card.getData().type == 'BOY');
+    return this.neighborsCards.filter(
+      (card) => card.getData().neighborType == 'BOY',
+    );
   }
 
   getGirlNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter((card) => card.getData().type == 'GIRL');
+    return this.neighborsCards.filter(
+      (card) => card.getData().neighborType == 'GIRL',
+    );
   }
 
   getAnimalNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().type == 'ANIMAL',
+      (card) => card.getData().neighborType == 'ANIMAL',
     );
   }
 
   getHorribleNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().kindness == 'HORRIBLE',
+      (card) => card.getData().neighborKindness == 'HORRIBLE',
     );
   }
 
   getAdorableNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().kindness == 'ADORABLE',
+      (card) => card.getData().neighborKindness == 'ADORABLE',
     );
   }
 }

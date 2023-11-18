@@ -4,6 +4,7 @@ export type CardType = 'CHURCH_CANDLE' | 'NEIGHBOR' | 'DEMON';
 
 interface CardData {
   id: CardId;
+  type: CardType;
   name: string;
   action?: string;
   description?: string;
@@ -15,9 +16,11 @@ interface CardData {
 type CardInput<Card> = Omit<Card, 'id' | 'actions'>;
 
 export interface NeighborCardData extends CardData {
-  type: 'GIRL' | 'BOY' | 'ANIMAL';
-  kindness?: 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
+  neighborType: NeighborType;
+  neighborKindness?: NeighborKindness;
 }
+export type NeighborType = 'GIRL' | 'BOY' | 'ANIMAL';
+export type NeighborKindness = 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
 export type NeighborCardInputData = CardInput<NeighborCardData>;
 
 export interface DemonCardData extends CardData {

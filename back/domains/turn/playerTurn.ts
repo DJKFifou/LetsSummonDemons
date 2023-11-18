@@ -157,6 +157,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       canBuyNeighbor: this.canBuyNeighbor,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
+      shouldSelectCards: false,
+      shouldSelectCardsFilter: null,
     };
   }
 }
