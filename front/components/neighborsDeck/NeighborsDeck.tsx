@@ -45,13 +45,10 @@ export const NeighborsDeck = ({
             key={card.id}
           />
         ))}
-        </div>
-        <div className={styles.neighborsDrawned}>
+      </div>
+      <div className={styles.neighborsDrawned}>
         {neighborsDeck.drawned.map((card) => (
-          <DrawnedNeighborCard
-            cardData={card}
-            key={card.id}
-          />
+          <DrawnedNeighborCard cardData={card} key={card.id} />
         ))}
       </div>
     </article>

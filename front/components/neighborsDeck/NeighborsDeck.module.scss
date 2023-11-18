@@ -8,10 +8,18 @@
     font-size: 1.5rem;
   }
 
-  .cards{
+  .cards {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 1rem;
+  }
+  .neighborsDrawned {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 }
 
@@ -33,11 +41,4 @@
   & > *:nth-child(3) {
     transform: translate(6px, 3px);
   }
-}
-
-.neighborsDrawned {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
 }

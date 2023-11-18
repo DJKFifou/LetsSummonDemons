@@ -127,13 +127,13 @@ const tommy: NeighborArgs = {
     cardImage: '/cards/neighbourhood/tommy.png',
   },
   activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
-    console.log("tommy awake")
+    console.log('tommy awake');
     const player = args.player;
     const game = args.game;
-    const drawnedCard: NeighborCard = (game.neighborsDeck.drawnCard());
+    const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
     game.emitDataToSockets();
     await new Promise((resolve) => {
-      setTimeout(resolve, 2000);
+      setTimeout(resolve, 1000);
     });
     if (drawnedCard.getData().type === 'GIRL') {
       player.addNeighborCard(drawnedCard);
@@ -324,17 +324,17 @@ const alice: NeighborArgs = {
     cardImage: '/cards/neighbourhood/alice.png',
   },
   activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
-    console.log("alice awake")
+    console.log('alice awake');
     const player = args.player;
     const game = args.game;
-    const ALICE_DRAW_CARDS_COUNT=2;
+    const ALICE_DRAW_CARDS_COUNT = 2;
     const drawnedCards: NeighborCard[] = [];
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
-        drawnedCards.push(game.neighborsDeck.drawnCard());
-        game.emitDataToSockets();
-        await new Promise((resolve) => {
-          setTimeout(resolve, 2000);
-        });
+      drawnedCards.push(game.neighborsDeck.drawnCard());
+      game.emitDataToSockets();
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
     }
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
@@ -487,13 +487,13 @@ const cat: NeighborArgs = {
   },
 
   activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
-    console.log("cat awake")
+    console.log('cat awake');
     const player = args.player;
     const game = args.game;
-    const drawnedCard: NeighborCard = (game.neighborsDeck.drawnCard());
+    const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
     game.emitDataToSockets();
     await new Promise((resolve) => {
-      setTimeout(resolve, 2000);
+      setTimeout(resolve, 1000);
     });
     if (drawnedCard.getData().type === 'ANIMAL') {
       player.addNeighborCard(drawnedCard);
@@ -618,17 +618,17 @@ const falcon: NeighborArgs = {
     cardImage: '/cards/neighbourhood/falcon.png',
   },
   activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
-    console.log("falcon awake")
+    console.log('falcon awake');
     const player = args.player;
     const game = args.game;
-    const FALCON_DRAW_CARDS_COUNT=7;
+    const FALCON_DRAW_CARDS_COUNT = 7;
     const drawnedCards: NeighborCard[] = [];
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
-        drawnedCards.push(game.neighborsDeck.drawnCard());
-        game.emitDataToSockets();
-        await new Promise((resolve) => {
-          setTimeout(resolve, 2000);
-        });
+      drawnedCards.push(game.neighborsDeck.drawnCard());
+      game.emitDataToSockets();
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
     }
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
@@ -683,16 +683,16 @@ const strayCat: NeighborArgs = {
     cardImage: '/cards/neighbourhood/stray_cat.png',
   },
   activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
-    console.log("stray cat awake")
+    console.log('stray cat awake');
     const player = args.player;
     const game = args.game;
     const boys = player.getBoyNeighborCards();
     const girls = player.getGirlNeighborCards();
     if (boys.length < 1 && girls.length < 1) {
-      const drawnedCard: NeighborCard = (game.neighborsDeck.drawnCard());
+      const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
       game.emitDataToSockets();
       await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
+        setTimeout(resolve, 1000);
       });
       player.addNeighborCard(drawnedCard);
       game.neighborsDeck.throwCards(1);
@@ -724,7 +724,7 @@ const rabidDog: NeighborArgs = {
 export const neighbors: Array<NeighborCard> = [
   // Animals
   ...createNeighborCards(goat, 1),
-  ...createNeighborCards(falcon, 1),
+  ...createNeighborCards(falcon, 50),
   ...createNeighborCards(skunk, 1),
   ...createNeighborCards(alligator, 1),
   ...createNeighborCards(rabidDog, 2),
