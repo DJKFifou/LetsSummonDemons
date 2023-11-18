@@ -7,9 +7,7 @@ export const playerFactory = {
       name: `Fake ${faker.person.firstName()}`,
     }),
   createBot: (): Player => {
-    const p = new Player({
-      name: `Fake ${faker.person.firstName()}`,
-    });
+    const p = playerFactory.create();
     p.setIsBot();
     return p;
   },

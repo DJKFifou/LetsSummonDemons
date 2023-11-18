@@ -7,7 +7,7 @@ import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
 import { BotTurn } from './botTurn.js';
 import { PlayerTurn } from './playerTurn.js';
-import { NeedToLaunchDicesInTurnError } from './turn.errors.js';
+import { CannotEndTurnError } from './turn.errors.js';
 
 export class Turn implements EntityClass<TurnData> {
   protected game: Game;
@@ -34,13 +34,13 @@ export class Turn implements EntityClass<TurnData> {
     this.current.buyNeighbor(neighborCardId);
   }
 
-  invokeDemon(demonCardId: CardId): void {
-    this.current.invokeDemon(demonCardId);
+  summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
+    this.current.summonDemon(demonCardId, neighborsSacrifiedIds);
   }
 
   endTurn(): void {
-    if (!this.current.getData().launchedDices) {
-      throw new NeedToLaunchDicesInTurnError();
+    if (!this.current.canEndTurn) {
+      throw new CannotEndTurnError();
     }
 
     if (this.checkWin()) {
@@ -81,7 +81,6 @@ export class Turn implements EntityClass<TurnData> {
 
     this.current = new turnClass({
       game: this.game,
-      turn: this,
       player: newCurrentPlayer,
     });
   }

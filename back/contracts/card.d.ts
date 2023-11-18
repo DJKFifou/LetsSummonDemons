@@ -1,9 +1,10 @@
 export type CardId = string;
 
-export type CardType = 'churchCandle' | 'neighbors' | 'demon';
+export type CardType = 'CHURCH_CANDLE' | 'NEIGHBOR' | 'DEMON';
 
 interface CardData {
   id: CardId;
+  type: CardType;
   name: string;
   action?: string;
   description?: string;
@@ -12,17 +13,20 @@ interface CardData {
   cardBack: string;
   activationNumbers: Array<number>;
 }
+type CardInput<Card> = Omit<Card, 'id' | 'actions'>;
 
 export interface NeighborCardData extends CardData {
-  type: 'GIRL' | 'BOY' | 'ANIMAL';
-  kindness?: 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
+  neighborType: NeighborType;
+  neighborKindness?: NeighborKindness;
 }
-export type NeighborCardInputData = Omit<NeighborCardData, 'id'>;
+export type NeighborType = 'GIRL' | 'BOY' | 'ANIMAL';
+export type NeighborKindness = 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
+export type NeighborCardInputData = CardInput<NeighborCardData>;
 
 export interface DemonCardData extends CardData {
   isPermanent: boolean;
 }
-export type DemonCardInputData = Omit<DemonCardData, 'id'>;
+export type DemonCardInputData = CardInput<DemonCardData>;
 
 export interface CandleCardData extends CardData {}
-export type CandleCardInputData = Omit<CandleCardData, 'id'>;
+export type CandleCardInputData = CardInput<CandleCardData>;

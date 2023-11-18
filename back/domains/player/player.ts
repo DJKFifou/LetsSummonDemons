@@ -8,6 +8,10 @@ import {
 } from '../../contracts/player.js';
 import { DemonCard } from '../demon/demon.js';
 import { NeighborCard } from '../neighbor/neighbor.js';
+import {
+  DoesNotHaveThisDemonCoveredError,
+  DoesNotHaveThisNeighborError,
+} from './player.errors.js';
 
 export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
@@ -65,25 +69,31 @@ export class Player implements EntityClass<PlayerData> {
     this.coveredDemonsCards.push(demonCard);
   }
 
-  removeCoveredDemonCardById(demonCardId: CardId): DemonCard {
-    let removedCard: DemonCard;
+  removeCoveredDemonCardById(demonIdToRemove: CardId): DemonCard {
+    const removedCard: DemonCard =
+      this.getCoveredDemonCardById(demonIdToRemove);
 
-    this.coveredDemonsCards = this.coveredDemonsCards.filter((card) => {
-      if (card.getData().id !== demonCardId) {
-        return true;
-      }
-
-      removedCard = card;
-      return false;
-    });
+    this.coveredDemonsCards = this.coveredDemonsCards.filter(
+      (card) => card.getData().id !== demonIdToRemove,
+    );
 
     return removedCard;
   }
 
   getCoveredDemonCardById(demonCardId: CardId): DemonCard {
-    return this.coveredDemonsCards.find(
+    const card = this.coveredDemonsCards.find(
       (card) => card.getData().id === demonCardId,
     );
+
+    if (!card) {
+      throw new DoesNotHaveThisDemonCoveredError();
+    }
+
+    return card;
+  }
+
+  getCoveredDemonCards(): Array<DemonCard> {
+    return this.coveredDemonsCards;
   }
 
   addSummonedDemonCard(demonCard: DemonCard): void {
@@ -119,33 +129,60 @@ export class Player implements EntityClass<PlayerData> {
     this.neighborsCards.push(neighborCard);
   }
 
+  removeNeighborCardById(neighborIdToRemove: CardId): NeighborCard {
+    const removedCard: NeighborCard =
+      this.getNeighborCardById(neighborIdToRemove);
+
+    this.neighborsCards = this.neighborsCards.filter(
+      (card) => card.getData().id !== neighborIdToRemove,
+    );
+
+    return removedCard;
+  }
+
+  getNeighborCardById(neighborCardId: CardId): NeighborCard {
+    const card = this.neighborsCards.find(
+      (card) => card.getData().id === neighborCardId,
+    );
+
+    if (!card) {
+      throw new DoesNotHaveThisNeighborError();
+    }
+
+    return card;
+  }
+
   getNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards;
   }
 
   getBoyNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter((card) => card.getData().type == 'BOY');
+    return this.neighborsCards.filter(
+      (card) => card.getData().neighborType == 'BOY',
+    );
   }
 
   getGirlNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter((card) => card.getData().type == 'GIRL');
+    return this.neighborsCards.filter(
+      (card) => card.getData().neighborType == 'GIRL',
+    );
   }
 
   getAnimalNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().type == 'ANIMAL',
+      (card) => card.getData().neighborType == 'ANIMAL',
     );
   }
 
   getHorribleNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().kindness == 'HORRIBLE',
+      (card) => card.getData().neighborKindness == 'HORRIBLE',
     );
   }
 
   getAdorableNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().kindness == 'ADORABLE',
+      (card) => card.getData().neighborKindness == 'ADORABLE',
     );
   }
 }

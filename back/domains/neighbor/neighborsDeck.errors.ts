@@ -1,1 +1,2 @@
-export class InsuficientSoulsToBuyNeighborError extends Error {}
+export class NotEnoughtSoulsToBuyNeighborError extends Error {}
+export class NeighborNotInMarketError extends Error {}

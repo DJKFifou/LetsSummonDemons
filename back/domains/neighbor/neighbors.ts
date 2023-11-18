@@ -3,7 +3,6 @@ import {
   NeighborArgs,
   NeighborCard,
 } from './neighbor.js';
-import { NeighborsDeck } from './neighborsDeck.js';
 
 const createNeighborCards = (
   data: NeighborArgs,
@@ -17,10 +16,11 @@ const cardBack = '/cards/back/neighbourhood.png';
 const jane: NeighborArgs = {
   inputData: {
     name: 'JANE',
+    type: 'NEIGHBOR',
     description: 'Obtenez une carte ANIMAL du VOISINAGE.',
     activationNumbers: [6],
-    type: 'GIRL',
-    kindness: 'NEUTRAL',
+    neighborType: 'GIRL',
+    neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/jane.png',
   },
@@ -30,10 +30,11 @@ const jane: NeighborArgs = {
 const lola: NeighborArgs = {
   inputData: {
     name: 'LOLA',
+    type: 'NEIGHBOR',
     description: 'Pour chacun de vos GARÇONS: récoltez une Âme.',
     activationNumbers: [6],
-    type: 'GIRL',
-    kindness: 'NEUTRAL',
+    neighborType: 'GIRL',
+    neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/lola.png',
   },
@@ -48,10 +49,11 @@ const lola: NeighborArgs = {
 const eve: NeighborArgs = {
   inputData: {
     name: 'EVE',
+    type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [6],
-    type: 'GIRL',
-    kindness: 'NEUTRAL',
+    neighborType: 'GIRL',
+    neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/eve.png',
   },
@@ -64,10 +66,11 @@ const eve: NeighborArgs = {
 const adam: NeighborArgs = {
   inputData: {
     name: 'ADAM',
+    type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [8],
-    type: 'BOY',
-    kindness: 'NEUTRAL',
+    neighborType: 'BOY',
+    neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/adam.png',
   },
@@ -80,10 +83,11 @@ const adam: NeighborArgs = {
 const caroline: NeighborArgs = {
   inputData: {
     name: 'CAROLINE',
+    type: 'NEIGHBOR',
     description: 'Récoltez 5 Âmes.',
     activationNumbers: [2],
-    type: 'GIRL',
-    kindness: 'ADORABLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/caroline.png',
   },
@@ -96,10 +100,11 @@ const caroline: NeighborArgs = {
 const regan: NeighborArgs = {
   inputData: {
     name: 'REGAN',
+    type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [9],
-    type: 'GIRL',
-    kindness: 'HORRIBLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/regan.png',
   },
@@ -112,11 +117,12 @@ const regan: NeighborArgs = {
 const tommy: NeighborArgs = {
   inputData: {
     name: 'TOMMY',
+    type: 'NEIGHBOR',
     description:
       "Défaussez la première carte de la PIOCHE VOISINAGE : si c'est une FILLE, obtenez-la",
     activationNumbers: [9],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/tommy.png',
   },
@@ -126,11 +132,12 @@ const tommy: NeighborArgs = {
 const calvin: NeighborArgs = {
   inputData: {
     name: 'CALVIN',
+    type: 'NEIGHBOR',
     description: 'Si vous avez au moins 3 HORRIBLES GAMINS : volez 2 Âmes',
     subDescription: '(aux autres joueurs et/ou depuis la réserve commune).',
     activationNumbers: [9],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/calvin.png',
   },
@@ -140,13 +147,14 @@ const calvin: NeighborArgs = {
 const dolores: NeighborArgs = {
   inputData: {
     name: 'DOLORÈS',
+    type: 'NEIGHBOR',
     description:
       'Remplacez tous les ADORABLES GAMINS du VOISINNAGE. Obtenez ensuite un HORRIBLE GAMIN du VOISINNAGE.',
     subDescription:
       '(Remplacer veut dire défausser une carte, puis la remplacer par une carte de la pioche VOISINAGE.).',
     activationNumbers: [10],
-    type: 'GIRL',
-    kindness: 'HORRIBLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/dolores.png',
   },
@@ -156,11 +164,12 @@ const dolores: NeighborArgs = {
 const sam: NeighborArgs = {
   inputData: {
     name: 'SAM',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défausser un de vos ANIMAUX: dans ce cas, récoltez 6 Âmes.',
     activationNumbers: [10],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/sam.png',
   },
@@ -170,11 +179,12 @@ const sam: NeighborArgs = {
 const annie: NeighborArgs = {
   inputData: {
     name: 'ANNIE',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défausser cette carte: dans ce cas volez un GAMIN ou obtenez-en un du VOISINNAGE.',
     activationNumbers: [9],
-    type: 'GIRL',
-    kindness: 'HORRIBLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/annie.png',
   },
@@ -184,10 +194,11 @@ const annie: NeighborArgs = {
 const jesus: NeighborArgs = {
   inputData: {
     name: 'JÉSUS',
+    type: 'NEIGHBOR',
     description: 'Récoltez 2 Âmes.',
     activationNumbers: [3],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/jesus.png',
   },
@@ -200,10 +211,11 @@ const jesus: NeighborArgs = {
 const chuck: NeighborArgs = {
   inputData: {
     name: 'CHUCK',
+    type: 'NEIGHBOR',
     description: 'Si vous avez un autre ADORABLE GAMIN : récoltez 2 Âmes.',
     activationNumbers: [4],
-    type: 'BOY',
-    kindness: 'ADORABLE',
+    neighborType: 'BOY',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/chuck.png',
   },
@@ -219,10 +231,11 @@ const chuck: NeighborArgs = {
 const louis: NeighborArgs = {
   inputData: {
     name: 'LOUIS',
+    type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [5],
-    type: 'BOY',
-    kindness: 'ADORABLE',
+    neighborType: 'BOY',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/louis.png',
   },
@@ -235,10 +248,11 @@ const louis: NeighborArgs = {
 const carrie: NeighborArgs = {
   inputData: {
     name: 'CARRIE',
+    type: 'NEIGHBOR',
     description: 'Récoltez 2 Âmes',
     activationNumbers: [11],
-    type: 'GIRL',
-    kindness: 'HORRIBLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/carrie.png',
   },
@@ -251,11 +265,12 @@ const carrie: NeighborArgs = {
 const donnie: NeighborArgs = {
   inputData: {
     name: 'DONNIE',
+    type: 'NEIGHBOR',
     description:
       'Pour chacun de vos HORRIBLES GAMINS(dont celui-ci): volez une Âme(aux autres joueurs et/ou depuis la réserve commune).',
     activationNumbers: [12],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/donnie.png',
   },
@@ -265,11 +280,12 @@ const donnie: NeighborArgs = {
 const lisa: NeighborArgs = {
   inputData: {
     name: 'LISA',
+    type: 'NEIGHBOR',
     description:
       'Pour chacun de vos ADORABLES GAMINS(dont celui-ci): récoltez une Âme.',
     activationNumbers: [3],
-    type: 'GIRL',
-    kindness: 'ADORABLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/lisa.png',
   },
@@ -284,11 +300,12 @@ const lisa: NeighborArgs = {
 const alice: NeighborArgs = {
   inputData: {
     name: 'ALICE',
+    type: 'NEIGHBOR',
     description:
       'Défaussez les 2 premières carte de la PIOCHE VOISINAGE : obtenez chaque carte ADORABLE GAMIN ainsi défaussée',
     activationNumbers: [4],
-    type: 'GIRL',
-    kindness: 'ADORABLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/alice.png',
   },
@@ -298,10 +315,11 @@ const alice: NeighborArgs = {
 const marilyn: NeighborArgs = {
   inputData: {
     name: 'MARILYN',
+    type: 'NEIGHBOR',
     description: 'Obtenez une carte GARÇON du VOISINNAGE.',
     activationNumbers: [5],
-    type: 'GIRL',
-    kindness: 'ADORABLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/marilyn.png',
   },
@@ -311,10 +329,11 @@ const marilyn: NeighborArgs = {
 const fifi: NeighborArgs = {
   inputData: {
     name: 'FIFI',
+    type: 'NEIGHBOR',
     description: 'Pour chacun de vos ANIMAUX: récoltez une Âme.',
     activationNumbers: [4],
-    type: 'GIRL',
-    kindness: 'ADORABLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/fifi.png',
   },
@@ -329,13 +348,14 @@ const fifi: NeighborArgs = {
 const damien: NeighborArgs = {
   inputData: {
     name: 'DAMIEN',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défaussez cette carte : dans ce cas, invoquez un Démon au hasard de votre main.',
     subDescription:
       '(cette action ne compte pas comme votre invocation pour ce tour.)',
     activationNumbers: [11],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/damien.png',
   },
@@ -345,10 +365,11 @@ const damien: NeighborArgs = {
 const destiny: NeighborArgs = {
   inputData: {
     name: 'DESTINY',
+    type: 'NEIGHBOR',
     description: 'Activez un autre de vos ADORABLES GAMINS.',
     activationNumbers: [5],
-    type: 'GIRL',
-    kindness: 'ADORABLE',
+    neighborType: 'GIRL',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/destiny.png',
   },
@@ -358,11 +379,12 @@ const destiny: NeighborArgs = {
 const dillinger: NeighborArgs = {
   inputData: {
     name: 'DILLINGER',
+    type: 'NEIGHBOR',
     description: 'Volez une âme',
     subDescription: '(à un adversaire ou depuis la réserve commune).',
     activationNumbers: [10],
-    type: 'BOY',
-    kindness: 'HORRIBLE',
+    neighborType: 'BOY',
+    neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/dillinger.png',
   },
@@ -372,11 +394,12 @@ const dillinger: NeighborArgs = {
 const glen: NeighborArgs = {
   inputData: {
     name: 'GLEN',
+    type: 'NEIGHBOR',
     description:
       'Recoltez 2 Âmes et choisissez un adversaire qui récolte une Âme.',
     activationNumbers: [5],
-    type: 'BOY',
-    kindness: 'ADORABLE',
+    neighborType: 'BOY',
+    neighborKindness: 'ADORABLE',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/glen.png',
   },
@@ -386,10 +409,11 @@ const glen: NeighborArgs = {
 const irwin: NeighborArgs = {
   inputData: {
     name: 'IRWIN',
+    type: 'NEIGHBOR',
     description: 'Activez toutes vos cartes ANIMAUX.',
     activationNumbers: [8],
-    type: 'BOY',
-    kindness: 'NEUTRAL',
+    neighborType: 'BOY',
+    neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/irwin.png',
   },
@@ -399,10 +423,11 @@ const irwin: NeighborArgs = {
 const romeo: NeighborArgs = {
   inputData: {
     name: 'ROMÉO',
+    type: 'NEIGHBOR',
     description: 'Pour chacune de vos filles: récoltez une Âme.',
     activationNumbers: [8],
-    type: 'BOY',
-    kindness: 'NEUTRAL',
+    neighborType: 'BOY',
+    neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/romeo.png',
   },
@@ -417,10 +442,11 @@ const romeo: NeighborArgs = {
 const cat: NeighborArgs = {
   inputData: {
     name: 'CHAT',
+    type: 'NEIGHBOR',
     description:
       "Défaussez la 1re carte de la PIOCHE VOISINAGE : si c'est un ANIMAL, obtenez-le.",
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/cat.png',
   },
@@ -430,9 +456,10 @@ const cat: NeighborArgs = {
 const dog: NeighborArgs = {
   inputData: {
     name: 'CHIEN',
+    type: 'NEIGHBOR',
     description: 'Si vous avez un GARÇON ou une FILLE : récoltez une Âme.',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/dog.png',
   },
@@ -440,7 +467,7 @@ const dog: NeighborArgs = {
     const player = args.player;
     const boys = player.getBoyNeighborCards();
     const girls = player.getGirlNeighborCards();
-    if ((boys.length + girls.length) > 0) {
+    if (boys.length + girls.length > 0) {
       player.addSoulToken(1);
     }
   },
@@ -449,10 +476,11 @@ const dog: NeighborArgs = {
 const goldenFish: NeighborArgs = {
   inputData: {
     name: 'POISSOU ROUGE',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défaussez cette carte : dans ce cas, récoltez 5 Âmes.',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/golden_fish.png',
   },
@@ -462,10 +490,11 @@ const goldenFish: NeighborArgs = {
 const araMacao: NeighborArgs = {
   inputData: {
     name: 'ARA MACAO',
+    type: 'NEIGHBOR',
     description:
       'Si vous avez au moins 2 GARÇONS ou 2 FILLES : récoltez 2 Âmes.',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/macao_ara.png',
   },
@@ -482,9 +511,10 @@ const araMacao: NeighborArgs = {
 const rabbit: NeighborArgs = {
   inputData: {
     name: 'LAPIN',
+    type: 'NEIGHBOR',
     description: 'Si vous avez au moins 3 ANIMAUX : récoltez 2 Âmes.',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/rabbit.png',
   },
@@ -500,11 +530,12 @@ const rabbit: NeighborArgs = {
 const goat: NeighborArgs = {
   inputData: {
     name: 'CHÈVRE',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défausser exactement 1 BOY et 1 FILLE : invoquez le Démon du dessus de la pioche gratuitement.',
     subDescription: '(Il compte parmi vos 3 démons nécessaires à la victoire.)',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/goat.png',
   },
@@ -514,10 +545,11 @@ const goat: NeighborArgs = {
 const alligator: NeighborArgs = {
   inputData: {
     name: 'ALLIGATOR',
+    type: 'NEIGHBOR',
     description:
       "Vous pouvez défausser cette carte: dans ce cas, défaussez jusuqu'à 2 GAMINS au total parmi les cartes de vos adversaires.",
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/alligator.png',
   },
@@ -527,10 +559,11 @@ const alligator: NeighborArgs = {
 const falcon: NeighborArgs = {
   inputData: {
     name: 'FALCON',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défausser cette carte: dans ce cas défaussez les 7 premières cartes de la PIOCHE VOISINNAGE. Obtenez chaque carte ANIMAL ainsi défaussée',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/falcon.png',
   },
@@ -540,12 +573,13 @@ const falcon: NeighborArgs = {
 const owl: NeighborArgs = {
   inputData: {
     name: 'CHOUETTE',
+    type: 'NEIGHBOR',
     description:
       'Vous pouvez défausser cette carte: dans ce cas récoltez 4 Âmes et remplacez une ou plusieurs cartes du VOISINNAGE.',
     subDescription:
       '(Défaussez-les et remplacez-les immédiatement par de nouvelles cartes de la PIOCHE VOISINNAGE)',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/owl.png',
   },
@@ -555,11 +589,12 @@ const owl: NeighborArgs = {
 const skunk: NeighborArgs = {
   inputData: {
     name: 'MOUFETTE',
+    type: 'NEIGHBOR',
     description:
       'Chaque joueur doit défausser toutes ses cartes, sauf ses démons',
     subDescription: '(y compris celle-ci).',
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/skunk.png',
   },
@@ -568,10 +603,11 @@ const skunk: NeighborArgs = {
 const strayCat: NeighborArgs = {
   inputData: {
     name: 'CHAT ERRANT',
+    type: 'NEIGHBOR',
     description:
       "Si vous n'avez GARÇON ni FILLE: obtenez la carte du dessus de la pioche voisinnage.",
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/stray_cat.png',
   },
@@ -581,9 +617,10 @@ const strayCat: NeighborArgs = {
 const rabidDog: NeighborArgs = {
   inputData: {
     name: 'CHIEN ENRAGÉ',
+    type: 'NEIGHBOR',
     description: "Si vous n'avez ni GARÇON ni FILLE: récoltez 2 Âmes.",
     activationNumbers: [7],
-    type: 'ANIMAL',
+    neighborType: 'ANIMAL',
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/rabid_dog.png',
   },

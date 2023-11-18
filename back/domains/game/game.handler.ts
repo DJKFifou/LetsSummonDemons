@@ -1,4 +1,5 @@
 import { IoServer, IoSocket } from '../../contracts/io.js';
+import { neighbors } from '../neighbor/neighbors.js';
 import { playerFactory } from '../player/player.factory.js';
 import { Player } from '../player/player.js';
 import { gameRepository } from './game.repository.js';
@@ -17,6 +18,11 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     socket.data.gameId = createdGameId;
     socket.data.playerId = player.getData().id;
+
+    // to test
+    player.addNeighborCard(neighbors[0]);
+    player.addNeighborCard(neighbors[1]);
+    player.addNeighborCard(neighbors[2]);
 
     createdGame.addPlayer(playerFactory.createBot());
 

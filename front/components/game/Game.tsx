@@ -14,7 +14,7 @@ export const GameDataDisplay = ({
 }: GameDataDisplayProps) => {
   const itsYourTurn = gameData.turn?.current.player.id === playerId;
 
-  const isMarketOpen = itsYourTurn && !gameData.turn?.current.bougthNeighbor;
+  const isMarketOpen = itsYourTurn && !!gameData.turn?.current.canBuyNeighbor;
   return (
     <article className={styles.game}>
       <p>

@@ -4,7 +4,7 @@ import {
 } from '../../constants/game.js';
 import { playerFactory } from '../player/player.factory.js';
 import { neighbors } from './neighbors.js';
-import { InsuficientSoulsToBuyNeighborError } from './neighborsDeck.errors.js';
+import { NotEnoughtSoulsToBuyNeighborError } from './neighborsDeck.errors.js';
 import { NeighborsDeck } from './neighborsDeck.js';
 
 test('shuffle and put 5 cards on market when created', () => {
@@ -43,6 +43,6 @@ test('player with not enough souls cannot buy a neighbor', () => {
   const cardToBuy = neighborsDeck.getData().market[0];
 
   expect(() => neighborsDeck.buyCard(player, cardToBuy.id)).toThrow(
-    InsuficientSoulsToBuyNeighborError,
+    NotEnoughtSoulsToBuyNeighborError,
   );
 });
