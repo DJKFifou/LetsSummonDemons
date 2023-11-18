@@ -56,7 +56,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   protected async activateCards(dicesResult: number): Promise<void> {
-    for await (const player of this.game.turn.playerListFromCurrent) {
+    for await (const player of this.game.turn?.playerListFromCurrent ?? []) {
       for await (const neighborCard of player.getNeighborCards()) {
         if (!neighborCard.isActivatedByNumber(dicesResult)) {
           return;
