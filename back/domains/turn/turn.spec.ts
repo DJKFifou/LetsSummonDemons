@@ -24,7 +24,7 @@ describe('end turn', () => {
 
   test('can end turn if launched dices', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const turn = new Turn(game);
 
     turn.launchDices();
@@ -61,7 +61,7 @@ describe('list from current', () => {
     turn.launchDices();
     turn.endTurn();
 
-    const list = game.getPlayerList();
+    const list = game.playerList;
     const listFromCurrent = turn.playerListFromCurrent;
     expect(listFromCurrent[0].getData().id).toBe(list[1].getData().id);
     expect(listFromCurrent[1].getData().id).toBe(list[2].getData().id);

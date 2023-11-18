@@ -56,7 +56,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   protected diceListening(dicesResult: number): void {
-    this.game.getPlayerList().forEach((player) => {
+    this.game.playerList.forEach((player) => {
       player.getNeighborCards().forEach((neighborCard) => {
         if (!neighborCard.isActivatedByNumber(dicesResult)) {
           return;
