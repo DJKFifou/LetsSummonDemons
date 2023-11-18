@@ -21,7 +21,7 @@ import {
 describe('launch dices', () => {
   test('can launch dices', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     expect(playerTurn.canLaunchDices).toBe(true);
 
@@ -32,7 +32,7 @@ describe('launch dices', () => {
 
   test('cannot launch dices twice', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
 
     playerTurn.launchDices();
@@ -45,7 +45,7 @@ describe('launch dices', () => {
 describe('buy neighbor', () => {
   test('cannot buy neighbor if not enough souls', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.removeSoulToken(START_WITH_SOUL_TOKEN_COUNT);
     player.addSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD - 1);
@@ -59,7 +59,7 @@ describe('buy neighbor', () => {
 
   test('cannot buy neighbor that is not in market', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
 
     const buyNeighbor = (): void =>
@@ -71,7 +71,7 @@ describe('buy neighbor', () => {
 
   test('buy neighbor remove souls', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);
     expect(playerTurn.canBuyNeighbor).toBe(true);
@@ -84,7 +84,7 @@ describe('buy neighbor', () => {
 
   test('cannot buy neighbor twice', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);
     const buyNeighbor = (): void =>
@@ -100,7 +100,7 @@ describe('buy neighbor', () => {
 describe('summon demon', () => {
   test('cannot summon demon if not enough neighbors cards', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addNeighborCard(neighbors[0]);
     player.addNeighborCard(neighbors[1]);
@@ -119,7 +119,7 @@ describe('summon demon', () => {
 
   test('cannot summon demon if not enough neighbors provided', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addNeighborCard(neighbors[0]);
     player.addNeighborCard(neighbors[1]);
@@ -138,7 +138,7 @@ describe('summon demon', () => {
 
   test('cannot summon demon if too many neighbors provided', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addNeighborCard(neighbors[0]);
     player.addNeighborCard(neighbors[1]);
@@ -160,7 +160,7 @@ describe('summon demon', () => {
 
   test("cannot summon demon that he doesn't have in its covered cards", () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addNeighborCard(neighbors[0]);
     player.addNeighborCard(neighbors[1]);
@@ -180,7 +180,7 @@ describe('summon demon', () => {
 
   test('summon demon destroy selected neighbors', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addNeighborCard(neighbors[0]);
     player.addNeighborCard(neighbors[1]);
@@ -200,7 +200,7 @@ describe('summon demon', () => {
 
   test('cannot summon demon twice', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const playerTurn = new PlayerTurn({ game, player });
     player.addNeighborCard(neighbors[0]);
     player.addNeighborCard(neighbors[1]);

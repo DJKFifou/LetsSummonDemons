@@ -71,7 +71,7 @@ export class Game implements EntityClass<GameData> {
     return this.players.find((player) => player.getData().id === id);
   }
 
-  getPlayerList(): Player[] {
+  get playerList(): Player[] {
     return this.players;
   }
 

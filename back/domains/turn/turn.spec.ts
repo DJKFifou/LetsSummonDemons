@@ -1,4 +1,6 @@
+import { MAX_GAME_PLAYERS } from '../../constants/game.js';
 import { gameFactory } from '../game/game.factory.js';
+import { playerFactory } from '../player/player.factory.js';
 import { CannotEndTurnError } from './turn.errors.js';
 import { Turn } from './turn.js';
 
@@ -22,7 +24,7 @@ describe('end turn', () => {
 
   test('can end turn if launched dices', () => {
     const game = gameFactory.createStarted();
-    const player = game.getPlayerList()[0];
+    const player = game.playerList[0];
     const turn = new Turn(game);
 
     turn.launchDices();
@@ -46,4 +48,25 @@ test('next player is the next in the list', () => {
   turn.endTurn();
 
   expect(turn.getData().current.player.id).toBe(playerB.id);
+});
+
+describe('list from current', () => {
+  test('should start from current followed by ordered players', () => {
+    const game = gameFactory.create();
+    for (let i = 0, iMax = MAX_GAME_PLAYERS; i < iMax; i++) {
+      game.addPlayer(playerFactory.create());
+    }
+
+    const turn = new Turn(game);
+    turn.launchDices();
+    turn.endTurn();
+
+    const list = game.playerList;
+    const listFromCurrent = turn.playerListFromCurrent;
+    expect(listFromCurrent[0].getData().id).toBe(list[1].getData().id);
+    expect(listFromCurrent[1].getData().id).toBe(list[2].getData().id);
+    expect(listFromCurrent[listFromCurrent.length - 1].getData().id).toBe(
+      list[0].getData().id,
+    );
+  });
 });
