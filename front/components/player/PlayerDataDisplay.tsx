@@ -2,6 +2,7 @@ import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
 import { Card } from '../card/Card';
 import { CoveredDemonCard } from '../card/CoveredDemonCard';
+import { Souls } from '../soul/Souls';
 import { PlayerActions } from './PlayerActions';
 import styles from './PlayerDataDisplay.module.scss';
 
@@ -17,14 +18,6 @@ export const PlayerDataDisplay = ({
   itsTurn,
   itsYou,
 }: PlayerDataDisplayProps) => {
-
-  //Display souls
-  const soulImage = '/souls/soul.png';
-  const soulsImages = Array.from({ length: playerData.soulsTokenCount }, (_, index) => (
-    <img key={index} src={soulImage} className={styles.souls} alt={`Image for soul ${index}`} />
-  ));
-  //Display souls
-  
   return (
     <article className={styles.player}>
       <p>
@@ -40,10 +33,7 @@ export const PlayerDataDisplay = ({
       )}
       <p>ID: {playerData.id}</p>
       <p>NAME: {playerData.name}</p>
-      <p>SOULS: {playerData.soulsTokenCount}</p>
-      <div className={styles.soulsContainer}>
-        {soulsImages}
-      </div>
+      <Souls count={playerData.soulsTokenCount} />
       <p>CANDLE CARD:</p>
       <div className={styles.cards}>
         {playerData.candleCard && <Card cardData={playerData.candleCard} />}
