@@ -2,6 +2,7 @@ import { CardData } from '@lsd/back/contracts/card';
 import { NeighborsDeckData } from '@lsd/back/contracts/neighborsDeck';
 import { Card } from '../card/Card';
 import { MarketNeighborCard } from '../card/MarketNeighborCard';
+import { DrawnedNeighborCard } from '../card/DrawnNeighborCard';
 import styles from './NeighborsDeck.module.scss';
 
 interface CoveredCardStackProps {
@@ -43,6 +44,11 @@ export const NeighborsDeck = ({
             cardData={card}
             key={card.id}
           />
+        ))}
+      </div>
+      <div className={styles.neighborsDrawned}>
+        {neighborsDeck.drawned.map((card) => (
+          <DrawnedNeighborCard cardData={card} key={card.id} />
         ))}
       </div>
     </article>

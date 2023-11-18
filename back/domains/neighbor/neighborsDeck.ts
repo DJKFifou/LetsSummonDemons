@@ -20,13 +20,22 @@ interface NeighborsDeckArgs {
 export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
   protected remainingCards: Array<NeighborCard>;
   protected market: Array<NeighborCard | null>;
+  protected drawned: Array<NeighborCard | null>;
+  protected discard: Array<NeighborCard | null>;
 
   constructor({ cards }: NeighborsDeckArgs) {
     this.remainingCards = shuffleArray(cards);
     this.market = Array.from({ length: NEIGHBORS_MARKET_COUNT }).map(
       () => null,
     );
-
+    this.drawned = Array.from({ length: 0 }).map(
+      () => null,
+    );
+    this.discard = Array.from({length : 0 }).map(
+      () => null
+    );
+    // A check par Arthaud, voir si la création de la pile de carte piochée
+    // et de la déffausse est bonne ?
     this.fillMarket();
   }
 
@@ -73,10 +82,25 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     this.fillMarket();
   }
 
+  drawnCard(): NeighborCard {
+    const card = this.remainingCards.shift();
+    this.drawned.push(card);
+    return card;
+  }
+
+  throwCards(cardCount : number): void {
+    for (let i = 0; i < cardCount; i++) {
+      this.drawned.shift();
+    }
+  }
+
   getData(): NeighborsDeckData {
     return {
       remainingCardsCount: this.remainingCards.length,
       market: this.market.map((card) => card.getData()),
+      drawned: this.drawned.map((card) => card.getData()),
+      discard: this.discard.map((card) => card.getData()),
+      // A check par Arthaud aussi
     };
   }
 }
