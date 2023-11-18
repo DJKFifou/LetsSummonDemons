@@ -22,12 +22,14 @@ export const GameDataDisplay = ({
       </p>
       <p>ID: {gameData.id}</p>
       <p>STATE: {gameData.state}</p>
+      <div className={styles.neighbourDeck}>
       {gameData.neighborsDeck && (
         <NeighborsDeck
           isMarketOpen={isMarketOpen}
           neighborsDeck={gameData.neighborsDeck}
         />
       )}
+      </div>
       <p>PLAYERS:</p>
       <div className={styles.players}>
         {gameData.players.map((player) => (

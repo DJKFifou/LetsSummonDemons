@@ -8,7 +8,7 @@
     font-size: 1.5rem;
   }
 
-  & > div {
+  .cards{
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 1rem;
@@ -33,4 +33,11 @@
   & > *:nth-child(3) {
     transform: translate(6px, 3px);
   }
+}
+
+.neighborsDrawned {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }

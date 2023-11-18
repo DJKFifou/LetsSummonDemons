@@ -6,6 +6,14 @@
   gap: 0.5rem;
 }
 
+.neighbourDeck {
+  display: flex;
+  flex-flow: column;
+  border: 1px solid;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
 .players {
   display: flex;
   gap: 0.5rem;
