@@ -1,5 +1,8 @@
+import { socket } from '@/socket';
+import { CardId } from '@lsd/back/contracts/card';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
+import { useState } from 'react';
 import { Card } from '../card/Card';
 import { CoveredDemonCard } from '../card/CoveredDemonCard';
 import { Souls } from '../soul/Souls';
@@ -18,6 +21,48 @@ export const PlayerDataDisplay = ({
   itsTurn,
   itsYou,
 }: PlayerDataDisplayProps) => {
+  const [demonToSummonId, setDemonToSummonId] = useState<CardId | null>(null);
+  const [neighborsToSacrifice, setNeighborsToSacrifice] = useState<
+    Array<CardId>
+  >([]);
+
+  const itsYourTurn = itsTurn && itsYou;
+
+  const toggleDemonToSummon = (demonId: CardId) => {
+    if (demonToSummonId === demonId) {
+      setDemonToSummonId(null);
+      setNeighborsToSacrifice([]);
+    } else {
+      setDemonToSummonId(demonId);
+    }
+  };
+
+  const toggleNeighborToSacrifice = (neighborId: CardId) => {
+    if (neighborsToSacrifice.includes(neighborId)) {
+      setNeighborsToSacrifice(
+        neighborsToSacrifice.filter((cardId) => cardId !== neighborId),
+      );
+    } else {
+      setNeighborsToSacrifice([...neighborsToSacrifice, neighborId]);
+    }
+  };
+
+  const canSummonDemon = demonToSummonId && neighborsToSacrifice.length === 3;
+
+  const summonDemon = () => {
+    if (
+      !itsYourTurn ||
+      !gameData.turn?.current.canSummonDemon ||
+      !demonToSummonId
+    ) {
+      return;
+    }
+    socket.emit('turnInvokeDemon', {
+      demonCardId: demonToSummonId,
+      neighborsSacrifiedIds: neighborsToSacrifice,
+    });
+  };
+
   return (
     <article className={styles.player}>
       <p>
@@ -27,6 +72,9 @@ export const PlayerDataDisplay = ({
         <p>
           <b>C&apos;est son tour</b>
         </p>
+      )}
+      {canSummonDemon && (
+        <button onClick={summonDemon}>Invoquer le démon selectionné</button>
       )}
       {itsYourTurn && (
         <PlayerActions gameData={gameData} playerData={playerData} />
@@ -42,13 +90,16 @@ export const PlayerDataDisplay = ({
       <div className={styles.cards}>
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
+            isYourCard={itsYou}
             isSummonable={itsYourTurn && gameData.turn?.current.canSummonDemon}
             cardData={card}
+            onToggleSelect={() => toggleDemonToSummon(card.id)}
+            isSelected={demonToSummonId === card.id}
             key={card.id}
           />
         ))}
       </div>
-      <p>INVOKATED DEMON CARDS:</p>
+      <p>SUMMONED DEMON CARDS:</p>
       <div className={styles.cards}>
         {playerData.summonedDemonsCards.map((card) => (
           <Card cardData={card} key={card.id} />
@@ -57,7 +108,13 @@ export const PlayerDataDisplay = ({
       <p>NEIGHBORS CARDS:</p>
       <div className={styles.cards}>
         {playerData.neighborsCards.map((card) => (
-          <Card cardData={card} key={card.id} />
+          <Card
+            isSelectable={!!demonToSummonId}
+            isSelected={neighborsToSacrifice.includes(card.id)}
+            onToggleSelect={() => toggleNeighborToSacrifice(card.id)}
+            cardData={card}
+            key={card.id}
+          />
         ))}
       </div>
     </article>

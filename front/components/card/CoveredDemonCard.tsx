@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
-import { socket } from '@/socket';
 import { CardData } from '@lsd/back/contracts/card';
+import { useState } from 'react';
 import { Card } from './Card';
 
 type CoveredDemonCard = {
   cardData: CardData;
   isSummonable?: boolean;
+  isSelected?: boolean;
+  isYourCard?: boolean;
+  onToggleSelect?: () => void;
 };
 export const CoveredDemonCard = ({
   cardData,
   isSummonable,
+  isSelected,
+  isYourCard,
+  onToggleSelect,
 }: CoveredDemonCard) => {
   const [isCovered, setIsCovered] = useState(false);
 
-  const summonDemon = () => {
-    if (!isSummonable) {
-      return;
-    }
-    socket.emit('turnInvokeDemon', cardData.id);
-  };
+  const uncover = () => isYourCard && setIsCovered(true);
+  const cover = () => isYourCard && setIsCovered(false);
 
   return (
     <article
-      onMouseEnter={() => setIsCovered(true)}
-      onMouseLeave={() => setIsCovered(false)}
+      onFocusCapture={uncover}
+      onMouseEnter={uncover}
+      onBlurCapture={cover}
+      onMouseLeave={cover}
     >
-      {isSummonable && <button onClick={summonDemon}>Summon</button>}
-      <Card covered={!isCovered} cardData={cardData} />
+      <Card
+        isSelectable={isSummonable}
+        isSelected={isSelected}
+        onToggleSelect={onToggleSelect}
+        covered={!isCovered && !isSelected}
+        cardData={cardData}
+      />
     </article>
   );
 };
