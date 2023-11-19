@@ -1,11 +1,9 @@
-import {
-  NeighborActivateFnArgs,
-  NeighborArgs,
-  NeighborCard,
-} from './neighbor.js';
+import { NeighborCardData } from '../../contracts/card.js';
+import { CardArgs } from '../card/card.js';
+import { NeighborCard } from './neighbor.js';
 
 const createNeighborCards = (
-  data: NeighborArgs,
+  data: CardArgs<NeighborCardData>,
   count: number,
 ): Array<NeighborCard> => {
   return Array.from({ length: count }, () => new NeighborCard(data));
@@ -13,8 +11,8 @@ const createNeighborCards = (
 
 const cardBack = '/cards/back/neighbourhood.png';
 
-const jane: NeighborArgs = {
-  inputData: {
+const jane: CardArgs<NeighborCardData> = {
+  data: {
     name: 'JANE',
     type: 'NEIGHBOR',
     description: 'Obtenez une carte ANIMAL du VOISINAGE.',
@@ -27,8 +25,8 @@ const jane: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const lola: NeighborArgs = {
-  inputData: {
+const lola: CardArgs<NeighborCardData> = {
+  data: {
     name: 'LOLA',
     type: 'NEIGHBOR',
     description: 'Pour chacun de vos GARÇONS: récoltez une Âme.',
@@ -45,8 +43,8 @@ const lola: NeighborArgs = {
   },
 };
 
-const eve: NeighborArgs = {
-  inputData: {
+const eve: CardArgs<NeighborCardData> = {
+  data: {
     name: 'EVE',
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
@@ -61,8 +59,8 @@ const eve: NeighborArgs = {
   },
 };
 
-const adam: NeighborArgs = {
-  inputData: {
+const adam: CardArgs<NeighborCardData> = {
+  data: {
     name: 'ADAM',
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
@@ -77,8 +75,8 @@ const adam: NeighborArgs = {
   },
 };
 
-const caroline: NeighborArgs = {
-  inputData: {
+const caroline: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CAROLINE',
     type: 'NEIGHBOR',
     description: 'Récoltez 5 Âmes.',
@@ -93,8 +91,8 @@ const caroline: NeighborArgs = {
   },
 };
 
-const regan: NeighborArgs = {
-  inputData: {
+const regan: CardArgs<NeighborCardData> = {
+  data: {
     name: 'REGAN',
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
@@ -109,8 +107,8 @@ const regan: NeighborArgs = {
   },
 };
 
-const tommy: NeighborArgs = {
-  inputData: {
+const tommy: CardArgs<NeighborCardData> = {
+  data: {
     name: 'TOMMY',
     type: 'NEIGHBOR',
     description:
@@ -136,8 +134,8 @@ const tommy: NeighborArgs = {
   },
 };
 
-const calvin: NeighborArgs = {
-  inputData: {
+const calvin: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CALVIN',
     type: 'NEIGHBOR',
     description: 'Si vous avez au moins 3 HORRIBLES GAMINS : volez 2 Âmes',
@@ -151,8 +149,8 @@ const calvin: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const dolores: NeighborArgs = {
-  inputData: {
+const dolores: CardArgs<NeighborCardData> = {
+  data: {
     name: 'DOLORÈS',
     type: 'NEIGHBOR',
     description:
@@ -168,8 +166,8 @@ const dolores: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const sam: NeighborArgs = {
-  inputData: {
+const sam: CardArgs<NeighborCardData> = {
+  data: {
     name: 'SAM',
     type: 'NEIGHBOR',
     description:
@@ -183,8 +181,8 @@ const sam: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const annie: NeighborArgs = {
-  inputData: {
+const annie: CardArgs<NeighborCardData> = {
+  data: {
     name: 'ANNIE',
     type: 'NEIGHBOR',
     description:
@@ -198,8 +196,8 @@ const annie: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const jesus: NeighborArgs = {
-  inputData: {
+const jesus: CardArgs<NeighborCardData> = {
+  data: {
     name: 'JÉSUS',
     type: 'NEIGHBOR',
     description: 'Récoltez 2 Âmes.',
@@ -214,8 +212,8 @@ const jesus: NeighborArgs = {
   },
 };
 
-const chuck: NeighborArgs = {
-  inputData: {
+const chuck: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHUCK',
     type: 'NEIGHBOR',
     description: 'Si vous avez un autre ADORABLE GAMIN : récoltez 2 Âmes.',
@@ -233,8 +231,8 @@ const chuck: NeighborArgs = {
   },
 };
 
-const louis: NeighborArgs = {
-  inputData: {
+const louis: CardArgs<NeighborCardData> = {
+  data: {
     name: 'LOUIS',
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
@@ -249,8 +247,8 @@ const louis: NeighborArgs = {
   },
 };
 
-const carrie: NeighborArgs = {
-  inputData: {
+const carrie: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CARRIE',
     type: 'NEIGHBOR',
     description: 'Récoltez 2 Âmes',
@@ -265,8 +263,8 @@ const carrie: NeighborArgs = {
   },
 };
 
-const donnie: NeighborArgs = {
-  inputData: {
+const donnie: CardArgs<NeighborCardData> = {
+  data: {
     name: 'DONNIE',
     type: 'NEIGHBOR',
     description:
@@ -280,8 +278,8 @@ const donnie: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const lisa: NeighborArgs = {
-  inputData: {
+const lisa: CardArgs<NeighborCardData> = {
+  data: {
     name: 'LISA',
     type: 'NEIGHBOR',
     description:
@@ -299,8 +297,8 @@ const lisa: NeighborArgs = {
   },
 };
 
-const alice: NeighborArgs = {
-  inputData: {
+const alice: CardArgs<NeighborCardData> = {
+  data: {
     name: 'ALICE',
     type: 'NEIGHBOR',
     description:
@@ -311,10 +309,8 @@ const alice: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/alice.png',
   },
-  activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
+  activateFn: async ({ game, player }): Promise<void> => {
     console.log('alice awake');
-    const player = args.player;
-    const game = args.game;
     const ALICE_DRAW_CARDS_COUNT = 2;
     const drawnedCards: NeighborCard[] = [];
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
@@ -335,8 +331,8 @@ const alice: NeighborArgs = {
   },
 };
 
-const marilyn: NeighborArgs = {
-  inputData: {
+const marilyn: CardArgs<NeighborCardData> = {
+  data: {
     name: 'MARILYN',
     type: 'NEIGHBOR',
     description: 'Obtenez une carte GARÇON du VOISINNAGE.',
@@ -349,8 +345,8 @@ const marilyn: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const fifi: NeighborArgs = {
-  inputData: {
+const fifi: CardArgs<NeighborCardData> = {
+  data: {
     name: 'FIFI',
     type: 'NEIGHBOR',
     description: 'Pour chacun de vos ANIMAUX: récoltez une Âme.',
@@ -367,8 +363,8 @@ const fifi: NeighborArgs = {
   },
 };
 
-const damien: NeighborArgs = {
-  inputData: {
+const damien: CardArgs<NeighborCardData> = {
+  data: {
     name: 'DAMIEN',
     type: 'NEIGHBOR',
     description:
@@ -384,8 +380,8 @@ const damien: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const destiny: NeighborArgs = {
-  inputData: {
+const destiny: CardArgs<NeighborCardData> = {
+  data: {
     name: 'DESTINY',
     type: 'NEIGHBOR',
     description: 'Activez un autre de vos ADORABLES GAMINS.',
@@ -398,8 +394,8 @@ const destiny: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const dillinger: NeighborArgs = {
-  inputData: {
+const dillinger: CardArgs<NeighborCardData> = {
+  data: {
     name: 'DILLINGER',
     type: 'NEIGHBOR',
     description: 'Volez une âme',
@@ -413,8 +409,8 @@ const dillinger: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const glen: NeighborArgs = {
-  inputData: {
+const glen: CardArgs<NeighborCardData> = {
+  data: {
     name: 'GLEN',
     type: 'NEIGHBOR',
     description:
@@ -428,8 +424,8 @@ const glen: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const irwin: NeighborArgs = {
-  inputData: {
+const irwin: CardArgs<NeighborCardData> = {
+  data: {
     name: 'IRWIN',
     type: 'NEIGHBOR',
     description: 'Activez toutes vos cartes ANIMAUX.',
@@ -442,8 +438,8 @@ const irwin: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const romeo: NeighborArgs = {
-  inputData: {
+const romeo: CardArgs<NeighborCardData> = {
+  data: {
     name: 'ROMÉO',
     type: 'NEIGHBOR',
     description: 'Pour chacune de vos filles: récoltez une Âme.',
@@ -460,8 +456,8 @@ const romeo: NeighborArgs = {
   },
 };
 
-const cat: NeighborArgs = {
-  inputData: {
+const cat: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHAT',
     type: 'NEIGHBOR',
     description:
@@ -472,10 +468,8 @@ const cat: NeighborArgs = {
     cardImage: '/cards/neighbourhood/cat.png',
   },
 
-  activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
+  activateFn: async ({ game, player }): Promise<void> => {
     console.log('cat awake');
-    const player = args.player;
-    const game = args.game;
     const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
     game.emitDataToSockets();
     await new Promise((resolve) => {
@@ -489,8 +483,8 @@ const cat: NeighborArgs = {
   },
 };
 
-const dog: NeighborArgs = {
-  inputData: {
+const dog: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHIEN',
     type: 'NEIGHBOR',
     description: 'Si vous avez un GARÇON ou une FILLE : récoltez une Âme.',
@@ -508,8 +502,8 @@ const dog: NeighborArgs = {
   },
 };
 
-const goldenFish: NeighborArgs = {
-  inputData: {
+const goldenFish: CardArgs<NeighborCardData> = {
+  data: {
     name: 'POISSOU ROUGE',
     type: 'NEIGHBOR',
     description:
@@ -522,8 +516,8 @@ const goldenFish: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const araMacao: NeighborArgs = {
-  inputData: {
+const araMacao: CardArgs<NeighborCardData> = {
+  data: {
     name: 'ARA MACAO',
     type: 'NEIGHBOR',
     description:
@@ -542,8 +536,8 @@ const araMacao: NeighborArgs = {
   },
 };
 
-const rabbit: NeighborArgs = {
-  inputData: {
+const rabbit: CardArgs<NeighborCardData> = {
+  data: {
     name: 'LAPIN',
     type: 'NEIGHBOR',
     description: 'Si vous avez au moins 3 ANIMAUX : récoltez 2 Âmes.',
@@ -560,8 +554,8 @@ const rabbit: NeighborArgs = {
   },
 };
 
-const goat: NeighborArgs = {
-  inputData: {
+const goat: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHÈVRE',
     type: 'NEIGHBOR',
     description:
@@ -575,8 +569,8 @@ const goat: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const alligator: NeighborArgs = {
-  inputData: {
+const alligator: CardArgs<NeighborCardData> = {
+  data: {
     name: 'ALLIGATOR',
     type: 'NEIGHBOR',
     description:
@@ -589,8 +583,8 @@ const alligator: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const falcon: NeighborArgs = {
-  inputData: {
+const falcon: CardArgs<NeighborCardData> = {
+  data: {
     name: 'FALCON',
     type: 'NEIGHBOR',
     description:
@@ -600,10 +594,8 @@ const falcon: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/falcon.png',
   },
-  activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
+  activateFn: async ({ game, player }): Promise<void> => {
     console.log('falcon awake');
-    const player = args.player;
-    const game = args.game;
     const FALCON_DRAW_CARDS_COUNT = 7;
     const drawnedCards: NeighborCard[] = [];
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
@@ -624,8 +616,8 @@ const falcon: NeighborArgs = {
   },
 };
 
-const owl: NeighborArgs = {
-  inputData: {
+const owl: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHOUETTE',
     type: 'NEIGHBOR',
     description:
@@ -640,8 +632,8 @@ const owl: NeighborArgs = {
   activateFn: async (): Promise<void> => {},
 };
 
-const skunk: NeighborArgs = {
-  inputData: {
+const skunk: CardArgs<NeighborCardData> = {
+  data: {
     name: 'MOUFETTE',
     type: 'NEIGHBOR',
     description:
@@ -654,8 +646,8 @@ const skunk: NeighborArgs = {
   },
   activateFn: async (): Promise<void> => {},
 };
-const strayCat: NeighborArgs = {
-  inputData: {
+const strayCat: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHAT ERRANT',
     type: 'NEIGHBOR',
     description:
@@ -665,10 +657,8 @@ const strayCat: NeighborArgs = {
     cardBack: cardBack,
     cardImage: '/cards/neighbourhood/stray_cat.png',
   },
-  activateFn: async (args: NeighborActivateFnArgs): Promise<void> => {
+  activateFn: async ({ game, player }): Promise<void> => {
     console.log('stray cat awake');
-    const player = args.player;
-    const game = args.game;
     const boys = player.getBoyNeighborCards();
     const girls = player.getGirlNeighborCards();
     if (boys.length < 1 && girls.length < 1) {
@@ -684,8 +674,8 @@ const strayCat: NeighborArgs = {
   },
 };
 
-const rabidDog: NeighborArgs = {
-  inputData: {
+const rabidDog: CardArgs<NeighborCardData> = {
+  data: {
     name: 'CHIEN ENRAGÉ',
     type: 'NEIGHBOR',
     description: "Si vous n'avez ni GARÇON ni FILLE: récoltez 2 Âmes.",
