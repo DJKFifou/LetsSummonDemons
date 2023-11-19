@@ -13,15 +13,16 @@ interface CardData {
   cardBack: string;
   activationNumbers: Array<number>;
 }
-type CardInput<Card> = Omit<Card, 'id' | 'actions'>;
+type CardInput<Card extends NeighborCardData | DemonCardData | CandleCardData> =
+  Omit<Card, 'id'>;
 
+export type NeighborType = 'GIRL' | 'BOY' | 'ANIMAL';
+export type NeighborKindness = 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
+export type NeighborCardInputData = CardInput<NeighborCardData>;
 export interface NeighborCardData extends CardData {
   neighborType: NeighborType;
   neighborKindness?: NeighborKindness;
 }
-export type NeighborType = 'GIRL' | 'BOY' | 'ANIMAL';
-export type NeighborKindness = 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
-export type NeighborCardInputData = CardInput<NeighborCardData>;
 
 export interface DemonCardData extends CardData {
   isPermanent: boolean;
