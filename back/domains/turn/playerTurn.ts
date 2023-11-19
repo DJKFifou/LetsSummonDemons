@@ -69,10 +69,11 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         });
       });
 
-      const candleCard: CandleCard = new CandleCard(
-        this.player.getCandleCard().data,
-      );
-
+      const candleCardData: CandleCardData | null = player.getCandleCard();
+      const candleCard: CandleCard = new CandleCard({
+      data: candleCardData,
+      activateFn: () => {player.addSoulToken(1);},
+      });
       if (candleCard.isActivatedByNumber(dicesResult)) {
         candleCard.activate({
           game: this.game,
