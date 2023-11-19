@@ -77,7 +77,9 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     player.removeSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);
 
     const card = this.pickCardFromMarketById(cardId);
-    player.addNeighborCard(card);
+    const newCard: NeighborCard = card;
+    newCard.isActivableSetter();
+    player.addNeighborCard(newCard);
 
     this.fillMarket();
   }

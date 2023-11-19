@@ -22,6 +22,7 @@ export type NeighborCardInputData = CardInput<NeighborCardData>;
 export interface NeighborCardData extends CardData {
   neighborType: NeighborType;
   neighborKindness?: NeighborKindness;
+  isActivable: boolean;
 }
 
 export interface DemonCardData extends CardData {

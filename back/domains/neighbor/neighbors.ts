@@ -20,6 +20,7 @@ const jane: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/jane.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -34,6 +35,7 @@ const lola: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/lola.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -52,6 +54,7 @@ const eve: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/eve.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -68,6 +71,7 @@ const adam: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/adam.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -84,6 +88,7 @@ const caroline: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/caroline.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -100,6 +105,7 @@ const regan: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/regan.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -117,6 +123,7 @@ const tommy: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/tommy.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
@@ -144,6 +151,7 @@ const calvin: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/calvin.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -161,6 +169,7 @@ const dolores: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/dolores.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -176,6 +185,7 @@ const sam: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/sam.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -191,6 +201,7 @@ const annie: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/annie.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -205,6 +216,7 @@ const jesus: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/jesus.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -221,6 +233,7 @@ const chuck: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/chuck.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -240,6 +253,7 @@ const louis: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/louis.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -256,6 +270,7 @@ const carrie: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/carrie.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -273,6 +288,7 @@ const donnie: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/donnie.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -288,6 +304,7 @@ const lisa: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/lisa.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -307,6 +324,7 @@ const alice: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/alice.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
@@ -340,6 +358,7 @@ const marilyn: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/marilyn.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -354,6 +373,7 @@ const fifi: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/fifi.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -375,6 +395,7 @@ const damien: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/damien.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -389,6 +410,7 @@ const destiny: CardArgs<NeighborCardData> = {
     neighborType: 'GIRL',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/destiny.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -404,6 +426,7 @@ const dillinger: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'HORRIBLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/dillinger.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -419,6 +442,7 @@ const glen: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'ADORABLE',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/glen.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -433,6 +457,7 @@ const irwin: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/irwin.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -447,6 +472,7 @@ const romeo: CardArgs<NeighborCardData> = {
     neighborType: 'BOY',
     neighborKindness: 'NEUTRAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/romeo.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -465,6 +491,7 @@ const cat: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/cat.png',
   },
 
@@ -491,6 +518,7 @@ const dog: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/dog.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -511,6 +539,7 @@ const goldenFish: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/golden_fish.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -525,6 +554,7 @@ const araMacao: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/macao_ara.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -544,6 +574,7 @@ const rabbit: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/rabbit.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -564,6 +595,7 @@ const goat: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/goat.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -578,6 +610,7 @@ const alligator: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/alligator.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -592,6 +625,7 @@ const falcon: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/falcon.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
@@ -627,6 +661,7 @@ const owl: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/owl.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -642,6 +677,7 @@ const skunk: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/skunk.png',
   },
   activateFn: async (): Promise<void> => {},
@@ -655,6 +691,7 @@ const strayCat: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/stray_cat.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
@@ -682,6 +719,7 @@ const rabidDog: CardArgs<NeighborCardData> = {
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
+    isActivable: false,
     cardImage: '/cards/neighbourhood/rabid_dog.png',
   },
   activateFn: async ({ player }): Promise<void> => {
@@ -696,7 +734,7 @@ const rabidDog: CardArgs<NeighborCardData> = {
 export const neighbors: Array<NeighborCard> = [
   // Animals
   ...createNeighborCards(goat, 1),
-  ...createNeighborCards(falcon, 50),
+  ...createNeighborCards(falcon, 1),
   ...createNeighborCards(skunk, 1),
   ...createNeighborCards(alligator, 1),
   ...createNeighborCards(rabidDog, 2),
