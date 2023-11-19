@@ -1,6 +1,7 @@
 import { v4 } from 'uuid';
 import {
   CandleCardData,
+  CardFilter,
   CardInput,
   DemonCardData,
   NeighborCardData,
@@ -64,5 +65,26 @@ export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
    */
   get data(): T {
     return this._data;
+  }
+
+  passFilter(filter: CardFilter): boolean {
+    if (filter.ids && !filter.ids.includes(this.data.id)) {
+      return false;
+    }
+
+    if (filter.types && !filter.types.includes(this.data.type)) {
+      return false;
+    }
+
+    if (
+      filter.activationNumbers &&
+      !filter.activationNumbers.some((activationNumber) =>
+        this.data.activationNumbers.includes(activationNumber),
+      )
+    ) {
+      return false;
+    }
+
+    return true;
   }
 }

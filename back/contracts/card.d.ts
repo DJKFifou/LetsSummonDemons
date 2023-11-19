@@ -32,3 +32,11 @@ export type DemonCardInputData = CardInput<DemonCardData>;
 
 export interface CandleCardData extends CardData {}
 export type CandleCardInputData = CardInput<CandleCardData>;
+
+interface CardFilter {
+  ids?: Array<CardId>;
+  types?: Array<CardType>;
+  neighborTypes?: Array<NeighborType>;
+  neighborKindnesses?: Array<NeighborKindness>;
+  activationNumbers?: Array<number>;
+}
