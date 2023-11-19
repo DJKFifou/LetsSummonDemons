@@ -1,5 +1,4 @@
 import { IoServer, IoSocket } from '../../contracts/io.js';
-import { neighbors } from '../neighbor/neighbors.js';
 import { playerFactory } from '../player/player.factory.js';
 import { Player } from '../player/player.js';
 import { gameRepository } from './game.repository.js';
