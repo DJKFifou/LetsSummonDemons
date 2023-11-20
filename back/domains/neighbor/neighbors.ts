@@ -127,7 +127,6 @@ const tommy: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/tommy.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
-    console.log('tommy awake');
     const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
     game.emitDataToSockets();
     await new Promise((resolve) => {
@@ -328,7 +327,6 @@ const alice: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/alice.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
-    console.log('alice awake');
     const ALICE_DRAW_CARDS_COUNT = 2;
     const drawnedCards: NeighborCard[] = [];
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
@@ -398,7 +396,21 @@ const damien: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/damien.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ player, game }): Promise<void> => {
+    if (player.getCoveredDemonCards().length > 0) {
+      const randomDemonCard = player.getRandomDemonCard();
+      const damienCard = player.getNeighborCards().find((card) => {
+        return card.getData().name === 'DAMIEN';
+      });
+      const damienCardId = damienCard?.getData().id;
+
+      player.addSummonedDemonCard(randomDemonCard);
+      player.removeCoveredDemonCardById(randomDemonCard.getData().id);
+      player.removeNeighborCardById(damienCardId);
+
+      game.emitDataToSockets();
+    }
+  },
 };
 
 const destiny: CardArgs<NeighborCardData> = {
@@ -496,7 +508,6 @@ const cat: CardArgs<NeighborCardData> = {
   },
 
   activateFn: async ({ game, player }): Promise<void> => {
-    console.log('cat awake');
     const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
     game.emitDataToSockets();
     await new Promise((resolve) => {
@@ -629,7 +640,6 @@ const falcon: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/falcon.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
-    console.log('falcon awake');
     const FALCON_DRAW_CARDS_COUNT = 7;
     const drawnedCards: NeighborCard[] = [];
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
@@ -695,7 +705,6 @@ const strayCat: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/stray_cat.png',
   },
   activateFn: async ({ game, player }): Promise<void> => {
-    console.log('stray cat awake');
     const boys = player.getBoyNeighborCards();
     const girls = player.getGirlNeighborCards();
     if (boys.length < 1 && girls.length < 1) {

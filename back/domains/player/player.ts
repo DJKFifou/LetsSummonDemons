@@ -129,6 +129,14 @@ export class Player implements EntityClass<PlayerData> {
     return this.summonedDemonsCards;
   }
 
+  getRandomDemonCard(): DemonCard {
+    const randomIndex = Math.floor(
+      Math.random() * this.coveredDemonsCards.length,
+    );
+
+    return this.coveredDemonsCards[randomIndex];
+  }
+
   addNeighborCard(neighborCard: NeighborCard): void {
     this.neighborsCards.push(neighborCard);
   }
