@@ -48,7 +48,7 @@ export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   async activate(args: CardResolveFunctionArgs): Promise<void> {
     await this.activateFn(args);
 
-    console.log(`${this.data.name} activated by ${args.player.getData().name}`);
+    console.log(`${this.data.name} activated for ${args.player.getData().name} by ${args.game.getData().turn.current.player.name}`);
 
     args.game.emitDataToSockets();
   }
