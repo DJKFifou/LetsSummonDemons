@@ -43,6 +43,12 @@ export class Turn implements EntityClass<TurnData> {
       throw new CannotEndTurnError();
     }
 
+    this.game.playerList.forEach((player) => {
+      player.getNeighborCards().forEach((neighborCard) => {
+        neighborCard.isActivableSetter();
+      });
+    });
+
     if (this.checkWin()) {
       this.game.end(this.current.getData().player);
     } else {

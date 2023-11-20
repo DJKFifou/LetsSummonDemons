@@ -58,13 +58,22 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected async activateCards(dicesResult: number): Promise<void> {
     for await (const player of this.game.turn?.playerListFromCurrent ?? []) {
       for await (const neighborCard of player.getNeighborCards()) {
-        if (!neighborCard.isActivatedByNumber(dicesResult)) {
-          return;
+        if (
+          neighborCard.isActivatedByNumber(dicesResult) &&
+          neighborCard.getData().isActivable
+        ) {
+          await neighborCard.activate({
+            game: this.game,
+            player: this.player,
+          });
         }
+      }
 
-        await neighborCard.activate({
+      const candleCard = player.getCandleCard();
+      if (candleCard.isActivatedByNumber(dicesResult)) {
+        candleCard.activate({
           game: this.game,
-          player: player,
+          player: this.player,
         });
       }
     }
@@ -114,8 +123,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       this.player.removeNeighborCardById(neighborId);
     });
 
-    const summonedCard = this.player.removeCoveredDemonCardById(demonCardId);
-    this.player.addSummonedDemonCard(summonedCard);
+    this.player.uncoverDemonCard(demonCardId);
 
     this.summonedDemon = true;
 

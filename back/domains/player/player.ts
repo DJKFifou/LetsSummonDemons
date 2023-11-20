@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
-import { CandleCardData, CardId } from '../../contracts/card.js';
+import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import {
   PlayerData,
   PlayerId,
   PlayerInputData,
 } from '../../contracts/player.js';
+import { CandleCard } from '../candle/candle.js';
 import { DemonCard } from '../demon/demon.js';
 import { NeighborCard } from '../neighbor/neighbor.js';
 import {
@@ -17,7 +18,7 @@ export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
   protected name: string;
   protected soulsTokenCount: number;
-  protected candleCard?: CandleCardData;
+  protected candleCard?: CandleCard;
   protected coveredDemonsCards: Array<DemonCard>;
   protected summonedDemonsCards: Array<DemonCard>;
   protected neighborsCards: Array<NeighborCard>;
@@ -39,7 +40,7 @@ export class Player implements EntityClass<PlayerData> {
       id: this.id,
       name: this.name,
       soulsTokenCount: this.soulsTokenCount,
-      candleCard: this.candleCard,
+      candleCard: this.candleCard?.getData(),
       coveredDemonsCards: this.coveredDemonsCards.map((card) => card.getData()),
       summonedDemonsCards: this.summonedDemonsCards.map((card) =>
         card.getData(),
@@ -61,8 +62,12 @@ export class Player implements EntityClass<PlayerData> {
     this.soulsTokenCount -= count;
   }
 
-  setCandleCard(candleCard: CandleCardData): void {
+  setCandleCard(candleCard): void {
     this.candleCard = candleCard;
+  }
+
+  getCandleCard(): CandleCard | null {
+    return this.candleCard;
   }
 
   addCoveredDemonCard(demonCard: DemonCard): void {
@@ -121,8 +126,23 @@ export class Player implements EntityClass<PlayerData> {
     );
   }
 
+  uncoverDemonCard(demonCardId: CardId): void {
+    const demonCard = this.getCoveredDemonCardById(demonCardId);
+
+    this.removeCoveredDemonCardById(demonCardId);
+    this.addSummonedDemonCard(demonCard);
+  }
+
   getSummonedDemonCards(): Array<DemonCard> {
     return this.summonedDemonsCards;
+  }
+
+  getRandomDemonCard(): DemonCard {
+    const randomIndex = Math.floor(
+      Math.random() * this.coveredDemonsCards.length,
+    );
+
+    return this.coveredDemonsCards[randomIndex];
   }
 
   addNeighborCard(neighborCard: NeighborCard): void {

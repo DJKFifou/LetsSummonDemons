@@ -1,7 +1,6 @@
 import { BroadcastOperator } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 import { ioServer } from '../../app/io/server.js';
-import { candles } from '../../constants/candles.js';
 import { DICE_COUNT } from '../../constants/dices.js';
 import {
   MAX_GAME_PLAYERS,
@@ -9,7 +8,6 @@ import {
   START_WITH_DEMONS_COUNT,
   START_WITH_SOUL_TOKEN_COUNT,
 } from '../../constants/game.js';
-import { CandleCardData } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { GameData, GameId, GameState } from '../../contracts/game.js';
 import {
@@ -30,6 +28,8 @@ import {
   JoinFullGameError,
   StartWithoutEnoughPlayersError,
 } from './game.errors.js';
+import { CandleCard } from '../candle/candle.js';
+import { candles } from '../candle/candles.js';
 
 export class Game implements EntityClass<GameData> {
   protected id: GameId;
@@ -40,7 +40,7 @@ export class Game implements EntityClass<GameData> {
   turn?: Turn;
   readonly dices: Array<Dice>;
 
-  protected candlesDeck: Array<CandleCardData>;
+  protected candlesDeck: Array<CandleCard>;
   protected demonsDeck: Array<DemonCard>;
   neighborsDeck?: NeighborsDeck;
 

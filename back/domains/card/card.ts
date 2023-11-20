@@ -1,5 +1,6 @@
 import { v4 } from 'uuid';
 import {
+  CandleCardData,
   CardInput,
   DemonCardData,
   NeighborCardData,
@@ -18,12 +19,14 @@ interface CardResolveFunctionArgs {
 type CardResolveFunction = (args: CardResolveFunctionArgs) => Promise<void>;
 
 // arguments de la classe
-export interface CardArgs<T extends NeighborCardData | DemonCardData> {
+export interface CardArgs<
+  T extends NeighborCardData | DemonCardData | CandleCardData,
+> {
   data: CardInput<T>;
   activateFn: CardResolveFunction;
 }
 
-export class Card<T extends NeighborCardData | DemonCardData>
+export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   implements EntityClass<T>
 {
   protected data: T;
