@@ -2,10 +2,9 @@ import {
   SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON,
   SOULS_COUNT_TO_BUY_NEIGHBOR_CARD,
 } from '../../constants/game.js';
-import { CandleCardData, CardId } from '../../contracts/card.js';
+import { CardId } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
-import { CandleCard } from '../candle/candle.js';
 import { Game } from '../game/game.js';
 import {
   NotEnoughNeighborsProdivedToSummonDemonError,
@@ -59,7 +58,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected async activateCards(dicesResult: number): Promise<void> {
     for await (const player of this.game.turn?.playerListFromCurrent ?? []) {
       for await (const neighborCard of player.getNeighborCards()) {
-        if (neighborCard.isActivatedByNumber(dicesResult) && neighborCard.getData().isActivable) {
+        if (
+          neighborCard.isActivatedByNumber(dicesResult) &&
+          neighborCard.getData().isActivable
+        ) {
           await neighborCard.activate({
             game: this.game,
             player: player,
@@ -67,13 +69,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         }
       }
 
-      const candleCardData: CandleCardData | null = player.getCandleCard();
-      const candleCard: CandleCard = new CandleCard({
-        data: candleCardData,
-        activateFn: async (): Promise<void> => {
-          player.addSoulToken(1);
-        },
-      });
+      const candleCard = player.getCandleCard();
       if (candleCard.isActivatedByNumber(dicesResult)) {
         candleCard.activate({
           game: this.game,
@@ -127,8 +123,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       this.player.removeNeighborCardById(neighborId);
     });
 
-    const summonedCard = this.player.removeCoveredDemonCardById(demonCardId);
-    this.player.addSummonedDemonCard(summonedCard);
+    this.player.uncoveredDemonCard(demonCardId);
 
     this.summonedDemon = true;
 

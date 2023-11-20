@@ -1,3 +1,4 @@
+// import { demons } from '../../constants/demons.js';
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
 import { NeighborCard } from './neighbor.js';
@@ -397,19 +398,20 @@ const damien: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/damien.png',
   },
   activateFn: async ({ player, game }): Promise<void> => {
-    if (player.getCoveredDemonCards().length > 0) {
-      const randomDemonCard = player.getRandomDemonCard();
-      const damienCard = player.getNeighborCards().find((card) => {
-        return card.getData().name === 'DAMIEN';
-      });
-      const damienCardId = damienCard?.getData().id;
-
-      player.addSummonedDemonCard(randomDemonCard);
-      player.removeCoveredDemonCardById(randomDemonCard.getData().id);
-      player.removeNeighborCardById(damienCardId);
-
-      game.emitDataToSockets();
+    if (player.getCoveredDemonCards().length < 1) {
+      return;
     }
+
+    const randomDemonCard = player.getRandomDemonCard();
+    const damienCard = player.getNeighborCards().find((card) => {
+      return card.getData().name === 'DAMIEN';
+    });
+    const damienCardId = damienCard?.getData().id;
+
+    player.uncoveredDemonCard(randomDemonCard.getData().id);
+    player.removeNeighborCardById(damienCardId);
+
+    game.emitDataToSockets();
   },
 };
 
@@ -609,7 +611,16 @@ const goat: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/goat.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ player, game }): Promise<void> => {
+    if (
+      player.getBoyNeighborCards().length > 0 &&
+      player.getGirlNeighborCards().length > 0
+    ) {
+      // const demon = demons.pop();
+      // player.addSummonedDemonCard(demon);
+      game.emitDataToSockets();
+    }
+  },
 };
 
 const alligator: CardArgs<NeighborCardData> = {
