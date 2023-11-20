@@ -28,14 +28,9 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     this.market = Array.from({ length: NEIGHBORS_MARKET_COUNT }).map(
       () => null,
     );
-    this.drawned = Array.from({ length: 0 }).map(
-      () => null,
-    );
-    this.discard = Array.from({length : 0 }).map(
-      () => null
-    );
-    // A check par Arthaud, voir si la création de la pile de carte piochée
-    // et de la déffausse est bonne ?
+    this.drawned = [];
+    this.discard = [];
+
     this.fillMarket();
   }
 
@@ -90,7 +85,7 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     return card;
   }
 
-  throwCards(cardCount : number): void {
+  throwCards(cardCount: number): void {
     for (let i = 0; i < cardCount; i++) {
       this.drawned.shift();
     }
@@ -102,7 +97,6 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
       market: this.market.map((card) => card.getData()),
       drawned: this.drawned.map((card) => card.getData()),
       discard: this.discard.map((card) => card.getData()),
-      // A check par Arthaud aussi
     };
   }
 }
