@@ -64,7 +64,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         ) {
           await neighborCard.activate({
             game: this.game,
-            player: player,
+            player: this.player,
           });
         }
       }
