@@ -1,4 +1,3 @@
-// import { demons } from '../../constants/demons.js';
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
 import { NeighborCard } from './neighbor.js';
