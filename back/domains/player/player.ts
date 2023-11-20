@@ -6,13 +6,13 @@ import {
   PlayerId,
   PlayerInputData,
 } from '../../contracts/player.js';
+import { CandleCard } from '../candle/candle.js';
 import { DemonCard } from '../demon/demon.js';
 import { NeighborCard } from '../neighbor/neighbor.js';
 import {
   DoesNotHaveThisDemonCoveredError,
   DoesNotHaveThisNeighborError,
 } from './player.errors.js';
-import { CandleCard } from '../candle/candle.js';
 
 export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
@@ -126,7 +126,7 @@ export class Player implements EntityClass<PlayerData> {
     );
   }
 
-  uncoveredDemonCard(demonCardId: CardId): void {
+  uncoverDemonCard(demonCardId: CardId): void {
     const demonCard = this.getCoveredDemonCardById(demonCardId);
 
     this.removeCoveredDemonCardById(demonCardId);

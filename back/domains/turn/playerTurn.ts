@@ -123,7 +123,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       this.player.removeNeighborCardById(neighborId);
     });
 
-    this.player.uncoveredDemonCard(demonCardId);
+    this.player.uncoverDemonCard(demonCardId);
 
     this.summonedDemon = true;
 

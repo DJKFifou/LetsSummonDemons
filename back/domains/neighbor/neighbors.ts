@@ -408,7 +408,7 @@ const damien: CardArgs<NeighborCardData> = {
     });
     const damienCardId = damienCard?.getData().id;
 
-    player.uncoveredDemonCard(randomDemonCard.getData().id);
+    player.uncoverDemonCard(randomDemonCard.getData().id);
     player.removeNeighborCardById(damienCardId);
 
     game.emitDataToSockets();
