@@ -171,7 +171,7 @@ const dolores: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/dolores.png',
   },
-  activateFn: async ({ game, cardOwner }): Promise<void> => {
+  activateFn: async (): Promise<void> => {
     // game.neighborsDeck.getData().market.forEach((card) => {
     //   if(card.neighborKindness === 'ADORABLE'){
     //     console.log("splice card")
@@ -179,16 +179,14 @@ const dolores: CardArgs<NeighborCardData> = {
     //     console.log(index)
     //     game.neighborsDeck.throwMarketCards(index);
     //   }
-      for (let i = 0; i < game.neighborsDeck.getData().market.length; i++) {
-        if(game.neighborsDeck.getData().market[i].neighborKindness === 'ADORABLE'){
-          console.log("splice card")
-          console.log(i)
-          game.neighborsDeck.throwMarketCards(i);
-        }
-      }
-      game.neighborsDeck.fillMarket();
-    
-
+    // for (let i = 0; i < game.neighborsDeck.getData().market.length; i++) {
+    //   if(game.neighborsDeck.getData().market[i].neighborKindness === 'ADORABLE'){
+    //     console.log("splice card")
+    //     console.log(i)
+    //     game.neighborsDeck.throwMarketCards(i);
+    //   }
+    // }
+    // game.neighborsDeck.fillMarket();
     // if (boys.length < 1 && girls.length < 1) {
     //   const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
     //   game.emitDataToSockets();

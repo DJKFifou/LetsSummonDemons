@@ -12,8 +12,8 @@ const snake = new DemonCard({
     cardBack,
     isPermanent: false,
   },
-  activateFn: async ({ game, player }): Promise<void> => {
-    game.end(player.getData());
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    game.end(cardOwner.getData());
   },
 });
 
