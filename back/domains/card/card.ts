@@ -12,7 +12,7 @@ import { Player } from '../player/player.js';
 // les arguments que reçoit la fonction d'activation de la carte
 interface CardResolveFunctionArgs {
   game: Game;
-  player: Player;
+  cardOwner: Player;
 }
 
 // le type de la fonction d'activation
@@ -48,7 +48,7 @@ export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   async activate(args: CardResolveFunctionArgs): Promise<void> {
     await this.activateFn(args);
 
-    console.log(`${this.data.name} activated for ${args.player.getData().name} by ${args.game.getData().turn.current.player.name}`);
+    console.log(`${this.data.name} activated for ${args.cardOwner.getData().name} by ${args.game.getData().turn.current.player.name}`);
 
     args.game.emitDataToSockets();
   }
