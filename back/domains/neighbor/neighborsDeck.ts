@@ -43,7 +43,7 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
   }
 
   protected getCardInMarketById(cardId: CardId): NeighborCard {
-    const card = this.market.find((card) => card.getData().id === cardId);
+    const card = this.market.find((card) => card.data.id === cardId);
 
     if (!card) {
       throw new NeighborNotInMarketError();
@@ -56,7 +56,7 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     const card = this.getCardInMarketById(cardId);
 
     for (let i = 0, iMax = this.market.length; i < iMax; i++) {
-      if (this.market[i].getData().id === cardId) {
+      if (this.market[i].data.id === cardId) {
         this.market[i] = null;
       }
     }
@@ -65,7 +65,7 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
   }
 
   buyCard(player: Player, cardId: CardId): void {
-    if (player.getData().soulsTokenCount < SOULS_COUNT_TO_BUY_NEIGHBOR_CARD) {
+    if (player.data.soulsTokenCount < SOULS_COUNT_TO_BUY_NEIGHBOR_CARD) {
       throw new NotEnoughtSoulsToBuyNeighborError();
     }
 
@@ -91,12 +91,12 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     }
   }
 
-  getData(): NeighborsDeckData {
+  get data(): NeighborsDeckData {
     return {
       remainingCardsCount: this.remainingCards.length,
-      market: this.market.map((card) => card.getData()),
-      drawned: this.drawned.map((card) => card.getData()),
-      discard: this.discard.map((card) => card.getData()),
+      market: this.market.map((card) => card.data),
+      drawned: this.drawned.map((card) => card.data),
+      discard: this.discard.map((card) => card.data),
     };
   }
 }

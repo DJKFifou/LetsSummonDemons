@@ -16,6 +16,8 @@ import {
 } from '../../contracts/io.js';
 import { PlayerData, PlayerId } from '../../contracts/player.js';
 import { shuffleArray } from '../../utils/array.js';
+import { CandleCard } from '../candle/candle.js';
+import { candles } from '../candle/candles.js';
 import { DemonCard } from '../demon/demon.js';
 import { demons } from '../demon/demons.js';
 import { Dice } from '../dice/dice.js';
@@ -28,8 +30,6 @@ import {
   JoinFullGameError,
   StartWithoutEnoughPlayersError,
 } from './game.errors.js';
-import { CandleCard } from '../candle/candle.js';
-import { candles } from '../candle/candles.js';
 
 export class Game implements EntityClass<GameData> {
   protected id: GameId;
@@ -68,7 +68,7 @@ export class Game implements EntityClass<GameData> {
   }
 
   getPlayerById(id: PlayerId): Player {
-    return this.players.find((player) => player.getData().id === id);
+    return this.players.find((player) => player.data.id === id);
   }
 
   get playerList(): Player[] {
@@ -122,13 +122,13 @@ export class Game implements EntityClass<GameData> {
     });
   }
 
-  getData(): GameData {
+  get data(): GameData {
     return {
       id: this.id,
-      players: this.players.map((player) => player.getData()),
+      players: this.players.map((player) => player.data),
       state: this.state,
-      turn: this.turn?.getData(),
-      neighborsDeck: this.neighborsDeck?.getData(),
+      turn: this.turn?.data,
+      neighborsDeck: this.neighborsDeck?.data,
     };
   }
 
@@ -140,6 +140,6 @@ export class Game implements EntityClass<GameData> {
   }
 
   emitDataToSockets(): void {
-    this.toSockets().emit('gameData', this.getData());
+    this.toSockets().emit('gameData', this.data);
   }
 }

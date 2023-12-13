@@ -18,6 +18,6 @@ describe('dice', () => {
 
     dice.launch();
 
-    expect(dice.getData().result).toBe(1);
+    expect(dice.data.result).toBe(1);
   });
 });

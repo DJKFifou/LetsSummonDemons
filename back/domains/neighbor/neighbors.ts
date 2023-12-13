@@ -132,7 +132,7 @@ const tommy: CardArgs<NeighborCardData> = {
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    if (drawnedCard.getData().neighborType === 'GIRL') {
+    if (drawnedCard.data.neighborType === 'GIRL') {
       player.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
@@ -338,7 +338,7 @@ const alice: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.getData().neighborKindness === 'ADORABLE') {
+      if (drawnedCard.data.neighborKindness === 'ADORABLE') {
         player.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(ALICE_DRAW_CARDS_COUNT);
@@ -403,11 +403,11 @@ const damien: CardArgs<NeighborCardData> = {
 
     const randomDemonCard = player.getRandomDemonCard();
     const damienCard = player.getNeighborCards().find((card) => {
-      return card.getData().name === 'DAMIEN';
+      return card.data.name === 'DAMIEN';
     });
-    const damienCardId = damienCard?.getData().id;
+    const damienCardId = damienCard?.data.id;
 
-    player.uncoverDemonCard(randomDemonCard.getData().id);
+    player.uncoverDemonCard(randomDemonCard.data.id);
     player.removeNeighborCardById(damienCardId);
 
     game.emitDataToSockets();
@@ -514,7 +514,7 @@ const cat: CardArgs<NeighborCardData> = {
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    if (drawnedCard.getData().neighborType === 'ANIMAL') {
+    if (drawnedCard.data.neighborType === 'ANIMAL') {
       player.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
@@ -661,7 +661,7 @@ const falcon: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.getData().neighborType === 'ANIMAL') {
+      if (drawnedCard.data.neighborType === 'ANIMAL') {
         player.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(FALCON_DRAW_CARDS_COUNT);

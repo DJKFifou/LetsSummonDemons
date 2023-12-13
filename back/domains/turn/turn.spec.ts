@@ -6,11 +6,11 @@ import { Turn } from './turn.js';
 
 test('start by first player', () => {
   const game = gameFactory.createStarted();
-  const playerA = game.getData().players[0];
+  const playerA = game.data.players[0];
 
   const turn = new Turn(game);
 
-  expect(turn.getData().current.player.id).toBe(playerA.id);
+  expect(turn.data.current.player.id).toBe(playerA.id);
 });
 
 describe('end turn', () => {
@@ -34,20 +34,20 @@ describe('end turn', () => {
     turn.endTurn();
 
     expect(turn.current.canEndTurn).toBe(false);
-    expect(turn.getData().played).toContain(player.getData().id);
+    expect(turn.data.played).toContain(player.data.id);
   });
 });
 
 test('next player is the next in the list', () => {
   const game = gameFactory.createStarted();
-  const playerB = game.getData().players[1];
+  const playerB = game.data.players[1];
 
   const turn = new Turn(game);
 
   turn.launchDices();
   turn.endTurn();
 
-  expect(turn.getData().current.player.id).toBe(playerB.id);
+  expect(turn.data.current.player.id).toBe(playerB.id);
 });
 
 describe('list from current', () => {
@@ -63,10 +63,10 @@ describe('list from current', () => {
 
     const list = game.playerList;
     const listFromCurrent = turn.playerListFromCurrent;
-    expect(listFromCurrent[0].getData().id).toBe(list[1].getData().id);
-    expect(listFromCurrent[1].getData().id).toBe(list[2].getData().id);
-    expect(listFromCurrent[listFromCurrent.length - 1].getData().id).toBe(
-      list[0].getData().id,
+    expect(listFromCurrent[0].data.id).toBe(list[1].data.id);
+    expect(listFromCurrent[1].data.id).toBe(list[2].data.id);
+    expect(listFromCurrent[listFromCurrent.length - 1].data.id).toBe(
+      list[0].data.id,
     );
   });
 });

@@ -29,11 +29,11 @@ export interface CardArgs<
 export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   implements EntityClass<T>
 {
-  protected data: T;
+  protected _data: T;
   protected activateFn: CardResolveFunction;
 
   constructor({ data, activateFn }: CardArgs<T>) {
-    this.data = {
+    this._data = {
       id: v4(),
       ...data,
     } as T;
@@ -48,7 +48,9 @@ export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   async activate(args: CardResolveFunctionArgs): Promise<void> {
     await this.activateFn(args);
 
-    console.log(`${this.data.name} activated for ${args.player.getData().name} by ${args.game.getData().turn.current.player.name}`);
+    console.log(
+      `${this.data.name} activated for ${args.player.data.name} by ${args.game.data.turn.current.player.name}`,
+    );
 
     args.game.emitDataToSockets();
   }
@@ -60,7 +62,7 @@ export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   /**
    * Données pour la transmisison au front
    */
-  getData(): T {
-    return this.data;
+  get data(): T {
+    return this._data;
   }
 }
