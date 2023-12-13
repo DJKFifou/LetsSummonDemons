@@ -27,7 +27,7 @@ describe('launch dices', () => {
 
     playerTurn.launchDices();
 
-    expect(playerTurn.getData().launchedDices).toBe(true);
+    expect(playerTurn.data.launchedDices).toBe(true);
   });
 
   test('cannot launch dices twice', () => {
@@ -51,7 +51,7 @@ describe('buy neighbor', () => {
     player.addSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD - 1);
 
     const buyNeighbor = (): void =>
-      playerTurn.buyNeighbor(game.neighborsDeck.getData().market[0].id);
+      playerTurn.buyNeighbor(game.neighborsDeck.data.market[0].id);
 
     expect(playerTurn.canBuyNeighbor).toBe(false);
     expect(buyNeighbor).toThrow(CannotBuyNeighborError);
@@ -76,10 +76,10 @@ describe('buy neighbor', () => {
     player.addSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);
     expect(playerTurn.canBuyNeighbor).toBe(true);
 
-    playerTurn.buyNeighbor(game.neighborsDeck.getData().market[0].id);
+    playerTurn.buyNeighbor(game.neighborsDeck.data.market[0].id);
 
     expect(playerTurn.canBuyNeighbor).toBe(false);
-    expect(player.getData().soulsTokenCount).toBe(START_WITH_SOUL_TOKEN_COUNT);
+    expect(player.data.soulsTokenCount).toBe(START_WITH_SOUL_TOKEN_COUNT);
   });
 
   test('cannot buy neighbor twice', () => {
@@ -88,7 +88,7 @@ describe('buy neighbor', () => {
     const playerTurn = new PlayerTurn({ game, player });
     player.addSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);
     const buyNeighbor = (): void =>
-      playerTurn.buyNeighbor(game.neighborsDeck.getData().market[0].id);
+      playerTurn.buyNeighbor(game.neighborsDeck.data.market[0].id);
 
     buyNeighbor();
 
@@ -107,10 +107,10 @@ describe('summon demon', () => {
     player.addCoveredDemonCard(demons[0]);
 
     const summonDemon = (): void =>
-      playerTurn.summonDemon(demons[0].getData().id, [
-        neighbors[0].getData().id,
-        neighbors[1].getData().id,
-        neighbors[2].getData().id,
+      playerTurn.summonDemon(demons[0].data.id, [
+        neighbors[0].data.id,
+        neighbors[1].data.id,
+        neighbors[2].data.id,
       ]);
 
     expect(playerTurn.canSummonDemon).toBe(false);
@@ -127,9 +127,9 @@ describe('summon demon', () => {
     player.addCoveredDemonCard(demons[0]);
 
     const summonDemon = (): void =>
-      playerTurn.summonDemon(demons[0].getData().id, [
-        neighbors[0].getData().id,
-        neighbors[1].getData().id,
+      playerTurn.summonDemon(demons[0].data.id, [
+        neighbors[0].data.id,
+        neighbors[1].data.id,
       ]);
 
     expect(playerTurn.canSummonDemon).toBe(true);
@@ -147,11 +147,11 @@ describe('summon demon', () => {
     player.addCoveredDemonCard(demons[0]);
 
     const summonDemon = (): void =>
-      playerTurn.summonDemon(demons[0].getData().id, [
-        neighbors[0].getData().id,
-        neighbors[1].getData().id,
-        neighbors[2].getData().id,
-        neighbors[3].getData().id,
+      playerTurn.summonDemon(demons[0].data.id, [
+        neighbors[0].data.id,
+        neighbors[1].data.id,
+        neighbors[2].data.id,
+        neighbors[3].data.id,
       ]);
 
     expect(playerTurn.canSummonDemon).toBe(true);
@@ -168,10 +168,10 @@ describe('summon demon', () => {
     player.addCoveredDemonCard(demons[2]);
 
     const summonDemon = (): void =>
-      playerTurn.summonDemon(demons[0].getData().id, [
-        neighbors[0].getData().id,
-        neighbors[1].getData().id,
-        neighbors[2].getData().id,
+      playerTurn.summonDemon(demons[0].data.id, [
+        neighbors[0].data.id,
+        neighbors[1].data.id,
+        neighbors[2].data.id,
       ]);
 
     expect(playerTurn.canSummonDemon).toBe(true);
@@ -188,10 +188,10 @@ describe('summon demon', () => {
     player.addCoveredDemonCard(demons[0]);
     expect(playerTurn.canSummonDemon).toBe(true);
 
-    playerTurn.summonDemon(demons[0].getData().id, [
-      neighbors[0].getData().id,
-      neighbors[1].getData().id,
-      neighbors[2].getData().id,
+    playerTurn.summonDemon(demons[0].data.id, [
+      neighbors[0].data.id,
+      neighbors[1].data.id,
+      neighbors[2].data.id,
     ]);
 
     expect(playerTurn.canSummonDemon).toBe(false);
@@ -207,10 +207,10 @@ describe('summon demon', () => {
     player.addNeighborCard(neighbors[2]);
     player.addCoveredDemonCard(demons[0]);
     const summonDemon = (): void =>
-      playerTurn.summonDemon(demons[0].getData().id, [
-        neighbors[0].getData().id,
-        neighbors[1].getData().id,
-        neighbors[2].getData().id,
+      playerTurn.summonDemon(demons[0].data.id, [
+        neighbors[0].data.id,
+        neighbors[1].data.id,
+        neighbors[2].data.id,
       ]);
 
     summonDemon();

@@ -8,8 +8,7 @@ const isPlayerTurn = ({
 }: {
   game?: Game;
   socket: IoSocket;
-}): boolean =>
-  game && game.getData().turn.current.player.id == socket.data.playerId;
+}): boolean => game && game.data.turn.current.player.id == socket.data.playerId;
 
 export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('turnLaunchDices', () => {
@@ -31,7 +30,7 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     game.turn.buyNeighbor(neighborCardId);
 
-    socket.emit('gameData', game.getData());
+    socket.emit('gameData', game.data);
   });
 
   socket.on('turnInvokeDemon', ({ demonCardId, neighborsSacrifiedIds }) => {
@@ -43,7 +42,7 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     game.turn.summonDemon(demonCardId, neighborsSacrifiedIds);
 
-    socket.emit('gameData', game.getData());
+    socket.emit('gameData', game.data);
   });
 
   socket.on('turnEnd', () => {
@@ -55,6 +54,6 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     game.turn.endTurn();
 
-    socket.emit('gameData', game.getData());
+    socket.emit('gameData', game.data);
   });
 };

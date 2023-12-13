@@ -132,7 +132,7 @@ const tommy: CardArgs<NeighborCardData> = {
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    if (drawnedCard.getData().neighborType === 'GIRL') {
+    if (drawnedCard.data.neighborType === 'GIRL') {
       cardOwner.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
@@ -364,7 +364,7 @@ const alice: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.getData().neighborKindness === 'ADORABLE') {
+      if (drawnedCard.data.neighborKindness === 'ADORABLE') {
         cardOwner.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(ALICE_DRAW_CARDS_COUNT);
@@ -429,11 +429,11 @@ const damien: CardArgs<NeighborCardData> = {
 
     const randomDemonCard = cardOwner.getRandomDemonCard();
     const damienCard = cardOwner.getNeighborCards().find((card) => {
-      return card.getData().name === 'DAMIEN';
+      return card.data.name === 'DAMIEN';
     });
-    const damienCardId = damienCard?.getData().id;
+    const damienCardId = damienCard?.data.id;
 
-    cardOwner.uncoverDemonCard(randomDemonCard.getData().id);
+    cardOwner.uncoverDemonCard(randomDemonCard.data.id);
     cardOwner.removeNeighborCardById(damienCardId);
 
     game.emitDataToSockets();
@@ -540,7 +540,7 @@ const cat: CardArgs<NeighborCardData> = {
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    if (drawnedCard.getData().neighborType === 'ANIMAL') {
+    if (drawnedCard.data.neighborType === 'ANIMAL') {
       cardOwner.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
@@ -687,7 +687,7 @@ const falcon: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.getData().neighborType === 'ANIMAL') {
+      if (drawnedCard.data.neighborType === 'ANIMAL') {
         cardOwner.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(FALCON_DRAW_CARDS_COUNT);

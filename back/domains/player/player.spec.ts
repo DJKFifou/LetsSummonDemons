@@ -6,5 +6,5 @@ test('should have an id', () => {
     name: faker.person.fullName(),
   });
 
-  expect(player.getData().id).not.toBe(null);
+  expect(player.data.id).not.toBe(null);
 });

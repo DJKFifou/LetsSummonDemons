@@ -35,17 +35,15 @@ export class Player implements EntityClass<PlayerData> {
     this.isBot = false;
   }
 
-  getData(): PlayerData {
+  get data(): PlayerData {
     return {
       id: this.id,
       name: this.name,
       soulsTokenCount: this.soulsTokenCount,
-      candleCard: this.candleCard?.getData(),
-      coveredDemonsCards: this.coveredDemonsCards.map((card) => card.getData()),
-      summonedDemonsCards: this.summonedDemonsCards.map((card) =>
-        card.getData(),
-      ),
-      neighborsCards: this.neighborsCards.map((card) => card.getData()),
+      candleCard: this.candleCard?.data,
+      coveredDemonsCards: this.coveredDemonsCards.map((card) => card.data),
+      summonedDemonsCards: this.summonedDemonsCards.map((card) => card.data),
+      neighborsCards: this.neighborsCards.map((card) => card.data),
       isBot: this.isBot,
     };
   }
@@ -79,7 +77,7 @@ export class Player implements EntityClass<PlayerData> {
       this.getCoveredDemonCardById(demonIdToRemove);
 
     this.coveredDemonsCards = this.coveredDemonsCards.filter(
-      (card) => card.getData().id !== demonIdToRemove,
+      (card) => card.data.id !== demonIdToRemove,
     );
 
     return removedCard;
@@ -87,7 +85,7 @@ export class Player implements EntityClass<PlayerData> {
 
   getCoveredDemonCardById(demonCardId: CardId): DemonCard {
     const card = this.coveredDemonsCards.find(
-      (card) => card.getData().id === demonCardId,
+      (card) => card.data.id === demonCardId,
     );
 
     if (!card) {
@@ -109,7 +107,7 @@ export class Player implements EntityClass<PlayerData> {
     let removedCard: DemonCard;
 
     this.summonedDemonsCards = this.summonedDemonsCards.filter((card) => {
-      if (card.getData().id !== demonCardId) {
+      if (card.data.id !== demonCardId) {
         return true;
       }
 
@@ -122,7 +120,7 @@ export class Player implements EntityClass<PlayerData> {
 
   getSummonedDemonCardById(demonCardId: CardId): DemonCard {
     return this.summonedDemonsCards.find(
-      (card) => card.getData().id === demonCardId,
+      (card) => card.data.id === demonCardId,
     );
   }
 
@@ -154,7 +152,7 @@ export class Player implements EntityClass<PlayerData> {
       this.getNeighborCardById(neighborIdToRemove);
 
     this.neighborsCards = this.neighborsCards.filter(
-      (card) => card.getData().id !== neighborIdToRemove,
+      (card) => card.data.id !== neighborIdToRemove,
     );
 
     return removedCard;
@@ -162,7 +160,7 @@ export class Player implements EntityClass<PlayerData> {
 
   getNeighborCardById(neighborCardId: CardId): NeighborCard {
     const card = this.neighborsCards.find(
-      (card) => card.getData().id === neighborCardId,
+      (card) => card.data.id === neighborCardId,
     );
 
     if (!card) {
@@ -178,31 +176,31 @@ export class Player implements EntityClass<PlayerData> {
 
   getBoyNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().neighborType == 'BOY',
+      (card) => card.data.neighborType == 'BOY',
     );
   }
 
   getGirlNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().neighborType == 'GIRL',
+      (card) => card.data.neighborType == 'GIRL',
     );
   }
 
   getAnimalNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().neighborType == 'ANIMAL',
+      (card) => card.data.neighborType == 'ANIMAL',
     );
   }
 
   getHorribleNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().neighborKindness == 'HORRIBLE',
+      (card) => card.data.neighborKindness == 'HORRIBLE',
     );
   }
 
   getAdorableNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
-      (card) => card.getData().neighborKindness == 'ADORABLE',
+      (card) => card.data.neighborKindness == 'ADORABLE',
     );
   }
 }

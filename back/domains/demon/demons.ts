@@ -13,7 +13,7 @@ const snake = new DemonCard({
     isPermanent: false,
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-    game.end(cardOwner.getData());
+    game.end(cardOwner.data);
   },
 });
 
