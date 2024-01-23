@@ -29,11 +29,11 @@ export interface CardArgs<T extends GenericCardData> {
 }
 
 export class Card<T extends GenericCardData> implements EntityClass<T> {
-  protected data: T;
+  protected _data: T;
   protected activateFn: ActivateFunction<T>;
 
   constructor({ data, activateFn }: CardArgs<T>) {
-    this.data = {
+    this._data = {
       id: v4(),
       ...data,
     } as T;
@@ -55,8 +55,8 @@ export class Card<T extends GenericCardData> implements EntityClass<T> {
     });
 
     console.log(
-      `${this.data.name} activated for ${cardOwner.getData().name} by ${
-        game.getData().turn.current.player.name
+      `${this.data.name} activated for ${cardOwner.data.name} by ${
+        game.data.turn.current.player.name
       }`,
     );
 
@@ -70,7 +70,7 @@ export class Card<T extends GenericCardData> implements EntityClass<T> {
   /**
    * Données pour la transmisison au front
    */
-  getData(): T {
-    return this.data;
+  get data(): T {
+    return this._data;
   }
 }

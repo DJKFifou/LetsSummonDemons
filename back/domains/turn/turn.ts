@@ -21,7 +21,7 @@ export class Turn implements EntityClass<TurnData> {
 
     this.played = [];
     this.current = null;
-    this.remaining = game.getData().players.map((player) => player.id);
+    this.remaining = game.data.players.map((player) => player.id);
 
     this.nextPlayer();
   }
@@ -50,7 +50,7 @@ export class Turn implements EntityClass<TurnData> {
     });
 
     if (this.checkWin()) {
-      this.game.end(this.current.getData().player);
+      this.game.end(this.current.data.player);
     } else {
       this.nextPlayer();
 
@@ -59,7 +59,7 @@ export class Turn implements EntityClass<TurnData> {
   }
 
   protected checkWin(): boolean {
-    const currentPlayerData = this.current.getData().player;
+    const currentPlayerData = this.current.data.player;
 
     return (
       currentPlayerData.summonedDemonsCards.length >=
@@ -70,7 +70,7 @@ export class Turn implements EntityClass<TurnData> {
 
   protected nextPlayer(): void {
     if (this.current) {
-      this.played.push(this.current.getData().player.id);
+      this.played.push(this.current.data.player.id);
     }
 
     const newCurrentPlayer = this.getNextPlayer();
@@ -80,10 +80,10 @@ export class Turn implements EntityClass<TurnData> {
     }
 
     this.remaining = this.remaining.filter(
-      (id) => id !== newCurrentPlayer.getData().id,
+      (id) => id !== newCurrentPlayer.data.id,
     );
 
-    const turnClass = newCurrentPlayer.getData().isBot ? BotTurn : PlayerTurn;
+    const turnClass = newCurrentPlayer.data.isBot ? BotTurn : PlayerTurn;
 
     this.current = new turnClass({
       game: this.game,
@@ -100,7 +100,7 @@ export class Turn implements EntityClass<TurnData> {
   get playerListFromCurrent(): Array<Player> {
     const playerList = this.game.playerList;
     const indexOfCurrent = playerList.findIndex(
-      (player) => player.getData().id === this.current.player.getData().id,
+      (player) => player.data.id === this.current.player.data.id,
     );
 
     return [
@@ -109,10 +109,10 @@ export class Turn implements EntityClass<TurnData> {
     ];
   }
 
-  getData(): TurnData {
+  get data(): TurnData {
     return {
       played: this.played,
-      current: this.current.getData(),
+      current: this.current.data,
       remaining: this.remaining,
     };
   }

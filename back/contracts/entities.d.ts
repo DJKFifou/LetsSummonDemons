@@ -1,3 +1,3 @@
 export type EntityClass<T> = {
-  getData: () => T;
+  get data(): T;
 };

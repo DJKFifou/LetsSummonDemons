@@ -10,7 +10,7 @@ import { gameFactory } from './game.factory.js';
 test('should have an id', () => {
   const game = gameFactory.create();
 
-  expect(game.getData().id).not.toBe(null);
+  expect(game.data.id).not.toBe(null);
 });
 
 describe('starting', () => {
@@ -28,13 +28,13 @@ describe('starting', () => {
 
     game.start();
 
-    expect(game.getData().state).toBe('started');
+    expect(game.data.state).toBe('started');
   });
 
   test('define a player to play', () => {
     const startedGame = gameFactory.createStarted();
 
-    expect(startedGame.getData().turn).not.toBe(null);
+    expect(startedGame.data.turn).not.toBe(null);
   });
 });
 
@@ -45,7 +45,7 @@ describe('joining', () => {
 
     game.addPlayer(player);
 
-    expect(game.getData().players).toContainEqual(player.getData());
+    expect(game.data.players).toContainEqual(player.data);
   });
 
   test('cannot join if full', () => {

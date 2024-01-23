@@ -31,7 +31,7 @@ export class Dice implements EntityClass<DiceData> {
     return this.result;
   }
 
-  getData(): DiceData {
+  get data(): DiceData {
     return {
       facesCount: this.facesCount,
       result: this.result,

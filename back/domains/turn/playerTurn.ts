@@ -60,7 +60,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       for await (const neighborCard of player.getNeighborCards()) {
         if (
           neighborCard.isActivatedByNumber(dicesResult) &&
-          neighborCard.getData().isActivable
+          neighborCard.data.isActivable
         ) {
           await neighborCard.activate({
             game: this.game,
@@ -137,7 +137,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   get canBuyNeighbor(): boolean {
     return (
       !this.bougthNeighbor &&
-      this.player.getData().soulsTokenCount >= SOULS_COUNT_TO_BUY_NEIGHBOR_CARD
+      this.player.data.soulsTokenCount >= SOULS_COUNT_TO_BUY_NEIGHBOR_CARD
     );
   }
 
@@ -154,9 +154,9 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     return this.launchedDices;
   }
 
-  getData(): PlayerTurnData {
+  get data(): PlayerTurnData {
     return {
-      player: this.player.getData(),
+      player: this.player.data,
       launchedDices: this.launchedDices,
       dicesResult: this.dicesResult,
       summonedDemon: this.summonedDemon,
