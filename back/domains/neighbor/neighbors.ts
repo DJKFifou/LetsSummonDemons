@@ -1,5 +1,6 @@
 import { NeighborCardData } from '../../contracts/card.js';
-import { CardArgs } from '../card/card.js';
+import { Card, CardArgs } from '../card/card.js';
+import { DemonCard } from '../demon/demon.js';
 import { NeighborCard } from './neighbor.js';
 
 const createNeighborCards = (
@@ -385,7 +386,15 @@ const marilyn: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/marilyn.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async (): Promise<void> => {
+    // const boys = game.neighborsDeck
+    //   .getData()
+    //   .filter((card) => card.getData().neighborType === 'BOY');
+    // const boysCount = boys.length;
+    // if (boysCount > 0) {
+    //   cardOwner.addNeighborCard(boys[0]);
+    // }
+  },
 };
 
 const fifi: CardArgs<NeighborCardData> = {
@@ -422,19 +431,14 @@ const damien: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/damien.png',
   },
-  activateFn: async ({ cardOwner, game }): Promise<void> => {
+  activateFn: async ({ cardOwner, game, card }): Promise<void> => {
     if (cardOwner.getCoveredDemonCards().length < 1) {
       return;
     }
 
     const randomDemonCard = cardOwner.getRandomDemonCard();
-    const damienCard = cardOwner.getNeighborCards().find((card) => {
-      return card.getData().name === 'DAMIEN';
-    });
-    const damienCardId = damienCard?.getData().id;
-
     cardOwner.uncoverDemonCard(randomDemonCard.getData().id);
-    cardOwner.removeNeighborCardById(damienCardId);
+    cardOwner.removeNeighborCardById(card.getData().id);
 
     game.emitDataToSockets();
   },
@@ -628,7 +632,7 @@ const goat: CardArgs<NeighborCardData> = {
     name: 'CHÈVRE',
     type: 'NEIGHBOR',
     description:
-      'Vous pouvez défausser exactement 1 BOY et 1 FILLE : invoquez le Démon du dessus de la pioche gratuitement.',
+      'Vous pouvez défausser exactement 1 GARÇON et 1 FILLE : invoquez le Démon du dessus de la pioche gratuitement.',
     subDescription: '(Il compte parmi vos 3 démons nécessaires à la victoire.)',
     activationNumbers: [7],
     neighborType: 'ANIMAL',
@@ -641,8 +645,20 @@ const goat: CardArgs<NeighborCardData> = {
       cardOwner.getBoyNeighborCards().length > 0 &&
       cardOwner.getGirlNeighborCards().length > 0
     ) {
-      // const demon = demons.pop();
-      // cardOwner.addSummonedDemonCard(demon);
+      const neighbors = cardOwner.getNeighborCards();
+      const nonAnimalNeighbors = [];
+
+      const demon = game.demonsDeck[0];
+      cardOwner.addSummonedDemonCard(demon);
+      for (let i = 0; i < neighbors.length; i++) {
+        if (neighbors[i].getData().neighborType !== 'ANIMAL') {
+          nonAnimalNeighbors.push(neighbors[i]);
+        }
+      }
+
+      cardOwner.removeNeighborCardById(nonAnimalNeighbors[0].getData().id);
+      cardOwner.removeNeighborCardById(nonAnimalNeighbors[1].getData().id);
+
       game.emitDataToSockets();
     }
   },
@@ -778,7 +794,7 @@ const rabidDog: CardArgs<NeighborCardData> = {
 
 export const neighbors: Array<NeighborCard> = [
   // Animals
-  ...createNeighborCards(goat, 1),
+  ...createNeighborCards(goat, 30),
   ...createNeighborCards(falcon, 1),
   ...createNeighborCards(skunk, 1),
   ...createNeighborCards(alligator, 1),
@@ -799,7 +815,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
   ...createNeighborCards(annie, 2),
-  ...createNeighborCards(dolores, 50),
+  ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),

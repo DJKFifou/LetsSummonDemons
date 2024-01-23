@@ -41,7 +41,7 @@ export class Game implements EntityClass<GameData> {
   readonly dices: Array<Dice>;
 
   protected candlesDeck: Array<CandleCard>;
-  protected demonsDeck: Array<DemonCard>;
+  demonsDeck: Array<DemonCard>;
   neighborsDeck?: NeighborsDeck;
 
   constructor() {
@@ -120,6 +120,10 @@ export class Game implements EntityClass<GameData> {
 
       player.addSoulToken(START_WITH_SOUL_TOKEN_COUNT);
     });
+  }
+
+  getDemonCard(): DemonCard {
+    return this.demonsDeck.shift();
   }
 
   getData(): GameData {
