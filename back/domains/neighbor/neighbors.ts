@@ -24,7 +24,19 @@ const jane: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/jane.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({}): Promise<void> => {
+    // TO FINISH (crash the app)
+    // const neighborsMarket = game.neighborsDeck.data.market;
+    // const animalNeighborCards = [];
+    // for (let i = 0; i < neighborsMarket.length; i++) {
+    //   if (neighborsMarket[i].neighborType === 'ANIMAL') {
+    //     animalNeighborCards.push(neighborsMarket[i]);
+    //   }
+    // }
+    // if (animalNeighborCards.length > 0) {
+    //   cardOwner.addNeighborCard(animalNeighborCards[0]);
+    // }
+  },
 };
 
 const lola: CardArgs<NeighborCardData> = {
@@ -214,7 +226,15 @@ const sam: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/sam.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    // TO FINISH
+    if (cardOwner.getAnimalNeighborCards().length > 0) {
+      cardOwner.removeNeighborCardById(
+        cardOwner.getAnimalNeighborCards()[0].data.id,
+      );
+      cardOwner.addSoulToken(6);
+    }
+  },
 };
 
 const annie: CardArgs<NeighborCardData> = {
@@ -386,14 +406,16 @@ const marilyn: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/marilyn.png',
   },
-  activateFn: async (): Promise<void> => {
-    // const boys = game.neighborsDeck
-    //   .data
-    //   .filter((card) => card.data.neighborType === 'BOY');
-    // const boysCount = boys.length;
-    // if (boysCount > 0) {
-    //   cardOwner.addNeighborCard(boys[0]);
-    // }
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    // TO FINISH
+    const neighborsMarket = game.neighborsDeck.data.market;
+    const boyNeighborCards = [];
+    for (let i = 0; i < neighborsMarket.length; i++) {
+      if (neighborsMarket[i].neighborType === 'BOY') {
+        boyNeighborCards.push(neighborsMarket[i]);
+      }
+    }
+    cardOwner.addNeighborCard(boyNeighborCards[0]);
   },
 };
 
@@ -456,7 +478,21 @@ const destiny: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/destiny.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner, game, card }): Promise<void> => {
+    // TO FINISH
+    const adorableNeighborCards = cardOwner.getAdorableNeighborCards();
+    const neighborArray = [];
+
+    for (let i = 0; i < adorableNeighborCards.length; i++) {
+      if (adorableNeighborCards[i].data.id !== card.data.id) {
+        neighborArray.push(adorableNeighborCards[i]);
+      }
+    }
+
+    if (neighborArray.length > 0) {
+      neighborArray[0].activate({ cardOwner, game });
+    }
+  },
 };
 
 const dillinger: CardArgs<NeighborCardData> = {
@@ -750,7 +786,7 @@ const strayCat: CardArgs<NeighborCardData> = {
     name: 'CHAT ERRANT',
     type: 'NEIGHBOR',
     description:
-      "Si vous n'avez GARÇON ni FILLE: obtenez la carte du dessus de la pioche voisinnage.",
+      "Si vous n'avez ni GARÇON ni FILLE: obtenez la carte du dessus de la pioche voisinnage.",
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
@@ -795,7 +831,7 @@ const rabidDog: CardArgs<NeighborCardData> = {
 
 export const neighbors: Array<NeighborCard> = [
   // Animals
-  ...createNeighborCards(goat, 30),
+  ...createNeighborCards(goat, 1),
   ...createNeighborCards(falcon, 1),
   ...createNeighborCards(skunk, 1),
   ...createNeighborCards(alligator, 1),
