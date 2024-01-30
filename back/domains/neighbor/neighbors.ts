@@ -1,6 +1,5 @@
 import { NeighborCardData } from '../../contracts/card.js';
-import { Card, CardArgs } from '../card/card.js';
-import { DemonCard } from '../demon/demon.js';
+import { CardArgs } from '../card/card.js';
 import { NeighborCard } from './neighbor.js';
 
 const createNeighborCards = (
@@ -24,7 +23,7 @@ const jane: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/jane.png',
   },
-  activateFn: async ({}): Promise<void> => {
+  activateFn: async (): Promise<void> => {
     // TO FINISH (crash the app)
     // const neighborsMarket = game.neighborsDeck.data.market;
     // const animalNeighborCards = [];
@@ -166,7 +165,12 @@ const calvin: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/calvin.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    //TO FINISH
+    if (cardOwner.getHorribleNeighborCards().length > 2) {
+      cardOwner.addSoulToken(2);
+    }
+  },
 };
 
 const dolores: CardArgs<NeighborCardData> = {
@@ -337,7 +341,13 @@ const donnie: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/donnie.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    // TO FINISH
+    for (let i = 0; i < cardOwner.getHorribleNeighborCards().length; i++) {
+      game.getPlayerById(cardOwner.data.id).removeSoulToken(1);
+      cardOwner.addSoulToken(1);
+    }
+  },
 };
 
 const lisa: CardArgs<NeighborCardData> = {
@@ -508,7 +518,10 @@ const dillinger: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/dillinger.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    // TO FINISH
+    cardOwner.addSoulToken(1);
+  },
 };
 
 const glen: CardArgs<NeighborCardData> = {
@@ -539,7 +552,14 @@ const irwin: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/irwin.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner, game }): Promise<void> => {
+    // TO FINISH
+    const animalNeighborCards = cardOwner.getAnimalNeighborCards();
+
+    for (let i = 0; i < animalNeighborCards.length; i++) {
+      animalNeighborCards[i].activate({ cardOwner, game });
+    }
+  },
 };
 
 const romeo: CardArgs<NeighborCardData> = {
@@ -620,7 +640,11 @@ const goldenFish: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/golden_fish.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner, card }): Promise<void> => {
+    // TO FINISH
+    cardOwner.removeNeighborCardById(card.data.id);
+    cardOwner.addSoulToken(5);
+  },
 };
 
 const araMacao: CardArgs<NeighborCardData> = {
@@ -677,6 +701,7 @@ const goat: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/goat.png',
   },
   activateFn: async ({ cardOwner, game }): Promise<void> => {
+    // TO FINISH
     if (
       cardOwner.getBoyNeighborCards().length > 0 &&
       cardOwner.getGirlNeighborCards().length > 0
