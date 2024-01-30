@@ -1,6 +1,7 @@
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
 import { NeighborCard } from './neighbor.js';
+import { NeighborsDeck } from './neighborsDeck.js';
 
 const createNeighborCards = (
   data: CardArgs<NeighborCardData>,
@@ -810,15 +811,17 @@ const skunk: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/skunk.png',
   },
   activateFn: async ({ game }): Promise<void> => {
-    // const players = game.playerList;
-    // for (let i = 0; i < players.length; i++) {
-    //   const neighbors = game.playerList[i].getNeighborCards();
-    //   for (let i = 0; i < neighbors.length; i++) {
-    //     game.playerList[i].removeNeighborCardById(neighbors[i].data.id);
-    //   }
-    // }
+    const players = game.playerList;
+    for (let i = 0; i < players.length; i++) {
+      const neighbors = game.playerList[i].getNeighborCards();
+      for (let j = 0; j < neighbors.length; j++) {
+        console.log(neighbors[j].data.name);
+        game.playerList[i].removeNeighborCardById(neighbors[j].data.id);
+      }
+    }
   },
 };
+
 const strayCat: CardArgs<NeighborCardData> = {
   data: {
     name: 'CHAT ERRANT',
