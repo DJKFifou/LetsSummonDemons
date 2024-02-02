@@ -27,7 +27,6 @@ const jane: CardArgs<NeighborCardData> = {
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
     const neighborsMarket = game.neighborsDeck.getMarket();
-    console.log('neighborsMarket : ', neighborsMarket);
     const animalNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
       if (neighborsMarket[i].data.neighborType === 'ANIMAL') {
@@ -36,10 +35,6 @@ const jane: CardArgs<NeighborCardData> = {
     }
     if (animalNeighborCards.length > 0) {
       game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0].data.id);
-      console.log(
-        'cardOwner.getNeighborCardById : ',
-        cardOwner.getNeighborCardById,
-      );
     }
   },
 };
@@ -425,14 +420,16 @@ const marilyn: CardArgs<NeighborCardData> = {
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
-    const neighborsMarket = game.neighborsDeck.data.market;
+    const neighborsMarket = game.neighborsDeck.getMarket();
     const boyNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
-      if (neighborsMarket[i].neighborType === 'BOY') {
+      if (neighborsMarket[i].data.neighborType === 'BOY') {
         boyNeighborCards.push(neighborsMarket[i]);
       }
     }
-    cardOwner.addNeighborCard(boyNeighborCards[0]);
+    if (boyNeighborCards.length > 0) {
+      game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0].data.id);
+    }
   },
 };
 
@@ -893,7 +890,7 @@ export const neighbors: Array<NeighborCard> = [
   // Girls
   ...createNeighborCards(lisa, 2),
   ...createNeighborCards(alice, 2),
-  ...createNeighborCards(marilyn, 2),
+  ...createNeighborCards(marilyn, 30),
   ...createNeighborCards(destiny, 2),
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
@@ -902,7 +899,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),
-  ...createNeighborCards(jane, 30),
+  ...createNeighborCards(jane, 2),
   ...createNeighborCards(eve, 6),
 
   // Boys
