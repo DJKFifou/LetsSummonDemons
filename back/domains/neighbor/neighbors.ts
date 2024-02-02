@@ -24,18 +24,23 @@ const jane: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/jane.png',
   },
-  activateFn: async (): Promise<void> => {
-    // TO FINISH (crash the app)
-    // const neighborsMarket = game.neighborsDeck.data.market;
-    // const animalNeighborCards = [];
-    // for (let i = 0; i < neighborsMarket.length; i++) {
-    //   if (neighborsMarket[i].neighborType === 'ANIMAL') {
-    //     animalNeighborCards.push(neighborsMarket[i]);
-    //   }
-    // }
-    // if (animalNeighborCards.length > 0) {
-    //   cardOwner.addNeighborCard(animalNeighborCards[0]);
-    // }
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    // TO FINISH
+    const neighborsMarket = game.neighborsDeck.getMarket();
+    console.log('neighborsMarket : ', neighborsMarket);
+    const animalNeighborCards = [];
+    for (let i = 0; i < neighborsMarket.length; i++) {
+      if (neighborsMarket[i].data.neighborType === 'ANIMAL') {
+        animalNeighborCards.push(neighborsMarket[i]);
+      }
+    }
+    if (animalNeighborCards.length > 0) {
+      game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0].data.id);
+      console.log(
+        'cardOwner.getNeighborCardById : ',
+        cardOwner.getNeighborCardById,
+      );
+    }
   },
 };
 
@@ -874,7 +879,7 @@ export const neighbors: Array<NeighborCard> = [
   // Animals
   ...createNeighborCards(goat, 1),
   ...createNeighborCards(falcon, 1),
-  ...createNeighborCards(skunk, 30),
+  ...createNeighborCards(skunk, 1),
   ...createNeighborCards(alligator, 1),
   ...createNeighborCards(rabidDog, 2),
   ...createNeighborCards(araMacao, 2),
@@ -897,7 +902,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),
-  ...createNeighborCards(jane, 2),
+  ...createNeighborCards(jane, 30),
   ...createNeighborCards(eve, 6),
 
   // Boys
