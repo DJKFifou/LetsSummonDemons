@@ -270,31 +270,23 @@ const annie: CardArgs<NeighborCardData> = {
     }
 
     const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
-    console.log('neighborsPlayerList', neighborsPlayerList);
     const kidNeighborCardsPlayerList = [];
     for (let i = 0; i < neighborsPlayerList.length; i++) {
-      console.log('Entré dans le for');
       if (
         neighborsPlayerList[i].data.neighborType === 'BOY' ||
         neighborsPlayerList[i].data.neighborType === 'GIRL'
       ) {
-        console.log('Entré dans le if du for');
         kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
       }
     }
-    console.log('kidNeighborCardsPlayerList', kidNeighborCardsPlayerList);
 
     if (kidNeighborCardsPlayerList.length > 0) {
-      console.log('Entré dans le if final');
-      console.log('kidNeighborCardsPlayerList', kidNeighborCardsPlayerList[0]);
       cardOwner.removeNeighborCardById(card.data.id);
       game.playerList[2].removeNeighborCardById(
         kidNeighborCardsPlayerList[0].data.id,
       );
       cardOwner.addNeighborCard(kidNeighborCardsPlayerList[0]);
-      console.log('cardOwner.getNeighborCards', cardOwner.getNeighborCards());
     } else if (kidNeighborCards.length > 0) {
-      console.log('Entré dans le else if final');
       cardOwner.removeNeighborCardById(card.data.id);
       game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
     }
@@ -509,7 +501,7 @@ const damien: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/damien.png',
   },
-  activateFn: async ({ cardOwner, game, card }): Promise<void> => {
+  activateFn: async ({ cardOwner, card }): Promise<void> => {
     if (cardOwner.getCoveredDemonCards().length < 1) {
       return;
     }
@@ -517,8 +509,6 @@ const damien: CardArgs<NeighborCardData> = {
     const randomDemonCard = cardOwner.getRandomDemonCard();
     cardOwner.uncoverDemonCard(randomDemonCard.data.id);
     cardOwner.removeNeighborCardById(card.data.id);
-
-    game.emitDataToSockets();
   },
 };
 
@@ -654,7 +644,6 @@ const cat: CardArgs<NeighborCardData> = {
       cardOwner.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
-    game.emitDataToSockets();
   },
 };
 
@@ -770,8 +759,6 @@ const goat: CardArgs<NeighborCardData> = {
 
       cardOwner.removeNeighborCardById(nonAnimalNeighbors[0].data.id);
       cardOwner.removeNeighborCardById(nonAnimalNeighbors[1].data.id);
-
-      game.emitDataToSockets();
     }
   },
 };
@@ -781,14 +768,35 @@ const alligator: CardArgs<NeighborCardData> = {
     name: 'ALLIGATOR',
     type: 'NEIGHBOR',
     description:
-      "Vous pouvez défausser cette carte: dans ce cas, défaussez jusuqu'à 2 GAMINS au total parmi les cartes de vos adversaires.",
+      "Vous pouvez défausser cette carte: dans ce cas, défaussez jusqu'à 2 GAMINS au total parmi les cartes de vos adversaires.",
     activationNumbers: [7],
     neighborType: 'ANIMAL',
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/alligator.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+    const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
+    const kidNeighborCardsPlayerList = [];
+    for (let i = 0; i < neighborsPlayerList.length; i++) {
+      if (
+        neighborsPlayerList[i].data.neighborType === 'BOY' ||
+        neighborsPlayerList[i].data.neighborType === 'GIRL'
+      ) {
+        kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
+      }
+    }
+
+    if (kidNeighborCardsPlayerList.length > 0) {
+      cardOwner.removeNeighborCardById(card.data.id);
+      game.playerList[2].removeNeighborCardById(
+        kidNeighborCardsPlayerList[0].data.id,
+      );
+      game.playerList[2].removeNeighborCardById(
+        kidNeighborCardsPlayerList[1].data.id,
+      );
+    }
+  },
 };
 
 const falcon: CardArgs<NeighborCardData> = {
@@ -859,7 +867,6 @@ const skunk: CardArgs<NeighborCardData> = {
     for (let i = 0; i < players.length; i++) {
       const neighbors = game.playerList[i].getNeighborCards();
       for (let j = 0; j < neighbors.length; j++) {
-        console.log(neighbors[j].data.name);
         game.playerList[i].removeNeighborCardById(neighbors[j].data.id);
       }
     }
@@ -919,7 +926,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(goat, 1),
   ...createNeighborCards(falcon, 1),
   ...createNeighborCards(skunk, 1),
-  ...createNeighborCards(alligator, 1),
+  ...createNeighborCards(alligator, 20),
   ...createNeighborCards(rabidDog, 2),
   ...createNeighborCards(araMacao, 2),
   ...createNeighborCards(rabbit, 2),
@@ -936,7 +943,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(destiny, 2),
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
-  ...createNeighborCards(annie, 30),
+  ...createNeighborCards(annie, 2),
   ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
