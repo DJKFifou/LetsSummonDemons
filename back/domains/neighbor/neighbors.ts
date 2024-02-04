@@ -256,7 +256,49 @@ const annie: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/annie.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+    // TO FINISH
+    const neighborsMarket = game.neighborsDeck.getMarket();
+    const kidNeighborCards = [];
+    for (let i = 0; i < neighborsMarket.length; i++) {
+      if (
+        neighborsMarket[i].data.neighborType === 'BOY' ||
+        neighborsMarket[i].data.neighborType === 'GIRL'
+      ) {
+        kidNeighborCards.push(neighborsMarket[i]);
+      }
+    }
+
+    const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
+    console.log('neighborsPlayerList', neighborsPlayerList);
+    const kidNeighborCardsPlayerList = [];
+    for (let i = 0; i < neighborsPlayerList.length; i++) {
+      console.log('Entré dans le for');
+      if (
+        neighborsPlayerList[i].data.neighborType === 'BOY' ||
+        neighborsPlayerList[i].data.neighborType === 'GIRL'
+      ) {
+        console.log('Entré dans le if du for');
+        kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
+      }
+    }
+    console.log('kidNeighborCardsPlayerList', kidNeighborCardsPlayerList);
+
+    if (kidNeighborCardsPlayerList.length > 0) {
+      console.log('Entré dans le if final');
+      console.log('kidNeighborCardsPlayerList', kidNeighborCardsPlayerList[0]);
+      cardOwner.removeNeighborCardById(card.data.id);
+      game.playerList[2].removeNeighborCardById(
+        kidNeighborCardsPlayerList[0].data.id,
+      );
+      cardOwner.addNeighborCard(kidNeighborCardsPlayerList[0]);
+      console.log('cardOwner.getNeighborCards', cardOwner.getNeighborCards());
+    } else if (kidNeighborCards.length > 0) {
+      console.log('Entré dans le else if final');
+      cardOwner.removeNeighborCardById(card.data.id);
+      game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
+    }
+  },
 };
 
 const jesus: CardArgs<NeighborCardData> = {
@@ -890,11 +932,11 @@ export const neighbors: Array<NeighborCard> = [
   // Girls
   ...createNeighborCards(lisa, 2),
   ...createNeighborCards(alice, 2),
-  ...createNeighborCards(marilyn, 30),
+  ...createNeighborCards(marilyn, 2),
   ...createNeighborCards(destiny, 2),
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
-  ...createNeighborCards(annie, 2),
+  ...createNeighborCards(annie, 30),
   ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),

@@ -174,6 +174,13 @@ export class Player implements EntityClass<PlayerData> {
     return this.neighborsCards;
   }
 
+  getKidNeighborCards(): Array<NeighborCard> {
+    return this.neighborsCards.filter(
+      (card) =>
+        card.data.neighborType == 'BOY' || card.data.neighborType == 'GIRL',
+    );
+  }
+
   getBoyNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
       (card) => card.data.neighborType == 'BOY',
