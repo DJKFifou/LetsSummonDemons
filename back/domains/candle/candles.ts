@@ -18,8 +18,8 @@ const kindCandle = new CandleCard({
     cardImage: '/cards/candles/kind_candle.png',
     cardBack,
   },
-  activateFn: async ({ player }): Promise<void> => {
-    player.addSoulToken(1);
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(1);
   },
 });
 
@@ -34,8 +34,8 @@ const sweetCandle = new CandleCard({
     cardImage: '/cards/candles/sweet_candle.png',
     cardBack,
   },
-  activateFn: async ({ player }): Promise<void> => {
-    player.addSoulToken(1);
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(1);
   },
 });
 
@@ -50,8 +50,8 @@ const beginnerCandle = new CandleCard({
     cardImage: '/cards/candles/beginner_candle.png',
     cardBack,
   },
-  activateFn: async ({ player }): Promise<void> => {
-    player.addSoulToken(1);
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(1);
   },
 });
 
@@ -66,8 +66,8 @@ const evilCandle = new CandleCard({
     cardImage: '/cards/candles/maleficent_candle.png',
     cardBack,
   },
-  activateFn: async ({ player }): Promise<void> => {
-    player.addSoulToken(1);
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(1);
   },
 });
 
@@ -82,8 +82,8 @@ const devilCandle = new CandleCard({
     cardImage: '/cards/candles/diabolic_candle.png',
     cardBack,
   },
-  activateFn: async ({ player }): Promise<void> => {
-    player.addSoulToken(1);
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(1);
   },
 });
 

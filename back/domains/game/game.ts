@@ -41,7 +41,7 @@ export class Game implements EntityClass<GameData> {
   readonly dices: Array<Dice>;
 
   protected candlesDeck: Array<CandleCard>;
-  protected demonsDeck: Array<DemonCard>;
+  demonsDeck: Array<DemonCard>;
   neighborsDeck?: NeighborsDeck;
 
   constructor() {

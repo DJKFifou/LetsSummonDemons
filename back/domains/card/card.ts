@@ -1,42 +1,43 @@
 import { v4 } from 'uuid';
-import {
-  CandleCardData,
-  CardInput,
-  DemonCardData,
-  NeighborCardData,
-} from '../../contracts/card.js';
+import { CardInput, GenericCardData } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { Game } from '../game/game.js';
 import { Player } from '../player/player.js';
 
-// les arguments que reçoit la fonction d'activation de la carte
-interface CardResolveFunctionArgs {
+// les arguments pour activer la carte
+interface ActivateArgs {
   game: Game;
-  player: Player;
+  cardOwner: Player;
+}
+
+// les arguments que reçoit la fonction d'activation de la carte
+interface ActivateFunctionArgs<T extends GenericCardData> {
+  game: Game;
+  cardOwner: Player;
+  card: Card<T>;
 }
 
 // le type de la fonction d'activation
-type CardResolveFunction = (args: CardResolveFunctionArgs) => Promise<void>;
+type ActivateFunction<T extends GenericCardData> = (
+  args: ActivateFunctionArgs<T>,
+) => Promise<void>;
 
 // arguments de la classe
-export interface CardArgs<
-  T extends NeighborCardData | DemonCardData | CandleCardData,
-> {
+export interface CardArgs<T extends GenericCardData> {
   data: CardInput<T>;
-  activateFn: CardResolveFunction;
+  activateFn: ActivateFunction<T>;
 }
 
-export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
-  implements EntityClass<T>
-{
+export class Card<T extends GenericCardData> implements EntityClass<T> {
   protected _data: T;
-  protected activateFn: CardResolveFunction;
+  protected activateFn: ActivateFunction<T>;
 
   constructor({ data, activateFn }: CardArgs<T>) {
     this._data = {
       id: v4(),
       ...data,
     } as T;
+
     // ici on stocke dans la classe la fonction
     // d'activation qui a été passée en paramètres
     this.activateFn = activateFn;
@@ -45,14 +46,21 @@ export class Card<T extends NeighborCardData | DemonCardData | CandleCardData>
   /**
    * Appelle la fonction d'activation de la carte
    */
-  async activate(args: CardResolveFunctionArgs): Promise<void> {
-    await this.activateFn(args);
+  async activate({ game, cardOwner }: ActivateArgs): Promise<void> {
+    // ici on appelle la fonction d'activation en passant la carte en paramètre
+    await this.activateFn({
+      game,
+      cardOwner,
+      card: this,
+    });
 
     console.log(
-      `${this.data.name} activated for ${args.player.data.name} by ${args.game.data.turn.current.player.name}`,
+      `${this.data.name} activated for ${cardOwner.data.name} by ${
+        game.data.turn.current.player.name
+      }`,
     );
 
-    args.game.emitDataToSockets();
+    game.emitDataToSockets();
   }
 
   isActivatedByNumber(number: number): boolean {

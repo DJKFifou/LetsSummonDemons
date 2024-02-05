@@ -64,7 +64,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         ) {
           await neighborCard.activate({
             game: this.game,
-            player: player,
+            cardOwner: player,
           });
         }
       }
@@ -73,7 +73,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       if (candleCard.isActivatedByNumber(dicesResult)) {
         candleCard.activate({
           game: this.game,
-          player: player,
+          cardOwner: player,
         });
       }
     }
@@ -85,7 +85,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
       await demonCard.activate({
         game: this.game,
-        player: this.player,
+        cardOwner: this.player,
       });
     }
   }

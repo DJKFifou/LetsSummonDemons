@@ -64,6 +64,8 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     return card;
   }
 
+  getMarket = (): Array<NeighborCard | null> => this.market;
+
   buyCard(player: Player, cardId: CardId): void {
     if (player.data.soulsTokenCount < SOULS_COUNT_TO_BUY_NEIGHBOR_CARD) {
       throw new NotEnoughtSoulsToBuyNeighborError();
@@ -71,6 +73,15 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
 
     player.removeSoulToken(SOULS_COUNT_TO_BUY_NEIGHBOR_CARD);
 
+    const card = this.pickCardFromMarketById(cardId);
+    const newCard: NeighborCard = card;
+    newCard.isActivableSetter();
+    player.addNeighborCard(newCard);
+
+    this.fillMarket();
+  }
+
+  giveCard(player: Player, cardId: CardId): void {
     const card = this.pickCardFromMarketById(cardId);
     const newCard: NeighborCard = card;
     newCard.isActivableSetter();

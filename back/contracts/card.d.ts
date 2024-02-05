@@ -13,15 +13,14 @@ interface CardData {
   cardBack: string;
   activationNumbers: Array<number>;
 }
-type CardInput<Card extends NeighborCardData | DemonCardData | CandleCardData> =
-  Omit<Card, 'id'>;
+type CardInput<Card extends GenericCardData> = Omit<Card, 'id'>;
 
 export type NeighborType = 'GIRL' | 'BOY' | 'ANIMAL';
 export type NeighborKindness = 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
 export type NeighborCardInputData = CardInput<NeighborCardData>;
 export interface NeighborCardData extends CardData {
-  neighborType: NeighborType;
-  neighborKindness?: NeighborKindness;
+  neighborType: Array<NeighborType>;
+  neighborKindness?: Array<NeighborKindness>;
   isActivable: boolean;
 }
 
@@ -32,3 +31,5 @@ export type DemonCardInputData = CardInput<DemonCardData>;
 
 export interface CandleCardData extends CardData {}
 export type CandleCardInputData = CardInput<CandleCardData>;
+
+export type GenericCardData = NeighborCardData | DemonCardData | CandleCardData;

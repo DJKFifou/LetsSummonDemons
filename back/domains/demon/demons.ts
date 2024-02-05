@@ -1,4 +1,5 @@
 import { DemonCard } from './demon.js';
+import { NeighborCard } from '../neighbor/neighbor.js';
 
 const cardBack = '/cards/back/demons.png';
 
@@ -12,8 +13,8 @@ const snake = new DemonCard({
     cardBack,
     isPermanent: false,
   },
-  activateFn: async ({ game, player }): Promise<void> => {
-    game.end(player.data);
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    game.end(cardOwner.data);
   },
 });
 
@@ -30,7 +31,11 @@ const demonBook = new DemonCard({
     cardBack,
     isPermanent: false,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    //TO FINISH
+    const demon = game.demonsDeck[0];
+    cardOwner.addSummonedDemonCard(demon);
+  },
 });
 
 const bogeyMan = new DemonCard({
@@ -43,7 +48,21 @@ const bogeyMan = new DemonCard({
     cardImage: '/cards/demons/fouettard_father.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    const drawnedCards: NeighborCard[] = [];
+    for (let i = 0; i < 2; i++) {
+      drawnedCards.push(game.neighborsDeck.drawnCard());
+      game.emitDataToSockets();
+      await new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+      });
+    }
+    for (let i = 0; i < 2; i++) {
+      const drawnedCard: NeighborCard | undefined = drawnedCards[i];
+      cardOwner.addNeighborCard(drawnedCard);
+      game.neighborsDeck.throwCards(2);
+    }
+  },
 });
 
 const porcus = new DemonCard({
@@ -56,7 +75,9 @@ const porcus = new DemonCard({
     cardImage: '/cards/demons/porcus.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(5);
+  },
 });
 
 const legionNanny = new DemonCard({
@@ -69,7 +90,9 @@ const legionNanny = new DemonCard({
     cardImage: '/cards/demons/nounou_sommes_legion.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    cardOwner.addSoulToken(5);
+  },
 });
 
 const belzeBzz = new DemonCard({
@@ -82,7 +105,14 @@ const belzeBzz = new DemonCard({
     cardImage: '/cards/demons/belze_bzz.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    const neighborsCards = cardOwner.getNeighborCards();
+    for (let i = 0; i < neighborsCards.length; i++) {
+      if (!neighborsCards[i].data.neighborType.includes('ANIMAL')) {
+        neighborsCards[i].activate({ cardOwner, game });
+      }
+    }
+  },
 });
 
 const baelHound = new DemonCard({
@@ -96,7 +126,17 @@ const baelHound = new DemonCard({
     cardImage: '/cards/demons/bael_hound.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    //TO FINISH
+    const animals = cardOwner.getAnimalNeighborCards();
+    const soulTokens = animals.length;
+    if (game.playerList[1].data.soulsTokenCount > soulTokens) {
+      game.playerList[1].removeSoulToken(soulTokens);
+      cardOwner.addSoulToken(soulTokens);
+    } else {
+      cardOwner.addSoulToken(soulTokens);
+    }
+  },
 });
 
 const mechanicalSatange = new DemonCard({
@@ -124,7 +164,15 @@ const antechrist = new DemonCard({
     cardImage: '/cards/demons/antechrist.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    //TO FINISH
+    if (game.playerList[1].data.soulsTokenCount > 5) {
+      game.playerList[1].removeSoulToken(5);
+      cardOwner.addSoulToken(5);
+    } else {
+      cardOwner.addSoulToken(5);
+    }
+  },
 });
 
 const mefilstopheles = new DemonCard({
@@ -139,7 +187,22 @@ const mefilstopheles = new DemonCard({
     cardImage: '/cards/demons/mefilstopheles.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    //TO FINISH
+    if (game.playerList[1].getSummonedDemonCards().length > 0) {
+      cardOwner.addSummonedDemonCard(
+        game.playerList[1].getSummonedDemonCards()[0],
+      );
+      game.playerList[1].removeSummonedDemonCardById(
+        game.playerList[1].data.summonedDemonsCards[0].id,
+      );
+    } else if (game.playerList[1].getNeighborCards().length > 0) {
+      cardOwner.addNeighborCard(game.playerList[1].getNeighborCards()[0]);
+      game.playerList[1].removeNeighborCardById(
+        game.playerList[1].getNeighborCards()[0].data.id,
+      );
+    }
+  },
 });
 
 const devil = new DemonCard({
@@ -153,7 +216,23 @@ const devil = new DemonCard({
     cardImage: '/cards/demons/devil.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    //TO FINISH
+    const neighborsCardsPlayerList = game.playerList[1].getNeighborCards();
+    for (let i = 0; i < neighborsCardsPlayerList.length; i++) {
+      cardOwner.addNeighborCard(neighborsCardsPlayerList[i]);
+      game.playerList[1].removeNeighborCardById(
+        neighborsCardsPlayerList[i].data.id,
+      );
+    }
+    const demonsCardsPlayerList = game.playerList[1].getSummonedDemonCards();
+    for (let i = 0; i < demonsCardsPlayerList.length; i++) {
+      cardOwner.addSummonedDemonCard(demonsCardsPlayerList[i]);
+      game.playerList[1].removeSummonedDemonCardById(
+        demonsCardsPlayerList[i].data.id,
+      );
+    }
+  },
 });
 
 const incesteDemon = new DemonCard({
@@ -167,7 +246,15 @@ const incesteDemon = new DemonCard({
     cardImage: '/cards/demons/incest_demon.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    //TO FINISH (ADD THE KINDNESS TO THE NEW NEIGHBORS CARDS)
+    const neighbordCards = cardOwner.getNeighborCards();
+    for (let i = 0; i < neighbordCards.length; i++) {
+      if (!neighbordCards[i].data.neighborType.includes('ANIMAL')) {
+        neighbordCards[i].data.neighborKindness = ['ADORABLE', 'HORRIBLE'];
+      }
+    }
+  },
 });
 
 const demogorguignol = new DemonCard({
@@ -181,7 +268,15 @@ const demogorguignol = new DemonCard({
     cardImage: '/cards/demons/demogorguignol.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    //TO FINISH (ADD THE TYPE TO THE NEW NEIGHBORS CARDS)
+    const neighbordCards = cardOwner.getNeighborCards();
+    for (let i = 0; i < neighbordCards.length; i++) {
+      if (!neighbordCards[i].data.neighborType.includes('ANIMAL')) {
+        neighbordCards[i].data.neighborType = ['BOY', 'GIRL'];
+      }
+    }
+  },
 });
 
 const macabreOni = new DemonCard({
