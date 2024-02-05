@@ -19,8 +19,8 @@ export type NeighborType = 'GIRL' | 'BOY' | 'ANIMAL';
 export type NeighborKindness = 'NEUTRAL' | 'ADORABLE' | 'HORRIBLE';
 export type NeighborCardInputData = CardInput<NeighborCardData>;
 export interface NeighborCardData extends CardData {
-  neighborType: NeighborType;
-  neighborKindness?: NeighborKindness;
+  neighborType: Array<NeighborType>;
+  neighborKindness?: Array<NeighborKindness>;
   isActivable: boolean;
 }
 

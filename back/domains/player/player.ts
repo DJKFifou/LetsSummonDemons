@@ -177,37 +177,38 @@ export class Player implements EntityClass<PlayerData> {
   getKidNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards.filter(
       (card) =>
-        card.data.neighborType == 'BOY' || card.data.neighborType == 'GIRL',
+        card.data.neighborType.includes('BOY') ||
+        card.data.neighborType.includes('GIRL'),
     );
   }
 
   getBoyNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter(
-      (card) => card.data.neighborType == 'BOY',
+    return this.neighborsCards.filter((card) =>
+      card.data.neighborType.includes('BOY'),
     );
   }
 
   getGirlNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter(
-      (card) => card.data.neighborType == 'GIRL',
+    return this.neighborsCards.filter((card) =>
+      card.data.neighborType.includes('GIRL'),
     );
   }
 
   getAnimalNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter(
-      (card) => card.data.neighborType == 'ANIMAL',
+    return this.neighborsCards.filter((card) =>
+      card.data.neighborType.includes('ANIMAL'),
     );
   }
 
   getHorribleNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter(
-      (card) => card.data.neighborKindness == 'HORRIBLE',
+    return this.neighborsCards.filter((card) =>
+      card.data.neighborKindness.includes('HORRIBLE'),
     );
   }
 
   getAdorableNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter(
-      (card) => card.data.neighborKindness == 'ADORABLE',
+    return this.neighborsCards.filter((card) =>
+      card.data.neighborKindness.includes('ADORABLE'),
     );
   }
 }

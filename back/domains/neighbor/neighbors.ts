@@ -1,7 +1,6 @@
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
 import { NeighborCard } from './neighbor.js';
-import { NeighborsDeck } from './neighborsDeck.js';
 
 const createNeighborCards = (
   data: CardArgs<NeighborCardData>,
@@ -18,8 +17,8 @@ const jane: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Obtenez une carte ANIMAL du VOISINAGE.',
     activationNumbers: [6],
-    neighborType: 'GIRL',
-    neighborKindness: 'NEUTRAL',
+    neighborType: ['GIRL'],
+    neighborKindness: ['NEUTRAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/jane.png',
@@ -29,7 +28,7 @@ const jane: CardArgs<NeighborCardData> = {
     const neighborsMarket = game.neighborsDeck.getMarket();
     const animalNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
-      if (neighborsMarket[i].data.neighborType === 'ANIMAL') {
+      if (neighborsMarket[i].data.neighborType.includes('ANIMAL')) {
         animalNeighborCards.push(neighborsMarket[i]);
       }
     }
@@ -45,8 +44,8 @@ const lola: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Pour chacun de vos GARÇONS: récoltez une Âme.',
     activationNumbers: [6],
-    neighborType: 'GIRL',
-    neighborKindness: 'NEUTRAL',
+    neighborType: ['GIRL'],
+    neighborKindness: ['NEUTRAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/lola.png',
@@ -64,8 +63,8 @@ const eve: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [6],
-    neighborType: 'GIRL',
-    neighborKindness: 'NEUTRAL',
+    neighborType: ['GIRL'],
+    neighborKindness: ['NEUTRAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/eve.png',
@@ -81,8 +80,8 @@ const adam: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [8],
-    neighborType: 'BOY',
-    neighborKindness: 'NEUTRAL',
+    neighborType: ['BOY'],
+    neighborKindness: ['NEUTRAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/adam.png',
@@ -98,8 +97,8 @@ const caroline: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez 5 Âmes.',
     activationNumbers: [2],
-    neighborType: 'GIRL',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/caroline.png',
@@ -115,8 +114,8 @@ const regan: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [9],
-    neighborType: 'GIRL',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/regan.png',
@@ -133,8 +132,8 @@ const tommy: CardArgs<NeighborCardData> = {
     description:
       "Défaussez la première carte de la PIOCHE VOISINAGE : si c'est une FILLE, obtenez-la",
     activationNumbers: [9],
-    neighborType: 'BOY',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/tommy.png',
@@ -145,7 +144,7 @@ const tommy: CardArgs<NeighborCardData> = {
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    if (drawnedCard.data.neighborType === 'GIRL') {
+    if (drawnedCard.data.neighborType.includes('GIRL')) {
       cardOwner.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
@@ -160,8 +159,8 @@ const calvin: CardArgs<NeighborCardData> = {
     description: 'Si vous avez au moins 3 HORRIBLES GAMINS : volez 2 Âmes',
     subDescription: '(aux autres joueurs et/ou depuis la réserve commune).',
     activationNumbers: [9],
-    neighborType: 'BOY',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/calvin.png',
@@ -184,8 +183,8 @@ const dolores: CardArgs<NeighborCardData> = {
     subDescription:
       '(Remplacer veut dire défausser une carte, puis la remplacer par une carte de la pioche VOISINAGE.).',
     activationNumbers: [10],
-    neighborType: 'GIRL',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/dolores.png',
@@ -226,8 +225,8 @@ const sam: CardArgs<NeighborCardData> = {
     description:
       'Vous pouvez défausser un de vos ANIMAUX: dans ce cas, récoltez 6 Âmes.',
     activationNumbers: [10],
-    neighborType: 'BOY',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/sam.png',
@@ -250,8 +249,8 @@ const annie: CardArgs<NeighborCardData> = {
     description:
       'Vous pouvez défausser cette carte: dans ce cas volez un GAMIN ou obtenez-en un du VOISINNAGE.',
     activationNumbers: [9],
-    neighborType: 'GIRL',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/annie.png',
@@ -261,22 +260,18 @@ const annie: CardArgs<NeighborCardData> = {
     const neighborsMarket = game.neighborsDeck.getMarket();
     const kidNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
-      if (
-        neighborsMarket[i].data.neighborType === 'BOY' ||
-        neighborsMarket[i].data.neighborType === 'GIRL'
-      ) {
+      if (!neighborsMarket[i].data.neighborType.includes('ANIMAL')) {
         kidNeighborCards.push(neighborsMarket[i]);
       }
     }
 
-    const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
     const kidNeighborCardsPlayerList = [];
-    for (let i = 0; i < neighborsPlayerList.length; i++) {
-      if (
-        neighborsPlayerList[i].data.neighborType === 'BOY' ||
-        neighborsPlayerList[i].data.neighborType === 'GIRL'
-      ) {
-        kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
+    if (game.playerList[2]) {
+      const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
+      for (let i = 0; i < neighborsPlayerList.length; i++) {
+        if (!neighborsPlayerList[i].data.neighborType.includes('ANIMAL')) {
+          kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
+        }
       }
     }
 
@@ -299,8 +294,8 @@ const jesus: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez 2 Âmes.',
     activationNumbers: [3],
-    neighborType: 'BOY',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/jesus.png',
@@ -316,8 +311,8 @@ const chuck: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Si vous avez un autre ADORABLE GAMIN : récoltez 2 Âmes.',
     activationNumbers: [4],
-    neighborType: 'BOY',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/chuck.png',
@@ -336,8 +331,8 @@ const louis: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez une Âme.',
     activationNumbers: [5],
-    neighborType: 'BOY',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/louis.png',
@@ -353,8 +348,8 @@ const carrie: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Récoltez 2 Âmes',
     activationNumbers: [11],
-    neighborType: 'GIRL',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/carrie.png',
@@ -371,8 +366,8 @@ const donnie: CardArgs<NeighborCardData> = {
     description:
       'Pour chacun de vos HORRIBLES GAMINS(dont celui-ci): volez une Âme(aux autres joueurs et/ou depuis la réserve commune).',
     activationNumbers: [12],
-    neighborType: 'BOY',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/donnie.png',
@@ -393,8 +388,8 @@ const lisa: CardArgs<NeighborCardData> = {
     description:
       'Pour chacun de vos ADORABLES GAMINS(dont celui-ci): récoltez une Âme.',
     activationNumbers: [3],
-    neighborType: 'GIRL',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/lisa.png',
@@ -413,8 +408,8 @@ const alice: CardArgs<NeighborCardData> = {
     description:
       'Défaussez les 2 premières carte de la PIOCHE VOISINAGE : obtenez chaque carte ADORABLE GAMIN ainsi défaussée',
     activationNumbers: [4],
-    neighborType: 'GIRL',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/alice.png',
@@ -431,7 +426,7 @@ const alice: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.data.neighborKindness === 'ADORABLE') {
+      if (drawnedCard.data.neighborKindness.includes('ADORABLE')) {
         cardOwner.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(ALICE_DRAW_CARDS_COUNT);
@@ -446,8 +441,8 @@ const marilyn: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Obtenez une carte GARÇON du VOISINNAGE.',
     activationNumbers: [5],
-    neighborType: 'GIRL',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/marilyn.png',
@@ -457,7 +452,7 @@ const marilyn: CardArgs<NeighborCardData> = {
     const neighborsMarket = game.neighborsDeck.getMarket();
     const boyNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
-      if (neighborsMarket[i].data.neighborType === 'BOY') {
+      if (neighborsMarket[i].data.neighborType.includes('BOY')) {
         boyNeighborCards.push(neighborsMarket[i]);
       }
     }
@@ -473,8 +468,8 @@ const fifi: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Pour chacun de vos ANIMAUX: récoltez une Âme.',
     activationNumbers: [4],
-    neighborType: 'GIRL',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/fifi.png',
@@ -495,8 +490,8 @@ const damien: CardArgs<NeighborCardData> = {
     subDescription:
       '(cette action ne compte pas comme votre invocation pour ce tour.)',
     activationNumbers: [11],
-    neighborType: 'BOY',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/damien.png',
@@ -518,8 +513,8 @@ const destiny: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Activez un autre de vos ADORABLES GAMINS.',
     activationNumbers: [5],
-    neighborType: 'GIRL',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['GIRL'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/destiny.png',
@@ -548,8 +543,8 @@ const dillinger: CardArgs<NeighborCardData> = {
     description: 'Volez une âme',
     subDescription: '(à un adversaire ou depuis la réserve commune).',
     activationNumbers: [10],
-    neighborType: 'BOY',
-    neighborKindness: 'HORRIBLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['HORRIBLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/dillinger.png',
@@ -568,8 +563,8 @@ const glen: CardArgs<NeighborCardData> = {
     description:
       'Recoltez 2 Âmes et choisissez un adversaire qui récolte une Âme.',
     activationNumbers: [5],
-    neighborType: 'BOY',
-    neighborKindness: 'ADORABLE',
+    neighborType: ['BOY'],
+    neighborKindness: ['ADORABLE'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/glen.png',
@@ -587,8 +582,8 @@ const irwin: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Activez toutes vos cartes ANIMAUX.',
     activationNumbers: [8],
-    neighborType: 'BOY',
-    neighborKindness: 'NEUTRAL',
+    neighborType: ['BOY'],
+    neighborKindness: ['NEUTRAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/irwin.png',
@@ -609,8 +604,8 @@ const romeo: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Pour chacune de vos filles: récoltez une Âme.',
     activationNumbers: [8],
-    neighborType: 'BOY',
-    neighborKindness: 'NEUTRAL',
+    neighborType: ['BOY'],
+    neighborKindness: ['NEUTRAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/romeo.png',
@@ -629,7 +624,7 @@ const cat: CardArgs<NeighborCardData> = {
     description:
       "Défaussez la 1re carte de la PIOCHE VOISINAGE : si c'est un ANIMAL, obtenez-le.",
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/cat.png',
@@ -640,7 +635,7 @@ const cat: CardArgs<NeighborCardData> = {
     await new Promise((resolve) => {
       setTimeout(resolve, 1000);
     });
-    if (drawnedCard.data.neighborType === 'ANIMAL') {
+    if (drawnedCard.data.neighborType.includes('ANIMAL')) {
       cardOwner.addNeighborCard(drawnedCard);
     }
     game.neighborsDeck.throwCards(1);
@@ -653,7 +648,7 @@ const dog: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Si vous avez un GARÇON ou une FILLE : récoltez une Âme.',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/dog.png',
@@ -674,7 +669,7 @@ const goldenFish: CardArgs<NeighborCardData> = {
     description:
       'Vous pouvez défaussez cette carte : dans ce cas, récoltez 5 Âmes.',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/golden_fish.png',
@@ -693,7 +688,7 @@ const araMacao: CardArgs<NeighborCardData> = {
     description:
       'Si vous avez au moins 2 GARÇONS ou 2 FILLES : récoltez 2 Âmes.',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/macao_ara.png',
@@ -713,7 +708,7 @@ const rabbit: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: 'Si vous avez au moins 3 ANIMAUX : récoltez 2 Âmes.',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/rabbit.png',
@@ -734,7 +729,7 @@ const goat: CardArgs<NeighborCardData> = {
       'Vous pouvez défausser exactement 1 GARÇON et 1 FILLE : invoquez le Démon du dessus de la pioche gratuitement.',
     subDescription: '(Il compte parmi vos 3 démons nécessaires à la victoire.)',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/goat.png',
@@ -752,7 +747,7 @@ const goat: CardArgs<NeighborCardData> = {
       cardOwner.addSummonedDemonCard(demon);
       game.demonsDeck.shift();
       for (let i = 0; i < neighbors.length; i++) {
-        if (neighbors[i].data.neighborType !== 'ANIMAL') {
+        if (!neighbors[i].data.neighborType.includes('ANIMAL')) {
           nonAnimalNeighbors.push(neighbors[i]);
         }
       }
@@ -770,19 +765,17 @@ const alligator: CardArgs<NeighborCardData> = {
     description:
       "Vous pouvez défausser cette carte: dans ce cas, défaussez jusqu'à 2 GAMINS au total parmi les cartes de vos adversaires.",
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/alligator.png',
   },
   activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+    //TO FINISH
     const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
     const kidNeighborCardsPlayerList = [];
     for (let i = 0; i < neighborsPlayerList.length; i++) {
-      if (
-        neighborsPlayerList[i].data.neighborType === 'BOY' ||
-        neighborsPlayerList[i].data.neighborType === 'GIRL'
-      ) {
+      if (!neighborsPlayerList[i].data.neighborType.includes('ANIMAL')) {
         kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
       }
     }
@@ -806,7 +799,7 @@ const falcon: CardArgs<NeighborCardData> = {
     description:
       'Vous pouvez défausser cette carte: dans ce cas défaussez les 7 premières cartes de la PIOCHE VOISINNAGE. Obtenez chaque carte ANIMAL ainsi défaussée',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/falcon.png',
@@ -823,7 +816,7 @@ const falcon: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.data.neighborType === 'ANIMAL') {
+      if (drawnedCard.data.neighborType.includes('ANIMAL')) {
         cardOwner.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(FALCON_DRAW_CARDS_COUNT);
@@ -841,7 +834,7 @@ const owl: CardArgs<NeighborCardData> = {
     subDescription:
       '(Défaussez-les et remplacez-les immédiatement par de nouvelles cartes de la PIOCHE VOISINNAGE)',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/owl.png',
@@ -857,7 +850,7 @@ const skunk: CardArgs<NeighborCardData> = {
       'Chaque joueur doit défausser toutes ses cartes, sauf ses démons',
     subDescription: '(y compris celle-ci).',
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/skunk.png',
@@ -880,7 +873,7 @@ const strayCat: CardArgs<NeighborCardData> = {
     description:
       "Si vous n'avez ni GARÇON ni FILLE: obtenez la carte du dessus de la pioche voisinnage.",
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/stray_cat.png',
@@ -907,7 +900,7 @@ const rabidDog: CardArgs<NeighborCardData> = {
     type: 'NEIGHBOR',
     description: "Si vous n'avez ni GARÇON ni FILLE: récoltez 2 Âmes.",
     activationNumbers: [7],
-    neighborType: 'ANIMAL',
+    neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
     cardImage: '/cards/neighbourhood/rabid_dog.png',
@@ -926,7 +919,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(goat, 1),
   ...createNeighborCards(falcon, 1),
   ...createNeighborCards(skunk, 1),
-  ...createNeighborCards(alligator, 20),
+  ...createNeighborCards(alligator, 1),
   ...createNeighborCards(rabidDog, 2),
   ...createNeighborCards(araMacao, 2),
   ...createNeighborCards(rabbit, 2),
