@@ -35,6 +35,7 @@ const demonBook = new DemonCard({
     //TO FINISH
     const demon = game.demonsDeck[0];
     cardOwner.addSummonedDemonCard(demon);
+    game.demonsDeck.shift();
   },
 });
 
@@ -218,17 +219,17 @@ const devil = new DemonCard({
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     //TO FINISH
-    const neighborsCardsPlayerList = game.playerList[1].getNeighborCards();
+    const neighborsCardsPlayerList = game.playerList[2].getNeighborCards();
     for (let i = 0; i < neighborsCardsPlayerList.length; i++) {
       cardOwner.addNeighborCard(neighborsCardsPlayerList[i]);
-      game.playerList[1].removeNeighborCardById(
+      game.playerList[2].removeNeighborCardById(
         neighborsCardsPlayerList[i].data.id,
       );
     }
-    const demonsCardsPlayerList = game.playerList[1].getSummonedDemonCards();
+    const demonsCardsPlayerList = game.playerList[2].getSummonedDemonCards();
     for (let i = 0; i < demonsCardsPlayerList.length; i++) {
       cardOwner.addSummonedDemonCard(demonsCardsPlayerList[i]);
-      game.playerList[1].removeSummonedDemonCardById(
+      game.playerList[2].removeSummonedDemonCardById(
         demonsCardsPlayerList[i].data.id,
       );
     }
