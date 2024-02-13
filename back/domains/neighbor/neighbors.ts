@@ -426,7 +426,11 @@ const alice: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      if (drawnedCard.data.neighborKindness.includes('ADORABLE')) {
+      console.log(drawnedCard.data.neighborKindness);
+      if (
+        drawnedCard.data.neighborKindness &&
+        drawnedCard.data.neighborKindness.includes('ADORABLE')
+      ) {
         cardOwner.addNeighborCard(drawnedCard);
       }
       game.neighborsDeck.throwCards(ALICE_DRAW_CARDS_COUNT);
@@ -804,9 +808,10 @@ const falcon: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/falcon.png',
   },
-  activateFn: async ({ game, cardOwner }): Promise<void> => {
+  activateFn: async ({ game, cardOwner, card }): Promise<void> => {
     const FALCON_DRAW_CARDS_COUNT = 7;
     const drawnedCards: NeighborCard[] = [];
+    cardOwner.removeNeighborCardById(card.data.id);
     for (let i = 0; i < FALCON_DRAW_CARDS_COUNT; i++) {
       drawnedCards.push(game.neighborsDeck.drawnCard());
       game.emitDataToSockets();
