@@ -189,32 +189,27 @@ const dolores: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/dolores.png',
   },
-  activateFn: async (): Promise<void> => {
-    // game.neighborsDeck.data.market.forEach((card) => {
-    //   if(card.neighborKindness === 'ADORABLE'){
-    //     console.log("splice card")
-    //     const index = game.neighborsDeck.data.market.indexOf(card);
-    //     console.log(index)
-    //     game.neighborsDeck.throwMarketCards(index);
-    //   }
-    // for (let i = 0; i < game.neighborsDeck.data.market.length; i++) {
-    //   if(game.neighborsDeck.data.market[i].neighborKindness === 'ADORABLE'){
-    //     console.log("splice card")
-    //     console.log(i)
-    //     game.neighborsDeck.throwMarketCards(i);
-    //   }
-    // }
-    // game.neighborsDeck.fillMarket();
-    // if (boys.length < 1 && girls.length < 1) {
-    //   const drawnedCard: NeighborCard = game.neighborsDeck.drawnCard();
-    //   game.emitDataToSockets();
-    //   await new Promise((resolve) => {
-    //     setTimeout(resolve, 1000);
-    //   });
-    //   cardOwner.addNeighborCard(drawnedCard);
-    //   game.neighborsDeck.throwCards(1);
-    //   game.emitDataToSockets();
-    // }
+  activateFn: async ({ game }): Promise<void> => {
+    console.log('DOLORES Activated baby');
+    console.log(game.neighborsDeck.getMarket().length);
+    for (let i = 0; i < game.neighborsDeck.getMarket().length; i++) {
+      console.log(game.neighborsDeck.getMarket()[i].data.neighborKindness);
+      console.log('for activated');
+      if (
+        !game.neighborsDeck
+          .getMarket()
+          [i].data.neighborType.includes('ANIMAL') &&
+        game.neighborsDeck
+          .getMarket()
+          [i].data.neighborKindness.includes('ADORABLE')
+      ) {
+        game.neighborsDeck.throwMarketCards(i);
+        console.log('Spliced');
+        i--;
+      }
+    }
+    console.log(game.neighborsDeck.getMarket().length);
+    game.neighborsDeck.fillMarket();
   },
 };
 
@@ -669,6 +664,7 @@ const dog: CardArgs<NeighborCardData> = {
 const goldenFish: CardArgs<NeighborCardData> = {
   data: {
     name: 'POISSOU ROUGE',
+    name: 'POISSON ROUGE',
     type: 'NEIGHBOR',
     description:
       'Vous pouvez défaussez cette carte : dans ce cas, récoltez 5 Âmes.',

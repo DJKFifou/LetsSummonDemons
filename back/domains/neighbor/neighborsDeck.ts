@@ -64,6 +64,14 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     return card;
   }
 
+  fillMarket(): void {
+    for (let i = 0; i < 5; i++) {
+      if (!this.market[i]) {
+        this.market[i] = this.remainingCards.shift();
+      }
+    }
+  }
+
   getMarket = (): Array<NeighborCard | null> => this.market;
 
   buyCard(player: Player, cardId: CardId): void {
@@ -100,6 +108,10 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     for (let i = 0; i < cardCount; i++) {
       this.drawned.shift();
     }
+  }
+
+  throwMarketCards(index: number): void {
+    this.getMarket().splice(index, 1);
   }
 
   get data(): NeighborsDeckData {
