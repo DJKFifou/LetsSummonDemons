@@ -176,7 +176,10 @@ const calvin: CardArgs<NeighborCardData> = {
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     //TO FINISH
-    if (cardOwner.getHorribleNeighborCards().length > 2) {
+    if (
+      !game.playerList[1].data.isTheftProtected &&
+      cardOwner.getHorribleNeighborCards().length > 2
+    ) {
       const soulTokens = 2;
       game.playerList[1].removeSoulToken(soulTokens);
       cardOwner.addSoulToken(soulTokens);
@@ -390,11 +393,13 @@ const donnie: CardArgs<NeighborCardData> = {
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
-    for (let i = 0; i < cardOwner.getHorribleNeighborCards().length; i++) {
-      const soulTokens = 61;
-      game.playerList[1].removeSoulToken(soulTokens);
-      cardOwner.addSoulToken(soulTokens);
-      cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
+    if (!game.playerList[1].data.isTheftProtected) {
+      for (let i = 0; i < cardOwner.getHorribleNeighborCards().length; i++) {
+        const soulTokens = 1;
+        game.playerList[1].removeSoulToken(soulTokens);
+        cardOwner.addSoulToken(soulTokens);
+        cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
+      }
     }
   },
 };
@@ -808,7 +813,10 @@ const alligator: CardArgs<NeighborCardData> = {
       }
     }
 
-    if (kidNeighborCardsPlayerList.length > 0) {
+    if (
+      !game.playerList[2].data.isTheftProtected &&
+      kidNeighborCardsPlayerList.length > 0
+    ) {
       cardOwner.removeNeighborCardById(card.data.id);
       game.playerList[2].removeNeighborCardById(
         kidNeighborCardsPlayerList[0].data.id,
@@ -887,9 +895,11 @@ const skunk: CardArgs<NeighborCardData> = {
   activateFn: async ({ game }): Promise<void> => {
     const players = game.playerList;
     for (let i = 0; i < players.length; i++) {
-      const neighbors = game.playerList[i].getNeighborCards();
-      for (let j = 0; j < neighbors.length; j++) {
-        game.playerList[i].removeNeighborCardById(neighbors[j].data.id);
+      if (!players[i].data.isTheftProtected) {
+        const neighbors = players[i].getNeighborCards();
+        for (let j = 0; j < neighbors.length; j++) {
+          players[i].removeNeighborCardById(neighbors[j].data.id);
+        }
       }
     }
   },

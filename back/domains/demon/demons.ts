@@ -132,7 +132,10 @@ const baelHound = new DemonCard({
     //TO FINISH
     const animals = cardOwner.getAnimalNeighborCards();
     const soulTokens = animals.length;
-    if (game.playerList[1].data.soulsTokenCount > soulTokens) {
+    if (
+      !game.playerList[1].data.isTheftProtected &&
+      game.playerList[1].data.soulsTokenCount > soulTokens
+    ) {
       game.playerList[1].removeSoulToken(soulTokens);
       cardOwner.addSoulToken(soulTokens);
     } else {
@@ -406,7 +409,15 @@ const spectralux = new DemonCard({
     cardImage: '/cards/demons/spectralux.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    for (let i = 0; i < game.playerList.length; i++) {
+      if (game.playerList[i].data.id !== cardOwner.data.id) {
+        game.playerList[i].data.isTheftProtected = false;
+      } else {
+        cardOwner.data.isTheftProtected = true;
+      }
+    }
+  },
 });
 
 export const demons: Array<DemonCard> = [

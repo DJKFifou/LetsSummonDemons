@@ -25,6 +25,7 @@ export class Player implements EntityClass<PlayerData> {
   protected summonedDemonsCards: Array<DemonCard>;
   protected neighborsCards: Array<NeighborCard>;
   protected isBot: boolean;
+  protected isTheftProtected: boolean;
   protected minDemonsInvocatedForWin: number;
 
   constructor(playerData: PlayerInputData) {
@@ -38,6 +39,7 @@ export class Player implements EntityClass<PlayerData> {
     this.summonedDemonsCards = [];
     this.neighborsCards = [];
     this.isBot = false;
+    this.isTheftProtected = false;
     this.minDemonsInvocatedForWin = 3;
   }
 
@@ -53,6 +55,7 @@ export class Player implements EntityClass<PlayerData> {
       summonedDemonsCards: this.summonedDemonsCards.map((card) => card.data),
       neighborsCards: this.neighborsCards.map((card) => card.data),
       isBot: this.isBot,
+      isTheftProtected: this.isTheftProtected,
       minDemonsInvocatedForWin: this.minDemonsInvocatedForWin,
     };
   }

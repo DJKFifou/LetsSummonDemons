@@ -13,6 +13,7 @@ export interface PlayerData {
   summonedDemonsCards: Array<DemonCardData>;
   neighborsCards: Array<NeighborCardData>;
   isBot?: boolean;
+  isTheftProtected?: boolean;
   minDemonsInvocatedForWin: number;
 }
 
