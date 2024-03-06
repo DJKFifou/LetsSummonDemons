@@ -34,14 +34,6 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     this.fillMarket();
   }
 
-  protected fillMarket(): void {
-    for (let i = 0, iMax = this.market.length; i < iMax; i++) {
-      if (!this.market[i]) {
-        this.market[i] = this.remainingCards.shift();
-      }
-    }
-  }
-
   protected getCardInMarketById(cardId: CardId): NeighborCard {
     const card = this.market.find((card) => card.data.id === cardId);
 

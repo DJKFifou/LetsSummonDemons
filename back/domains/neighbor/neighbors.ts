@@ -692,7 +692,6 @@ const dog: CardArgs<NeighborCardData> = {
 
 const goldenFish: CardArgs<NeighborCardData> = {
   data: {
-    name: 'POISSOU ROUGE',
     name: 'POISSON ROUGE',
     type: 'NEIGHBOR',
     description:

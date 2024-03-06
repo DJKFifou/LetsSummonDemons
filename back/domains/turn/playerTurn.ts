@@ -57,6 +57,19 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.activateCards(this.dicesResult);
   }
 
+  testDices(number): void {
+    if (!this.canLaunchDices) {
+      throw new CannotLaunchDicesError();
+    }
+    this.launchedDices = true;
+
+    let dicesResult = number;
+    this.dicesResult = dicesResult;
+    this.game.emitDataToSockets();
+
+    this.activateCards(this.dicesResult);
+  }
+
   protected async activateCards(dicesResult: number): Promise<void> {
     for await (const player of this.game.turn?.playerListFromCurrent ?? []) {
       player.resetBoysAndGirlsSoulsTokenCount();
