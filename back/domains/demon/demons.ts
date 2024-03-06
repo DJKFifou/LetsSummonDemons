@@ -2,6 +2,7 @@ import { DemonCard } from './demon.js';
 import { NeighborCard } from '../neighbor/neighbor.js';
 
 const cardBack = '/cards/back/demons.png';
+const activationNumbersPermanent = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const snake = new DemonCard({
   data: {
@@ -240,7 +241,7 @@ const incesteDemon = new DemonCard({
   data: {
     name: 'DÉMON INCESTE',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       'Tous vos GARÇONS et FILLES comptent comme à la fois ADORABLES et HORRIBLES.',
@@ -262,7 +263,7 @@ const demogorguignol = new DemonCard({
   data: {
     name: 'DÉMOGORGUIGNOL',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       'Tous vos GARÇONS et FILLES comptent comme à la fois GARÇONS et FILLES.',
@@ -284,61 +285,92 @@ const macabreOni = new DemonCard({
   data: {
     name: 'MACABRE ONI',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       "vos GARÇONS et FILLES récoltent le double d'Âmes à votre tour.",
     cardImage: '/cards/demons/gruesome_oni.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    if (game.data.turn.current.player.id === cardOwner.data.id) {
+      console.log(cardOwner.getBoysAndGirlsSoulsTokenCount());
+      cardOwner.addSoulToken(cardOwner.getBoysAndGirlsSoulsTokenCount());
+    }
+  },
 });
 
 const aneModee = new DemonCard({
   data: {
     name: 'ÂNE-MODÉE',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description: 'Chaque fois que vous obtenez un ANIMAL récoltez une Âme.',
     cardImage: '/cards/demons/ane_modee.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ cardOwner }): Promise<void> => {
+    if (
+      cardOwner.getAnimalNeighborCards().length > cardOwner.getAnimalsCount()
+    ) {
+      cardOwner.addSoulToken(
+        cardOwner.getAnimalNeighborCards().length - cardOwner.getAnimalsCount(),
+      );
+    }
+    cardOwner.setAnimalsCount(cardOwner.getAnimalNeighborCards().length);
+  },
 });
 
 const baphometal = new DemonCard({
   data: {
     name: 'BAPHOMÉTAL',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       'Vos adversaires doivent sacrifier une 4e carte pour invoquer un démon.',
     cardImage: '/cards/demons/baphometal.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    for (let i = 0; i < game.playerList.length; i++) {
+      if (game.playerList[i].data.id == cardOwner.data.id) {
+        if (cardOwner.data.minDemonsInvocatedForWin == 4) {
+          cardOwner.data.coveredDemonsCards.pop();
+          game.playerList[i].setMinDemonsInvocatedForWin(3);
+        }
+      } else {
+        game.playerList[i].setMinDemonsInvocatedForWin(4);
+        game.playerList[i].addCoveredDemonCard(game.demonsDeck[0]);
+      }
+    }
+  },
 });
+
 const dedeZuzu = new DemonCard({
   data: {
     name: 'DÉDÉ-ZUZU',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       "Chaque fois que vous faîtes un double aux dés. Récoltez le nombre d'âmes indiqué sur la face d'un dé.",
     cardImage: '/cards/demons/dede_zuzu.png',
     cardBack,
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    if (game.dices[0].data.result === game.dices[1].data.result) {
+      cardOwner.addSoulToken(Number(game.dices[0].data.result));
+    }
+  },
 });
 
 const relancifer = new DemonCard({
   data: {
     name: 'RELANCIFER',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description: 'A votre tour: vous pouvez relancer les dés une fois.',
     subDescription:
@@ -348,15 +380,16 @@ const relancifer = new DemonCard({
   },
   activateFn: async (): Promise<void> => {},
 });
+
 const rosemaryEgg = new DemonCard({
   data: {
     name: "L'OEUF DE ROSEMARY",
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       "Quand vous invoquez ce démon. Défaussez-le immédiatement. Regardez les 3 premières cartes de la pioche Démon, invoquez l'un d'eux et défaussez les 2 autres.",
-    cardImage: '/cards/demons/gruesome_oni.png',
+    cardImage: '/cards/demons/rosemary_egg.png',
     cardBack,
   },
   activateFn: async (): Promise<void> => {},
@@ -366,7 +399,7 @@ const spectralux = new DemonCard({
   data: {
     name: 'SPECTRALUX',
     type: 'DEMON',
-    activationNumbers: [],
+    activationNumbers: activationNumbersPermanent,
     isPermanent: true,
     description:
       'Vos adversaires ne peuvent pas vous voler ni vous faire défausser.',
