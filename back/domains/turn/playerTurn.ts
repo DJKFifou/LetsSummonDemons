@@ -27,12 +27,14 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   player: Player;
   protected launchedDices: boolean;
   protected dicesResult?: number;
+  protected resetBoysAndGirlsSoulsTokenCount: number;
   protected summonedDemon: boolean;
   protected bougthNeighbor: boolean;
 
   constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
     this.player = player;
+    this.player.resetBoysAndGirlsSoulsTokenCount();
     this.launchedDices = false;
     this.dicesResult = null;
     this.summonedDemon = false;
@@ -57,6 +59,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
   protected async activateCards(dicesResult: number): Promise<void> {
     for await (const player of this.game.turn?.playerListFromCurrent ?? []) {
+      player.resetBoysAndGirlsSoulsTokenCount();
       for await (const neighborCard of player.getNeighborCards()) {
         if (
           neighborCard.isActivatedByNumber(dicesResult) &&

@@ -18,21 +18,27 @@ export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
   protected name: string;
   protected soulsTokenCount: number;
+  protected boysAndGirlsSoulsTokenCount: number;
+  protected animalsCount: number;
   protected candleCard?: CandleCard;
   protected coveredDemonsCards: Array<DemonCard>;
   protected summonedDemonsCards: Array<DemonCard>;
   protected neighborsCards: Array<NeighborCard>;
   protected isBot: boolean;
+  protected minDemonsInvocatedForWin: number;
 
   constructor(playerData: PlayerInputData) {
     this.id = uuidv4();
     this.name = playerData.name;
     this.soulsTokenCount = 0;
+    this.boysAndGirlsSoulsTokenCount = 0;
+    this.animalsCount = 0;
     this.candleCard = null;
     this.coveredDemonsCards = [];
     this.summonedDemonsCards = [];
     this.neighborsCards = [];
     this.isBot = false;
+    this.minDemonsInvocatedForWin = 3;
   }
 
   get data(): PlayerData {
@@ -40,11 +46,14 @@ export class Player implements EntityClass<PlayerData> {
       id: this.id,
       name: this.name,
       soulsTokenCount: this.soulsTokenCount,
+      boysAndGirlsSoulsTokenCount: this.boysAndGirlsSoulsTokenCount,
+      animalsCount: this.animalsCount,
       candleCard: this.candleCard?.data,
       coveredDemonsCards: this.coveredDemonsCards.map((card) => card.data),
       summonedDemonsCards: this.summonedDemonsCards.map((card) => card.data),
       neighborsCards: this.neighborsCards.map((card) => card.data),
       isBot: this.isBot,
+      minDemonsInvocatedForWin: this.minDemonsInvocatedForWin,
     };
   }
 
@@ -54,6 +63,30 @@ export class Player implements EntityClass<PlayerData> {
 
   addSoulToken(count: number = 1): void {
     this.soulsTokenCount += count;
+  }
+
+  setMinDemonsInvocatedForWin(count: number = 3) {
+    this.minDemonsInvocatedForWin = count;
+  }
+
+  resetBoysAndGirlsSoulsTokenCount() {
+    this.boysAndGirlsSoulsTokenCount = 0;
+  }
+
+  getAnimalsCount(): number {
+    return this.animalsCount;
+  }
+
+  setAnimalsCount(count: number) {
+    this.animalsCount = count;
+  }
+
+  getBoysAndGirlsSoulsTokenCount(): number {
+    return this.boysAndGirlsSoulsTokenCount;
+  }
+
+  addBoysAndGirlsSoulsToken(count: number = 1) {
+    this.boysAndGirlsSoulsTokenCount += count;
   }
 
   removeSoulToken(count: number = 1): void {
@@ -201,14 +234,18 @@ export class Player implements EntityClass<PlayerData> {
   }
 
   getHorribleNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter((card) =>
-      card.data.neighborKindness.includes('HORRIBLE'),
+    return this.neighborsCards.filter(
+      (card) =>
+        card.data.neighborKindness &&
+        card.data.neighborKindness.includes('HORRIBLE'),
     );
   }
 
   getAdorableNeighborCards(): Array<NeighborCard> {
-    return this.neighborsCards.filter((card) =>
-      card.data.neighborKindness.includes('ADORABLE'),
+    return this.neighborsCards.filter(
+      (card) =>
+        card.data.neighborKindness &&
+        card.data.neighborKindness.includes('ADORABLE'),
     );
   }
 }

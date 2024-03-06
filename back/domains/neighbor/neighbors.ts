@@ -54,6 +54,7 @@ const lola: CardArgs<NeighborCardData> = {
     const boys = cardOwner.getBoyNeighborCards();
     const soulTokens = boys.length;
     cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -70,7 +71,9 @@ const eve: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/eve.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(1);
+    const soulTokens = 1;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -87,7 +90,9 @@ const adam: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/adam.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(1);
+    const soulTokens = 1;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -104,7 +109,9 @@ const caroline: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/caroline.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(5);
+    const soulTokens = 5;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -121,7 +128,9 @@ const regan: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/regan.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(1);
+    const soulTokens = 1;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -168,8 +177,10 @@ const calvin: CardArgs<NeighborCardData> = {
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     //TO FINISH
     if (cardOwner.getHorribleNeighborCards().length > 2) {
-      game.playerList[1].removeSoulToken(2);
-      cardOwner.addSoulToken(2);
+      const soulTokens = 2;
+      game.playerList[1].removeSoulToken(soulTokens);
+      cardOwner.addSoulToken(soulTokens);
+      cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
     }
   },
 };
@@ -237,7 +248,9 @@ const sam: CardArgs<NeighborCardData> = {
       cardOwner.removeNeighborCardById(
         cardOwner.getAnimalNeighborCards()[0].data.id,
       );
-      cardOwner.addSoulToken(6);
+      const soulTokens = 6;
+      cardOwner.addSoulToken(soulTokens);
+      cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
     }
   },
 };
@@ -301,7 +314,9 @@ const jesus: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/jesus.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(2);
+    const soulTokens = 2;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -320,7 +335,9 @@ const chuck: CardArgs<NeighborCardData> = {
   activateFn: async ({ cardOwner }): Promise<void> => {
     const adorable = cardOwner.getAdorableNeighborCards();
     if (adorable.length > 1) {
-      cardOwner.addSoulToken(2);
+      const soulTokens = 2;
+      cardOwner.addSoulToken(soulTokens);
+      cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
     }
   },
 };
@@ -338,7 +355,9 @@ const louis: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/louis.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(1);
+    const soulTokens = 1;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -355,7 +374,9 @@ const carrie: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/carrie.png',
   },
   activateFn: async ({ cardOwner }): Promise<void> => {
-    cardOwner.addSoulToken(2);
+    const soulTokens = 2;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -375,8 +396,10 @@ const donnie: CardArgs<NeighborCardData> = {
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
     for (let i = 0; i < cardOwner.getHorribleNeighborCards().length; i++) {
-      game.playerList[1].removeSoulToken(1);
-      cardOwner.addSoulToken(1);
+      const soulTokens = 61;
+      game.playerList[1].removeSoulToken(soulTokens);
+      cardOwner.addSoulToken(soulTokens);
+      cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
     }
   },
 };
@@ -398,6 +421,7 @@ const lisa: CardArgs<NeighborCardData> = {
     const adorable = cardOwner.getAdorableNeighborCards();
     const soulTokens = adorable.length;
     cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -426,7 +450,6 @@ const alice: CardArgs<NeighborCardData> = {
     }
     for (let i = 0; i < ALICE_DRAW_CARDS_COUNT; i++) {
       const drawnedCard: NeighborCard | undefined = drawnedCards[i];
-      console.log(drawnedCard.data.neighborKindness);
       if (
         drawnedCard.data.neighborKindness &&
         drawnedCard.data.neighborKindness.includes('ADORABLE')
@@ -482,6 +505,7 @@ const fifi: CardArgs<NeighborCardData> = {
     const animals = cardOwner.getAnimalNeighborCards();
     const soulTokens = animals.length;
     cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -555,8 +579,10 @@ const dillinger: CardArgs<NeighborCardData> = {
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
-    game.playerList[1].removeSoulToken(1);
-    cardOwner.addSoulToken(1);
+    const soulTokens = 1;
+    game.playerList[1].removeSoulToken(soulTokens);
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
@@ -575,7 +601,9 @@ const glen: CardArgs<NeighborCardData> = {
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
-    cardOwner.addSoulToken(2);
+    const soulTokens = 2;
+    cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
     game.playerList[1].addSoulToken(1);
   },
 };
@@ -618,6 +646,7 @@ const romeo: CardArgs<NeighborCardData> = {
     const girls = cardOwner.getGirlNeighborCards();
     const soulTokens = girls.length;
     cardOwner.addSoulToken(soulTokens);
+    cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
   },
 };
 
