@@ -29,7 +29,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected dicesResult?: number;
   protected resetBoysAndGirlsSoulsTokenCount: number;
   protected summonedDemon: boolean;
-  protected bougthNeighbor: boolean;
+  protected boughtNeighbor: boolean;
 
   constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
@@ -38,7 +38,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.launchedDices = false;
     this.dicesResult = null;
     this.summonedDemon = false;
-    this.bougthNeighbor = false;
+    this.boughtNeighbor = false;
   }
 
   launchDices(): void {
@@ -112,7 +112,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
     this.game.neighborsDeck.buyCard(this.player, neighborCardId);
 
-    this.bougthNeighbor = true;
+    this.boughtNeighbor = true;
 
     this.game.emitDataToSockets();
   }
@@ -151,7 +151,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
   get canBuyNeighbor(): boolean {
     return (
-      !this.bougthNeighbor &&
+      !this.boughtNeighbor &&
       this.player.data.soulsTokenCount >= SOULS_COUNT_TO_BUY_NEIGHBOR_CARD
     );
   }
@@ -175,7 +175,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       launchedDices: this.launchedDices,
       dicesResult: this.dicesResult,
       summonedDemon: this.summonedDemon,
-      bougthNeighbor: this.bougthNeighbor,
+      boughtNeighbor: this.boughtNeighbor,
       canEndTurn: this.canEndTurn,
       canBuyNeighbor: this.canBuyNeighbor,
       canSummonDemon: this.canSummonDemon,

@@ -5,7 +5,7 @@ export interface PlayerTurnData {
   player: PlayerData;
   launchedDices: boolean;
   dicesResult?: number;
-  bougthNeighbor: boolean;
+  boughtNeighbor: boolean;
   summonedDemon: boolean;
   canEndTurn: boolean;
   canSummonDemon: boolean;
