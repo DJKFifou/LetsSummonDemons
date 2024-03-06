@@ -63,8 +63,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
     this.launchedDices = true;
 
-    let dicesResult = number;
-    this.dicesResult = dicesResult;
+    this.dicesResult = number;
     this.game.emitDataToSockets();
 
     this.activateCards(this.dicesResult);
