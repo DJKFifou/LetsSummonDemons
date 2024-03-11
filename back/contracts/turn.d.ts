@@ -13,9 +13,14 @@ export interface PlayerTurnData {
   canLaunchDices: boolean;
   shouldSelectCards: boolean;
   shouldSelectCardsFilter?: {
+    rangeOfSelection?:
+      | 'marketChoice'
+      | 'opponentChoice'
+      | 'selfChoice'
+      | 'null';
     type?: Array<CardType>;
-    neighborKindness?: Array<NeighborKindness>;
     neighborType?: Array<NeighborType>;
+    neighborKindness?: Array<NeighborKindness>;
   };
 }
 

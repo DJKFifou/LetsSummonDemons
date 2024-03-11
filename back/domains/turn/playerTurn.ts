@@ -2,7 +2,12 @@ import {
   SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON,
   SOULS_COUNT_TO_BUY_NEIGHBOR_CARD,
 } from '../../constants/game.js';
-import { CardId } from '../../contracts/card.js';
+import {
+  CardId,
+  CardType,
+  NeighborKindness,
+  NeighborType,
+} from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
 import { Game } from '../game/game.js';
@@ -30,6 +35,17 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected resetBoysAndGirlsSoulsTokenCount: number;
   protected summonedDemon: boolean;
   protected bougthNeighbor: boolean;
+  protected shouldSelectCards: boolean;
+  protected shouldSelectCardsFilter: {
+    rangeOfSelection?:
+      | 'marketChoice'
+      | 'opponentChoice'
+      | 'selfChoice'
+      | 'null';
+    type?: Array<CardType>;
+    neighborType?: Array<NeighborType>;
+    neighborKindness?: Array<NeighborKindness>;
+  };
 
   constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
@@ -39,6 +55,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.dicesResult = null;
     this.summonedDemon = false;
     this.bougthNeighbor = false;
+    this.shouldSelectCards = false;
+    this.shouldSelectCardsFilter = {};
   }
 
   launchDices(): void {
@@ -53,6 +71,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     });
     this.dicesResult = dicesResult;
     this.game.emitDataToSockets();
+    console.log(this.data.shouldSelectCards);
+    console.log(this.data.shouldSelectCardsFilter);
 
     this.activateCards(this.dicesResult);
   }
@@ -145,6 +165,19 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
+  setShouldSelectCards(
+    rangeOfSelectionsss,
+    cardTypeAwait,
+    neighborTypeAwait?,
+    neighborKindnessAwait?,
+  ): void {
+    this.shouldSelectCards = true;
+    this.data.shouldSelectCardsFilter.rangeOfSelection = rangeOfSelectionsss;
+    this.data.shouldSelectCardsFilter.type = cardTypeAwait;
+    this.data.shouldSelectCardsFilter.neighborType = neighborTypeAwait;
+    this.data.shouldSelectCardsFilter.neighborKindness = neighborKindnessAwait;
+  }
+
   get canLaunchDices(): boolean {
     return !this.launchedDices;
   }
@@ -180,8 +213,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       canBuyNeighbor: this.canBuyNeighbor,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
-      shouldSelectCards: false,
-      shouldSelectCardsFilter: null,
+      shouldSelectCards: this.shouldSelectCards,
+      shouldSelectCardsFilter: this.shouldSelectCardsFilter,
     };
   }
 }

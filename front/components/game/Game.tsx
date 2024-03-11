@@ -23,12 +23,13 @@ export const GameDataDisplay = ({
       <p>ID: {gameData.id}</p>
       <p>STATE: {gameData.state}</p>
       <div className={styles.neighbourDeck}>
-      {gameData.neighborsDeck && (
-        <NeighborsDeck
-          isMarketOpen={isMarketOpen}
-          neighborsDeck={gameData.neighborsDeck}
-        />
-      )}
+        {gameData.neighborsDeck && (
+          <NeighborsDeck
+            gameData={gameData}
+            isMarketOpen={isMarketOpen}
+            neighborsDeck={gameData.neighborsDeck}
+          />
+        )}
       </div>
       <p>PLAYERS:</p>
       <div className={styles.players}>

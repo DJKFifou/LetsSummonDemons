@@ -84,7 +84,6 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
   giveCard(player: Player, cardId: CardId): void {
     const card = this.pickCardFromMarketById(cardId);
     const newCard: NeighborCard = card;
-    newCard.isActivableSetter();
     player.addNeighborCard(newCard);
 
     this.fillMarket();

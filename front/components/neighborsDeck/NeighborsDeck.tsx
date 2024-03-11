@@ -4,6 +4,7 @@ import { Card } from '../card/Card';
 import { MarketNeighborCard } from '../card/MarketNeighborCard';
 import { DrawnedNeighborCard } from '../card/DrawnNeighborCard';
 import styles from './NeighborsDeck.module.scss';
+import { GameData } from '@lsd/back/contracts/game';
 
 interface CoveredCardStackProps {
   cardData: CardData;
@@ -21,10 +22,12 @@ const CoveredCardStack = ({ cardData, cardCount }: CoveredCardStackProps) => {
 };
 
 interface NeighborsDeckProps {
+  gameData: GameData;
   neighborsDeck: NeighborsDeckData;
   isMarketOpen: boolean;
 }
 export const NeighborsDeck = ({
+  gameData,
   neighborsDeck,
   isMarketOpen,
 }: NeighborsDeckProps) => {
@@ -40,6 +43,7 @@ export const NeighborsDeck = ({
         )}
         {neighborsDeck.market.map((card) => (
           <MarketNeighborCard
+            gameData={gameData}
             isBuyable={isMarketOpen}
             cardData={card}
             key={card.id}

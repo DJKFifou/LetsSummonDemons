@@ -200,12 +200,9 @@ const dolores: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/dolores.png',
   },
-  activateFn: async ({ game }): Promise<void> => {
-    console.log('DOLORES Activated baby');
-    console.log(game.neighborsDeck.getMarket().length);
+  activateFn: async ({ game, cardOwner }): Promise<void> => {
+    let stop = 0;
     for (let i = 0; i < game.neighborsDeck.getMarket().length; i++) {
-      console.log(game.neighborsDeck.getMarket()[i].data.neighborKindness);
-      console.log('for activated');
       if (
         !game.neighborsDeck
           .getMarket()
@@ -219,8 +216,37 @@ const dolores: CardArgs<NeighborCardData> = {
         i--;
       }
     }
-    console.log(game.neighborsDeck.getMarket().length);
     game.neighborsDeck.fillMarket();
+    let horribleNeighbors = [];
+    for (let i = 0; i < game.neighborsDeck.getMarket().length; i++) {
+      if (
+        !game.neighborsDeck
+          .getMarket()
+          [i].data.neighborType.includes('ANIMAL') &&
+        game.neighborsDeck
+          .getMarket()
+          [i].data.neighborKindness.includes('HORRIBLE')
+      ) {
+        console.log('InIf');
+        horribleNeighbors.push(game.neighborsDeck.getMarket()[i].data.id);
+        console.log('cardPushed');
+      }
+    }
+    if (horribleNeighbors.length > 0 && stop == 0) {
+      console.log('tryToGive');
+      game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
+      stop = 1;
+      console.log('Given');
+    }
+    // S'il y a plus de 2 cartes horribles
+    game.turn.current.setShouldSelectCards(
+      'marketChoice',
+      'NEIGHBOR',
+      'BOY' || 'GIRL',
+      'HORRIBLE',
+    );
+    console.log(game.turn.current.data.shouldSelectCards);
+    console.log(game.turn.current.data.shouldSelectCardsFilter);
   },
 };
 
@@ -391,7 +417,7 @@ const donnie: CardArgs<NeighborCardData> = {
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     // TO FINISH
     for (let i = 0; i < cardOwner.getHorribleNeighborCards().length; i++) {
-      const soulTokens = 61;
+      const soulTokens = 1;
       game.playerList[1].removeSoulToken(soulTokens);
       cardOwner.addSoulToken(soulTokens);
       cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
@@ -966,7 +992,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
   ...createNeighborCards(annie, 2),
-  ...createNeighborCards(dolores, 2),
+  ...createNeighborCards(dolores, 40),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),

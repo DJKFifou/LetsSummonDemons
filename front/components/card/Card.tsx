@@ -1,8 +1,10 @@
 import { CardData } from '@lsd/back/contracts/card';
 import Image from 'next/image';
 import styles from './Card.module.scss';
+import { GameData } from '@lsd/back/contracts/game';
 
 type CardProps = {
+  gameData?: GameData;
   cardData: CardData;
   covered?: boolean;
   isSelectable?: boolean;
