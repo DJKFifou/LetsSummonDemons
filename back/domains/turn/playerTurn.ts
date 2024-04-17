@@ -166,13 +166,13 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   setShouldSelectCards(
-    rangeOfSelectionsss,
+    rangeOfSelections,
     cardTypeAwait,
     neighborTypeAwait?,
     neighborKindnessAwait?,
   ): void {
     this.shouldSelectCards = true;
-    this.data.shouldSelectCardsFilter.rangeOfSelection = rangeOfSelectionsss;
+    this.data.shouldSelectCardsFilter.rangeOfSelection = rangeOfSelections;
     this.data.shouldSelectCardsFilter.type = cardTypeAwait;
     this.data.shouldSelectCardsFilter.neighborType = neighborTypeAwait;
     this.data.shouldSelectCardsFilter.neighborKindness = neighborKindnessAwait;

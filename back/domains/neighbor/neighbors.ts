@@ -242,11 +242,17 @@ const dolores: CardArgs<NeighborCardData> = {
     game.turn.current.setShouldSelectCards(
       'marketChoice',
       'NEIGHBOR',
-      'BOY' || 'GIRL',
+      ['BOY', 'GIRL'],
       'HORRIBLE',
     );
-    console.log(game.turn.current.data.shouldSelectCards);
-    console.log(game.turn.current.data.shouldSelectCardsFilter);
+    console.log(
+      'shouldSelectCards : ',
+      game.turn.current.data.shouldSelectCards,
+    );
+    console.log(
+      'shouldSelectCardsFilter : ',
+      game.turn.current.data.shouldSelectCardsFilter,
+    );
   },
 };
 
