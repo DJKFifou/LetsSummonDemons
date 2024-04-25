@@ -25,7 +25,7 @@ export const MarketNeighborCard = ({
     console.log('socketEmitted');
   };
   const choosedNeighbor = () => {
-    if (!gameData.turn?.current.shouldSelectCards) {
+    if (!gameData.turn?.current.shouldSelectCards && itsYou) {
       return;
     }
     socket.emit('turnBuyNeighbor', cardData.id);
