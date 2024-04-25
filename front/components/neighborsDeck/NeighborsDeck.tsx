@@ -25,11 +25,13 @@ interface NeighborsDeckProps {
   gameData: GameData;
   neighborsDeck: NeighborsDeckData;
   isMarketOpen: boolean;
+  itsYou: boolean;
 }
 export const NeighborsDeck = ({
   gameData,
   neighborsDeck,
   isMarketOpen,
+  itsYou,
 }: NeighborsDeckProps) => {
   return (
     <article className={styles.deck}>
@@ -47,6 +49,7 @@ export const NeighborsDeck = ({
             isBuyable={isMarketOpen}
             cardData={card}
             key={card.id}
+            itsYou={itsYou}
           />
         ))}
       </div>

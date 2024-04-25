@@ -9,6 +9,7 @@ import {
   NeighborType,
 } from '../../contracts/card.js';
 import { EntityClass } from '../../contracts/entities.js';
+import { PlayerId } from '../../contracts/player.js';
 import { PlayerTurnData } from '../../contracts/turn.js';
 import { Game } from '../game/game.js';
 import {
@@ -35,6 +36,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected resetBoysAndGirlsSoulsTokenCount: number;
   protected summonedDemon: boolean;
   protected bougthNeighbor: boolean;
+  protected cardSelector?: PlayerId;
   protected shouldSelectCards: boolean;
   protected shouldSelectCardsFilter: {
     rangeOfSelection?:
@@ -97,6 +99,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
           neighborCard.isActivatedByNumber(dicesResult) &&
           neighborCard.data.isActivable
         ) {
+          this.cardSelector = player.data.id;
+          console.log('Card owner assigné ? :', this.data.cardSelector);
           await neighborCard.activate({
             game: this.game,
             cardOwner: player,
@@ -213,6 +217,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       canBuyNeighbor: this.canBuyNeighbor,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
+      cardSelector: this.cardSelector,
       shouldSelectCards: this.shouldSelectCards,
       shouldSelectCardsFilter: this.shouldSelectCardsFilter,
     };

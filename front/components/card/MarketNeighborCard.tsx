@@ -8,11 +8,13 @@ type MarketNeighborCardProps = {
   gameData: GameData;
   cardData: NeighborCardData;
   isBuyable?: boolean;
+  itsYou: boolean;
 };
 export const MarketNeighborCard = ({
   gameData,
   cardData,
   isBuyable,
+  itsYou,
 }: MarketNeighborCardProps) => {
   const [neighborChoosen, setneighborChoosen] = useState<CardId | null>(null);
   const buyNeighbor = () => {
@@ -20,9 +22,22 @@ export const MarketNeighborCard = ({
       return;
     }
     socket.emit('turnBuyNeighbor', cardData.id);
+    console.log('socketEmitted');
+  };
+  const choosedNeighbor = () => {
+    if (!gameData.turn?.current.shouldSelectCards) {
+      return;
+    }
+    socket.emit('turnBuyNeighbor', cardData.id);
+    console.log('socketEmitted');
   };
   const toggleNeighborToPick = (neighborId: CardId) => {
     setneighborChoosen(neighborId);
+    if (neighborChoosen === neighborId) {
+      setneighborChoosen(null);
+    } else {
+      setneighborChoosen(neighborId);
+    }
   };
   const isSelectable = () => {
     const currentTurn = gameData.turn?.current;
@@ -33,41 +48,50 @@ export const MarketNeighborCard = ({
 
     const { rangeOfSelection, type, neighborType, neighborKindness } =
       currentTurn.shouldSelectCardsFilter;
-    console.log(rangeOfSelection, type, neighborType, neighborKindness);
+    console.log(
+      'Objet de vérif :',
+      rangeOfSelection,
+      type,
+      neighborType,
+      neighborKindness,
+    );
     const isRangeOfSelectionMarketChoice = rangeOfSelection === 'marketChoice';
-    console.log(isRangeOfSelectionMarketChoice);
-    const isTypeIncluded = type ? type.includes(cardData.type) : false;
-    console.log(isTypeIncluded);
-    const isNeighborTypeIncluded =
+    console.log('Bonne range ?:', isRangeOfSelectionMarketChoice);
+    const isTypeCorrespond = type ? type.includes(cardData.type) : false;
+    console.log('Bon type ?:', isTypeCorrespond);
+    const isNeighborTypeCorrespond =
       neighborType && Array.isArray(neighborType)
         ? neighborType.some((type) => cardData.neighborType.includes(type))
         : false;
-    console.log(isNeighborTypeIncluded);
-    const isNeighborKindnessIncluded =
-      neighborKindness && Array.isArray(neighborKindness)
-        ? neighborKindness.some((kindness) =>
-            cardData.neighborKindness!.includes(kindness),
-          )
-        : false;
-    console.log(isNeighborKindnessIncluded);
+    console.log('Garcon ou fille ?:', isNeighborTypeCorrespond);
+    console.log('Le type a verif : ', neighborKindness);
+    console.log('Le type de la carte : ', cardData.neighborKindness);
+    const isNeighborKindnessCorrespond = neighborKindness
+      ? neighborKindness == cardData.neighborKindness
+      : false;
+    console.log('Des bonbons ou un sort :', isNeighborKindnessCorrespond);
+    console.log('ItsYou ? : ', itsYou);
     return (
       isRangeOfSelectionMarketChoice &&
-      isTypeIncluded &&
-      isNeighborTypeIncluded &&
-      isNeighborKindnessIncluded
+      isTypeCorrespond &&
+      isNeighborTypeCorrespond &&
+      isNeighborKindnessCorrespond
     );
   };
 
   return (
     <article className={styles.marketCard}>
       <Card
-        isSelectable={isSelectable()}
+        isSelectable={itsYou && isSelectable()}
         isSelected={neighborChoosen === cardData.id}
         onToggleSelect={() => toggleNeighborToPick(cardData.id)}
         cardData={cardData}
       />
       {isBuyable && (
         <button onClick={buyNeighbor}>Acheter {cardData.name}</button>
+      )}
+      {neighborChoosen && (
+        <button onClick={buyNeighbor}>Récupérer {cardData.name}</button>
       )}
     </article>
   );

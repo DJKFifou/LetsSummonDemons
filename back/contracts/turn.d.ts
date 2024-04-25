@@ -11,6 +11,7 @@ export interface PlayerTurnData {
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
   canLaunchDices: boolean;
+  cardSelector?: PlayerId;
   shouldSelectCards: boolean;
   shouldSelectCardsFilter?: {
     rangeOfSelection?:
