@@ -47,7 +47,10 @@ export const PlayerDataDisplay = ({
     }
   };
 
-  const canSummonDemon = demonToSummonId && neighborsToSacrifice.length === 3;
+  const canSummonDemon =
+    demonToSummonId &&
+    neighborsToSacrifice.length === 3 &&
+    !gameData.turn?.current.shouldSelectCards;
 
   const summonDemon = () => {
     if (

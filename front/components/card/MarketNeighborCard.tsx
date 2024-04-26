@@ -16,7 +16,7 @@ export const MarketNeighborCard = ({
   isBuyable,
   itsYou,
 }: MarketNeighborCardProps) => {
-  const [neighborChoosen, setneighborChoosen] = useState<CardId | null>(null);
+  const [neighborChoosen, setNeighborChoosen] = useState<CardId | null>(null);
   const buyNeighbor = () => {
     if (!isBuyable) {
       return;
