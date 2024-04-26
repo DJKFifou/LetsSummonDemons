@@ -32,11 +32,11 @@ export const MarketNeighborCard = ({
     console.log('socketEmitted');
   };
   const toggleNeighborToPick = (neighborId: CardId) => {
-    setneighborChoosen(neighborId);
+    setNeighborChoosen(neighborId);
     if (neighborChoosen === neighborId) {
-      setneighborChoosen(null);
+      setNeighborChoosen(null);
     } else {
-      setneighborChoosen(neighborId);
+      setNeighborChoosen(neighborId);
     }
   };
   const isSelectable = () => {
