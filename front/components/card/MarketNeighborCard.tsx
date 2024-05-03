@@ -1,9 +1,9 @@
 import { socket } from '@/socket';
-import { CardData, CardId, NeighborCardData } from '@lsd/back/contracts/card';
+import { NeighborCardData } from '@lsd/back/contracts/card';
 import { Card } from './Card';
 import styles from './MarketNeighborCard.module.scss';
 import { GameData } from '@lsd/back/contracts/game';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 type MarketNeighborCardProps = {
   gameData: GameData;
   cardData: NeighborCardData;
@@ -16,7 +16,10 @@ export const MarketNeighborCard = ({
   isBuyable,
   itsYou,
 }: MarketNeighborCardProps) => {
-  const [neighborChoosen, setNeighborChoosen] = useState<CardId | null>(null);
+  const [selectedCardCount, setSelectedCardCount] = useState<number>(0);
+  useEffect(() => {
+    console.log('UseEffect, selectedCardCount : ', selectedCardCount);
+  }, [selectedCardCount]);
   const buyNeighbor = () => {
     if (!isBuyable) {
       return;
@@ -25,52 +28,35 @@ export const MarketNeighborCard = ({
     console.log('socketEmitted');
   };
   const choosedNeighbor = () => {
-    if (!gameData.turn?.current.shouldSelectCards && itsYou) {
-      return;
+    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+      return false;
     }
-    socket.emit('turnBuyNeighbor', cardData.id);
+    console.log('selectedCardCountBefore', selectedCardCount);
+    setSelectedCardCount(selectedCardCount + 1);
+    console.log('selectedCardCountAfter', selectedCardCount);
+
+    socket.emit('turnChoosedNeighbor', cardData.id);
     console.log('socketEmitted');
   };
-  const toggleNeighborToPick = (neighborId: CardId) => {
-    setNeighborChoosen(neighborId);
-    if (neighborChoosen === neighborId) {
-      setNeighborChoosen(null);
-    } else {
-      setNeighborChoosen(neighborId);
-    }
-  };
-  const isSelectable = () => {
+  const isSelectable = (): boolean => {
     const currentTurn = gameData.turn?.current;
     if (!currentTurn || !currentTurn.shouldSelectCardsFilter) {
-      console.log(false);
       return false;
     }
 
     const { rangeOfSelection, type, neighborType, neighborKindness } =
       currentTurn.shouldSelectCardsFilter;
-    console.log(
-      'Objet de vérif :',
-      rangeOfSelection,
-      type,
-      neighborType,
-      neighborKindness,
-    );
+
     const isRangeOfSelectionMarketChoice = rangeOfSelection === 'marketChoice';
-    console.log('Bonne range ?:', isRangeOfSelectionMarketChoice);
     const isTypeCorrespond = type ? type.includes(cardData.type) : false;
-    console.log('Bon type ?:', isTypeCorrespond);
     const isNeighborTypeCorrespond =
       neighborType && Array.isArray(neighborType)
         ? neighborType.some((type) => cardData.neighborType.includes(type))
         : false;
-    console.log('Garcon ou fille ?:', isNeighborTypeCorrespond);
-    console.log('Le type a verif : ', neighborKindness);
-    console.log('Le type de la carte : ', cardData.neighborKindness);
     const isNeighborKindnessCorrespond = neighborKindness
       ? neighborKindness == cardData.neighborKindness
       : false;
-    console.log('Des bonbons ou un sort :', isNeighborKindnessCorrespond);
-    console.log('ItsYou ? : ', itsYou);
+
     return (
       isRangeOfSelectionMarketChoice &&
       isTypeCorrespond &&
@@ -81,18 +67,15 @@ export const MarketNeighborCard = ({
 
   return (
     <article className={styles.marketCard}>
-      <Card
-        isSelectable={itsYou && isSelectable()}
-        isSelected={neighborChoosen === cardData.id}
-        onToggleSelect={() => toggleNeighborToPick(cardData.id)}
-        cardData={cardData}
-      />
+      <Card isSelectable={itsYou && isSelectable()} cardData={cardData} />
       {isBuyable && (
         <button onClick={buyNeighbor}>Acheter {cardData.name}</button>
       )}
-      {neighborChoosen && (
-        <button onClick={buyNeighbor}>Récupérer {cardData.name}</button>
-      )}
+      {itsYou &&
+        isSelectable() &&
+        gameData.turn?.current.canChoosedNeighbor && (
+          <button onClick={choosedNeighbor}>Récupérer {cardData.name}</button>
+        )}
     </article>
   );
 };

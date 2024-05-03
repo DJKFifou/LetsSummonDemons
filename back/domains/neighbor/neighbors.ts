@@ -201,12 +201,9 @@ const dolores: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/dolores.png',
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-    let stop = 0;
     for (let i = 0; i < game.neighborsDeck.getMarket().length; i++) {
       if (
-        !game.neighborsDeck
-          .getMarket()
-          [i].data.neighborType.includes('ANIMAL') &&
+        game.neighborsDeck.getMarket()[i].data.neighborKindness &&
         game.neighborsDeck
           .getMarket()
           [i].data.neighborKindness.includes('ADORABLE')
@@ -217,42 +214,28 @@ const dolores: CardArgs<NeighborCardData> = {
       }
     }
     game.neighborsDeck.fillMarket();
-    let horribleNeighbors = [];
+    const horribleNeighbors = [];
     for (let i = 0; i < game.neighborsDeck.getMarket().length; i++) {
       if (
-        !game.neighborsDeck
-          .getMarket()
-          [i].data.neighborType.includes('ANIMAL') &&
+        game.neighborsDeck.getMarket()[i].data.neighborKindness &&
         game.neighborsDeck
           .getMarket()
           [i].data.neighborKindness.includes('HORRIBLE')
       ) {
-        console.log('InIf');
         horribleNeighbors.push(game.neighborsDeck.getMarket()[i].data.id);
-        console.log('cardPushed');
       }
     }
-    if (horribleNeighbors.length > 0 && stop == 0) {
-      console.log('tryToGive');
+    if (horribleNeighbors.length == 1) {
       game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
-      stop = 1;
-      console.log('Given');
+    } else if (horribleNeighbors.length > 1) {
+      game.turn.current.setShouldSelectCards(
+        1,
+        'marketChoice',
+        'NEIGHBOR',
+        ['BOY', 'GIRL'],
+        'HORRIBLE',
+      );
     }
-    // S'il y a plus de 2 cartes horribles
-    game.turn.current.setShouldSelectCards(
-      'marketChoice',
-      'NEIGHBOR',
-      ['BOY', 'GIRL'],
-      'HORRIBLE',
-    );
-    console.log(
-      'shouldSelectCards : ',
-      game.turn.current.data.shouldSelectCards,
-    );
-    console.log(
-      'shouldSelectCardsFilter : ',
-      game.turn.current.data.shouldSelectCardsFilter,
-    );
   },
 };
 

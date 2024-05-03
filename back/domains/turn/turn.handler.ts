@@ -43,6 +43,18 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.emit('gameData', game.data);
   });
 
+  socket.on('turnChoosedNeighbor', (neighborCardId) => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+
+    if (!isPlayerTurn({ socket, game })) {
+      return;
+    }
+
+    game.turn.choosedNeighbor(neighborCardId);
+
+    socket.emit('gameData', game.data);
+  });
+
   socket.on('turnInvokeDemon', ({ demonCardId, neighborsSacrifiedIds }) => {
     const game = gameRepository.getGameById(socket.data.gameId);
 

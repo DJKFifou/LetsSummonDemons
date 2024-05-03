@@ -19,6 +19,7 @@ import {
 import { Player } from '../player/player.js';
 import {
   CannotBuyNeighborError,
+  CannotChoosedNeighborError,
   CannotLaunchDicesError,
   CannotSummonDemonError,
 } from './turn.errors.js';
@@ -38,7 +39,9 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected bougthNeighbor: boolean;
   protected cardSelector?: PlayerId;
   protected shouldSelectCards: boolean;
+  protected numberCardSelected: number;
   protected shouldSelectCardsFilter: {
+    numberCard?: number;
     rangeOfSelection?:
       | 'marketChoice'
       | 'opponentChoice'
@@ -59,6 +62,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.bougthNeighbor = false;
     this.shouldSelectCards = false;
     this.shouldSelectCardsFilter = {};
+    this.numberCardSelected = 0;
   }
 
   launchDices(): void {
@@ -141,6 +145,18 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
+  choosedNeighbor(neighborCardId: CardId): void {
+    if (!this.canChoosedNeighbor) {
+      throw new CannotChoosedNeighborError();
+    }
+
+    this.game.turn.current.numberCardSelected += 1;
+
+    this.game.neighborsDeck.giveCard(this.player, neighborCardId);
+
+    this.game.emitDataToSockets();
+  }
+
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
     if (!this.canSummonDemon) {
       throw new CannotSummonDemonError();
@@ -170,12 +186,14 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   setShouldSelectCards(
+    numberCard,
     rangeOfSelections,
     cardTypeAwait,
     neighborTypeAwait?,
     neighborKindnessAwait?,
   ): void {
     this.shouldSelectCards = true;
+    this.data.shouldSelectCardsFilter.numberCard = numberCard;
     this.data.shouldSelectCardsFilter.rangeOfSelection = rangeOfSelections;
     this.data.shouldSelectCardsFilter.type = cardTypeAwait;
     this.data.shouldSelectCardsFilter.neighborType = neighborTypeAwait;
@@ -190,6 +208,16 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     return (
       !this.bougthNeighbor &&
       this.player.data.soulsTokenCount >= SOULS_COUNT_TO_BUY_NEIGHBOR_CARD
+    );
+  }
+
+  get canChoosedNeighbor(): boolean {
+    return (
+      this.shouldSelectCards &&
+      this.player.data.id === this.game.turn?.current.data.cardSelector &&
+      this.shouldSelectCardsFilter.numberCard <= this.choosedNeighbor.length &&
+      this.game.turn.current.numberCardSelected <
+        this.shouldSelectCardsFilter.numberCard
     );
   }
 
@@ -215,6 +243,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       bougthNeighbor: this.bougthNeighbor,
       canEndTurn: this.canEndTurn,
       canBuyNeighbor: this.canBuyNeighbor,
+      canChoosedNeighbor: this.canChoosedNeighbor,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
       cardSelector: this.cardSelector,

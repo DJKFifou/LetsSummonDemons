@@ -10,10 +10,12 @@ export interface PlayerTurnData {
   canEndTurn: boolean;
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
+  canChoosedNeighbor: boolean;
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;
   shouldSelectCardsFilter?: {
+    numberCard?: number;
     rangeOfSelection?:
       | 'marketChoice'
       | 'opponentChoice'

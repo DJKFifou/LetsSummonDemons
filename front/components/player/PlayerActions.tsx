@@ -37,8 +37,8 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
       {current.launchedDices && (
         <span>Vous avez fait {current.dicesResult}</span>
       )}
+      {current.canLaunchDices && <button onClick={testDices}>Test</button>}
       <input type="number" id="diceInput" placeholder="Entrez un nombre" />
-      <button onClick={testDices}>Test</button>
       {current.canLaunchDices && (
         <button onClick={launchDices}>Lancer les dés</button>
       )}
