@@ -235,6 +235,15 @@ const dolores: CardArgs<NeighborCardData> = {
         ['BOY', 'GIRL'],
         'HORRIBLE',
       );
+      console.log(
+        'numberCardSelected before reinitialisation: ',
+        game.turn.current.numberCardSelected,
+      );
+      game.turn.current.numberCardSelected = 0;
+      console.log(
+        'numberCardSelected after reinitialisation: ',
+        game.turn.current.numberCardSelected,
+      );
     }
   },
 };

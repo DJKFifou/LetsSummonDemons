@@ -39,7 +39,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected bougthNeighbor: boolean;
   protected cardSelector?: PlayerId;
   protected shouldSelectCards: boolean;
-  protected numberCardSelected: number;
+  numberCardSelected: number;
   protected shouldSelectCardsFilter: {
     numberCard?: number;
     rangeOfSelection?:
@@ -150,7 +150,17 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       throw new CannotChoosedNeighborError();
     }
 
+    console.log(
+      'numberCardSelected before incrementation',
+      this.game.turn.current.numberCardSelected,
+    );
+
     this.game.turn.current.numberCardSelected += 1;
+
+    console.log(
+      'numberCardSelected after incrementation',
+      this.game.turn.current.numberCardSelected,
+    );
 
     this.game.neighborsDeck.giveCard(this.player, neighborCardId);
 
@@ -214,8 +224,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   get canChoosedNeighbor(): boolean {
     return (
       this.shouldSelectCards &&
-      this.player.data.id === this.game.turn?.current.data.cardSelector &&
-      this.shouldSelectCardsFilter.numberCard <= this.choosedNeighbor.length &&
+      this.cardSelector === this.game.turn.current.player.data.id &&
       this.game.turn.current.numberCardSelected <
         this.shouldSelectCardsFilter.numberCard
     );
