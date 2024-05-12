@@ -10,7 +10,7 @@ export interface PlayerTurnData {
   canEndTurn: boolean;
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
-  canChoosedNeighbor: boolean;
+  canChoosedCard: boolean;
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;

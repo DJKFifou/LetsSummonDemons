@@ -1,6 +1,26 @@
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
+import { Game } from '../game/game.js';
 import { NeighborCard } from './neighbor.js';
+
+async function waitForCardSelection(game: Game): Promise<void> {
+  game.emitDataToSockets();
+  const timeout = 30000; // 30 secondes
+  const startTime = Date.now();
+
+  while (
+    game.turn.current.cardId.length <
+      game.turn.current.data.shouldSelectCardsFilter.numberCard &&
+    Date.now() - startTime < timeout
+  ) {
+    // Temporisation pour éviter une boucle infinie
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
+  }
+
+  if (!game.turn.current.cardId) {
+    throw new Error('Timeout: Card selection took too long.');
+  }
+}
 
 const createNeighborCards = (
   data: CardArgs<NeighborCardData>,
@@ -229,21 +249,23 @@ const dolores: CardArgs<NeighborCardData> = {
       game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
     } else if (horribleNeighbors.length > 1) {
       game.turn.current.setShouldSelectCards(
-        1,
+        2,
         'marketChoice',
         'NEIGHBOR',
         ['BOY', 'GIRL'],
         'HORRIBLE',
       );
-      console.log(
-        'numberCardSelected before reinitialisation: ',
-        game.turn.current.numberCardSelected,
-      );
-      game.turn.current.numberCardSelected = 0;
-      console.log(
-        'numberCardSelected after reinitialisation: ',
-        game.turn.current.numberCardSelected,
-      );
+      console.log('avant waitForCardSelection');
+      try {
+        await waitForCardSelection(game);
+        console.log('après waitForCardSelection');
+        console.log('cardId: ', game.turn.current.cardId);
+        for (let i = 0; i < game.turn.current.cardId.length; i++) {
+          game.neighborsDeck.giveCard(cardOwner, game.turn.current.cardId[i]);
+        }
+      } catch (error) {
+        console.log('error: ', error);
+      }
     }
   },
 };

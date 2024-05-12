@@ -19,7 +19,7 @@ import {
 import { Player } from '../player/player.js';
 import {
   CannotBuyNeighborError,
-  CannotChoosedNeighborError,
+  CannotChoosedCardError,
   CannotLaunchDicesError,
   CannotSummonDemonError,
 } from './turn.errors.js';
@@ -39,7 +39,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected bougthNeighbor: boolean;
   protected cardSelector?: PlayerId;
   protected shouldSelectCards: boolean;
-  numberCardSelected: number;
+  protected cardIdSelected?: Array<CardId>;
   protected shouldSelectCardsFilter: {
     numberCard?: number;
     rangeOfSelection?:
@@ -62,7 +62,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.bougthNeighbor = false;
     this.shouldSelectCards = false;
     this.shouldSelectCardsFilter = {};
-    this.numberCardSelected = 0;
+    this.cardIdSelected = [];
   }
 
   launchDices(): void {
@@ -145,24 +145,12 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
-  choosedNeighbor(neighborCardId: CardId): void {
-    if (!this.canChoosedNeighbor) {
-      throw new CannotChoosedNeighborError();
+  choosedCard(neighborCardId: CardId): void {
+    if (!this.canChoosedCard) {
+      throw new CannotChoosedCardError();
     }
 
-    console.log(
-      'numberCardSelected before incrementation',
-      this.game.turn.current.numberCardSelected,
-    );
-
-    this.game.turn.current.numberCardSelected += 1;
-
-    console.log(
-      'numberCardSelected after incrementation',
-      this.game.turn.current.numberCardSelected,
-    );
-
-    this.game.neighborsDeck.giveCard(this.player, neighborCardId);
+    this.cardIdSelected.push(neighborCardId);
 
     this.game.emitDataToSockets();
   }
@@ -221,12 +209,15 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     );
   }
 
-  get canChoosedNeighbor(): boolean {
+  get cardId(): Array<CardId> {
+    return this.cardIdSelected;
+  }
+
+  get canChoosedCard(): boolean {
     return (
       this.shouldSelectCards &&
       this.cardSelector === this.game.turn.current.player.data.id &&
-      this.game.turn.current.numberCardSelected <
-        this.shouldSelectCardsFilter.numberCard
+      this.cardIdSelected.length < this.shouldSelectCardsFilter.numberCard
     );
   }
 
@@ -252,7 +243,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       bougthNeighbor: this.bougthNeighbor,
       canEndTurn: this.canEndTurn,
       canBuyNeighbor: this.canBuyNeighbor,
-      canChoosedNeighbor: this.canChoosedNeighbor,
+      canChoosedCard: this.canChoosedCard,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
       cardSelector: this.cardSelector,

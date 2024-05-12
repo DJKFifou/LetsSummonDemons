@@ -3,7 +3,6 @@ import { NeighborCardData } from '@lsd/back/contracts/card';
 import { Card } from './Card';
 import styles from './MarketNeighborCard.module.scss';
 import { GameData } from '@lsd/back/contracts/game';
-import { useEffect, useState } from 'react';
 type MarketNeighborCardProps = {
   gameData: GameData;
   cardData: NeighborCardData;
@@ -16,10 +15,6 @@ export const MarketNeighborCard = ({
   isBuyable,
   itsYou,
 }: MarketNeighborCardProps) => {
-  const [selectedCardCount, setSelectedCardCount] = useState<number>(0);
-  useEffect(() => {
-    console.log('UseEffect, selectedCardCount : ', selectedCardCount);
-  }, [selectedCardCount]);
   const buyNeighbor = () => {
     if (!isBuyable) {
       return;
@@ -27,15 +22,12 @@ export const MarketNeighborCard = ({
     socket.emit('turnBuyNeighbor', cardData.id);
     console.log('socketEmitted');
   };
-  const choosedNeighbor = () => {
+  const choosedCard = () => {
     if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
       return false;
     }
-    console.log('selectedCardCountBefore', selectedCardCount);
-    setSelectedCardCount(selectedCardCount + 1);
-    console.log('selectedCardCountAfter', selectedCardCount);
 
-    socket.emit('turnChoosedNeighbor', cardData.id);
+    socket.emit('turnChoosedCard', cardData.id);
     console.log('socketEmitted');
   };
   const isSelectable = (): boolean => {
@@ -71,11 +63,9 @@ export const MarketNeighborCard = ({
       {isBuyable && (
         <button onClick={buyNeighbor}>Acheter {cardData.name}</button>
       )}
-      {itsYou &&
-        isSelectable() &&
-        gameData.turn?.current.canChoosedNeighbor && (
-          <button onClick={choosedNeighbor}>Récupérer {cardData.name}</button>
-        )}
+      {itsYou && isSelectable() && gameData.turn?.current.canChoosedCard && (
+        <button onClick={choosedCard}>Récupérer {cardData.name}</button>
+      )}
     </article>
   );
 };

@@ -38,8 +38,8 @@ export class Turn implements EntityClass<TurnData> {
     this.current.buyNeighbor(neighborCardId);
   }
 
-  choosedNeighbor(neighborCardId: CardId): void {
-    this.current.choosedNeighbor(neighborCardId);
+  choosedCard(neighborCardId: CardId): void {
+    this.current.choosedCard(neighborCardId);
   }
 
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
