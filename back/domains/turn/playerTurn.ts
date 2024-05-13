@@ -39,6 +39,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected bougthNeighbor: boolean;
   protected cardSelector?: PlayerId;
   protected shouldSelectCards: boolean;
+  cardChoiceCountdown: number;
   protected cardIdSelected?: Array<CardId>;
   protected shouldSelectCardsFilter: {
     numberCard?: number;
@@ -51,6 +52,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;
   };
+  protected playerChoosed?: boolean;
 
   constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
@@ -61,6 +63,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.summonedDemon = false;
     this.bougthNeighbor = false;
     this.shouldSelectCards = false;
+    this.cardChoiceCountdown = null;
     this.shouldSelectCardsFilter = {};
     this.cardIdSelected = [];
   }
@@ -133,6 +136,31 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
   }
 
+  async waitForCardSelection(game: Game): Promise<void> {
+    game.emitDataToSockets();
+    const timeout = 30000; // 30 secondes
+    const startTime = Date.now();
+
+    while (
+      this.cardId.length < this.shouldSelectCardsFilter.numberCard &&
+      Date.now() - startTime < timeout
+    ) {
+      this.cardChoiceCountdown = Math.round(
+        30 - (Date.now() - startTime) / 1007,
+      );
+      game.emitDataToSockets();
+      // Temporisation pour éviter une boucle infinie
+      console.log(this.cardChoiceCountdown);
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
+    }
+    this.cardChoiceCountdown = null;
+    this.playerChoosed = true;
+    if (!this.cardId) {
+      this.playerChoosed = false;
+      throw new Error('Timeout: Card selection took too long.');
+    }
+  }
+
   buyNeighbor(neighborCardId: CardId): void {
     if (!this.canBuyNeighbor) {
       throw new CannotBuyNeighborError();
@@ -198,6 +226,16 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.data.shouldSelectCardsFilter.neighborKindness = neighborKindnessAwait;
   }
 
+  cleanShouldSelectCards(): void {
+    this.shouldSelectCards = false;
+    this.data.shouldSelectCardsFilter.numberCard = null;
+    this.data.shouldSelectCardsFilter.rangeOfSelection = null;
+    this.data.shouldSelectCardsFilter.type = null;
+    this.data.shouldSelectCardsFilter.neighborType = null;
+    this.data.shouldSelectCardsFilter.neighborKindness = null;
+    this.cardId.length = 0;
+  }
+
   get canLaunchDices(): boolean {
     return !this.launchedDices;
   }
@@ -248,7 +286,9 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       canLaunchDices: this.canLaunchDices,
       cardSelector: this.cardSelector,
       shouldSelectCards: this.shouldSelectCards,
+      cardChoiceCountdown: this.cardChoiceCountdown,
       shouldSelectCardsFilter: this.shouldSelectCardsFilter,
+      playerChoosed: this.playerChoosed,
     };
   }
 }

@@ -14,6 +14,7 @@ export interface PlayerTurnData {
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;
+  cardChoiceCountdown: number;
   shouldSelectCardsFilter?: {
     numberCard?: number;
     rangeOfSelection?:
@@ -25,6 +26,7 @@ export interface PlayerTurnData {
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;
   };
+  playerChoosed: boolean;
 }
 
 export interface TurnData {
