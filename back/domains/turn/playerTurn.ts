@@ -142,7 +142,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     const startTime = Date.now();
 
     while (
-      this.cardId.length < this.shouldSelectCardsFilter.numberCard &&
+      this.playerChoicesCardId.length <
+        this.shouldSelectCardsFilter.numberCard &&
       Date.now() - startTime < timeout
     ) {
       this.cardChoiceCountdown = Math.round(
@@ -155,7 +156,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
     this.cardChoiceCountdown = null;
     this.playerChoosed = true;
-    if (!this.cardId) {
+    if (!this.playerChoicesCardId) {
       this.playerChoosed = false;
       throw new Error('Timeout: Card selection took too long.');
     }
@@ -233,7 +234,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.data.shouldSelectCardsFilter.type = null;
     this.data.shouldSelectCardsFilter.neighborType = null;
     this.data.shouldSelectCardsFilter.neighborKindness = null;
-    this.cardId.length = 0;
+    this.playerChoicesCardId.length = 0;
   }
 
   get canLaunchDices(): boolean {
@@ -247,7 +248,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     );
   }
 
-  get cardId(): Array<CardId> {
+  get playerChoicesCardId(): Array<CardId> {
     return this.cardIdSelected;
   }
 

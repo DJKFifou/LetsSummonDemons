@@ -33,8 +33,37 @@ const jane: CardArgs<NeighborCardData> = {
         animalNeighborCards.push(neighborsMarket[i]);
       }
     }
-    if (animalNeighborCards.length > 0) {
+    if (animalNeighborCards.length === 1) {
       game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0].data.id);
+    } else if (animalNeighborCards.length > 1) {
+      game.turn.current.setShouldSelectCards(
+        1,
+        'marketChoice',
+        'NEIGHBOR',
+        ['ANIMAL'],
+        null,
+      );
+      console.log('avant waitForCardSelection');
+      try {
+        await game.turn.current.waitForCardSelection(game);
+        console.log('après waitForCardSelection');
+        console.log(
+          'playerChoicesCardId: ',
+          game.turn.current.playerChoicesCardId,
+        );
+        for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
+          game.neighborsDeck.giveCard(
+            cardOwner,
+            game.turn.current.playerChoicesCardId[i],
+          );
+        }
+        game.turn.current.cleanShouldSelectCards();
+      } catch (error) {
+        console.log('error: ', error);
+      }
+      if (!game.turn.data.current.playerChoosed) {
+        game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0]);
+      }
     }
   },
 };
@@ -240,9 +269,15 @@ const dolores: CardArgs<NeighborCardData> = {
       try {
         await game.turn.current.waitForCardSelection(game);
         console.log('après waitForCardSelection');
-        console.log('cardId: ', game.turn.current.cardId);
-        for (let i = 0; i < game.turn.current.cardId.length; i++) {
-          game.neighborsDeck.giveCard(cardOwner, game.turn.current.cardId[i]);
+        console.log(
+          'playerChoicesCardId: ',
+          game.turn.current.playerChoicesCardId,
+        );
+        for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
+          game.neighborsDeck.giveCard(
+            cardOwner,
+            game.turn.current.playerChoicesCardId[i],
+          );
         }
         game.turn.current.cleanShouldSelectCards();
       } catch (error) {
@@ -997,11 +1032,11 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
   ...createNeighborCards(annie, 2),
-  ...createNeighborCards(dolores, 40),
+  ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),
-  ...createNeighborCards(jane, 2),
+  ...createNeighborCards(jane, 50),
   ...createNeighborCards(eve, 6),
 
   // Boys
