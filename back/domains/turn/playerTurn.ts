@@ -269,7 +269,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   get canEndTurn(): boolean {
-    return this.launchedDices;
+    return this.launchedDices && !this.shouldSelectCards;
   }
 
   get data(): PlayerTurnData {
