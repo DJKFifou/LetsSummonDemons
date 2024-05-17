@@ -59,8 +59,8 @@ export const MarketNeighborCard = ({
 
   return (
     <article className={styles.marketCard}>
-      <Card isSelectable={itsYou && isSelectable()} cardData={cardData} />
-      {isBuyable && (
+      <Card cardData={cardData} />
+      {isBuyable && !gameData.turn?.current.shouldSelectCards && (
         <button onClick={buyNeighbor}>Acheter {cardData.name}</button>
       )}
       {itsYou && isSelectable() && gameData.turn?.current.canChoosedCard && (
