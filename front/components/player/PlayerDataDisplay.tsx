@@ -94,7 +94,11 @@ export const PlayerDataDisplay = ({
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
             isYourCard={itsYou}
-            isSummonable={itsYourTurn && gameData.turn?.current.canSummonDemon}
+            isSummonable={
+              itsYourTurn &&
+              gameData.turn?.current.canSummonDemon &&
+              !gameData.turn?.current.shouldSelectCards
+            }
             cardData={card}
             onToggleSelect={() => toggleDemonToSummon(card.id)}
             isSelected={demonToSummonId === card.id}
