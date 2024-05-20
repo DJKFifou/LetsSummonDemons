@@ -45,10 +45,13 @@ export const MarketNeighborCard = ({
       neighborType && Array.isArray(neighborType)
         ? neighborType.some((type) => cardData.neighborType.includes(type))
         : false;
-    if (neighborKindness) {
-      const isNeighborKindnessCorrespond = neighborKindness
-        ? neighborKindness == cardData.neighborKindness
-        : false;
+    if (neighborKindness && cardData.neighborKindness) {
+      const isNeighborKindnessCorrespond =
+        neighborKindness && Array.isArray(neighborKindness)
+          ? neighborKindness.some((kindness) =>
+              cardData.neighborKindness.includes(kindness),
+            )
+          : false;
       return (
         isRangeOfSelectionMarketChoice &&
         isTypeCorrespond &&
