@@ -544,8 +544,37 @@ const marilyn: CardArgs<NeighborCardData> = {
         boyNeighborCards.push(neighborsMarket[i]);
       }
     }
-    if (boyNeighborCards.length > 0) {
+    if (boyNeighborCards.length === 1) {
       game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0].data.id);
+    } else if (boyNeighborCards.length > 1) {
+      game.turn.current.setShouldSelectCards(
+        1,
+        'marketChoice',
+        'NEIGHBOR',
+        ['BOY'],
+        ['ADORBLE', 'HORRIBLE'],
+      );
+      console.log('avant waitForCardSelection');
+      try {
+        await game.turn.current.waitForCardSelection(game);
+        console.log('après waitForCardSelection');
+        console.log(
+          'playerChoicesCardId: ',
+          game.turn.current.playerChoicesCardId,
+        );
+        for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
+          game.neighborsDeck.giveCard(
+            cardOwner,
+            game.turn.current.playerChoicesCardId[i],
+          );
+        }
+        game.turn.current.cleanShouldSelectCards();
+      } catch (error) {
+        console.log('error: ', error);
+      }
+      if (!game.turn.data.current.playerChoosed) {
+        game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0]);
+      }
     }
   },
 };
@@ -1036,7 +1065,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),
-  ...createNeighborCards(jane, 50),
+  ...createNeighborCards(jane, 2),
   ...createNeighborCards(eve, 6),
 
   // Boys
