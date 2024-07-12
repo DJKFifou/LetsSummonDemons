@@ -552,7 +552,7 @@ const marilyn: CardArgs<NeighborCardData> = {
         'marketChoice',
         'NEIGHBOR',
         ['BOY'],
-        ['ADORBLE', 'HORRIBLE'],
+        ['ADORABLE', 'HORRIBLE'],
       );
       console.log('avant waitForCardSelection');
       try {
