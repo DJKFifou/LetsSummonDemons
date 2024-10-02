@@ -1061,7 +1061,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
   ...createNeighborCards(annie, 2),
-  ...createNeighborCards(dolores, 2),
+  ...createNeighborCards(dolores, 30),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),
