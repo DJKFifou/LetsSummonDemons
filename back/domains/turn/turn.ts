@@ -34,6 +34,10 @@ export class Turn implements EntityClass<TurnData> {
     this.current.testDices(number);
   }
 
+  testGiveCard(CardId): void {
+    this.current.testGiveCard(CardId);
+  }
+
   buyNeighbor(neighborCardId: CardId): void {
     this.current.buyNeighbor(neighborCardId);
   }

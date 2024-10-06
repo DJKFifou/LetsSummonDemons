@@ -14,6 +14,7 @@ export interface IClientToServerEvents {
   gameStart: () => void;
   turnLaunchDices: () => void;
   testDices: (number: number) => void;
+  testGiveCard: (CardId: CardId) => void;
   turnBuyNeighbor: (neighborCardId: CardId) => void;
   turnChoosedCard: (neighborCardId: CardId) => void;
   turnInvokeDemon: ({

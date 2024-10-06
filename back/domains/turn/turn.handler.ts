@@ -31,6 +31,19 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     game.turn.testDices(number);
   });
 
+  socket.on('testGiveCard', (cardName) => {
+    try {
+      const game = gameRepository.getGameById(socket.data.gameId);
+
+      if (!isPlayerTurn({ socket, game })) {
+        return;
+      }
+      game.turn.testGiveCard(cardName);
+    } catch (error) {
+      console.error(`Erreur lors de l'appel à testGiveCard : ${error.message}`);
+    }
+  });
+
   socket.on('turnBuyNeighbor', (neighborCardId) => {
     const game = gameRepository.getGameById(socket.data.gameId);
 

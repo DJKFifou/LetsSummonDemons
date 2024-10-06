@@ -96,6 +96,22 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.activateCards(this.dicesResult);
   }
 
+  testGiveCard(cardName: string): void {
+    console.log('Entering testGiveCard');
+    try {
+      this.game.neighborsDeck.giveCardByName(this.player, cardName);
+    } catch (error) {
+      console.error(
+        `Erreur lors de la recherche de la carte : ${error.message}`,
+      );
+      alert(
+        `La carte "${cardName}" n'existe pas. Veuillez entrer un nom valide.`,
+      );
+      return;
+    }
+    this.game.emitDataToSockets();
+  }
+
   protected async activateCards(dicesResult: number): Promise<void> {
     for await (const player of this.game.turn?.playerListFromCurrent ?? []) {
       player.resetBoysAndGirlsSoulsTokenCount();

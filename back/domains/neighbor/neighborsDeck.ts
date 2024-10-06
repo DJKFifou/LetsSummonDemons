@@ -44,6 +44,30 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
     return card;
   }
 
+  findCardByName(cardName: string): NeighborCard | null {
+    const lowerCaseCardName = cardName.toLowerCase();
+    const cardInRemaining = this.remainingCards.find(
+      (card) => card.data.name.toLowerCase() === lowerCaseCardName,
+    );
+    if (cardInRemaining) {
+      return cardInRemaining;
+    }
+    return null;
+  }
+
+  giveCardByName(player: Player, cardName: string): void {
+    const card = this.findCardByName(cardName);
+    if (!card) {
+      throw new Error(
+        `La carte ${cardName} n'existe pas dans le deck des voisins.`,
+      );
+    }
+    player.addNeighborCard(card);
+    this.remainingCards = this.remainingCards.filter(
+      (remainingCard) => remainingCard.data.id !== card.data.id,
+    );
+  }
+
   protected pickCardFromMarketById(cardId: CardId): NeighborCard | null {
     const card = this.getCardInMarketById(cardId);
 

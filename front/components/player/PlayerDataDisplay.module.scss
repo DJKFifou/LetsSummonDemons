@@ -11,10 +11,16 @@
   gap: 0.5rem;
 }
 
-.soulsContainer{
-  
-  .souls{
+.soulsContainer {
+  .souls {
     padding: 0.2rem;
     height: 4rem;
+  }
+}
+
+.playerActions {
+  display: flex;
+  .numbersContainer {
+    display: flex;
   }
 }

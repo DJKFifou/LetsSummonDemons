@@ -13,13 +13,18 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
   };
 
   const testDices = () => {
-    // Récupérer la valeur entrée dans le champ de texte
     const dicesNumber = parseFloat(
       (document.getElementById('diceInput') as HTMLInputElement).value,
     );
-
-    // Envoyer la valeur au backend
     socket.emit('testDices', dicesNumber);
+  };
+
+  const testGiveCard = () => {
+    const giveCardName = (
+      document.getElementById('giveCardInput') as HTMLInputElement
+    ).value;
+
+    socket.emit('testGiveCard', giveCardName);
   };
 
   const endTurn = () => {
@@ -33,18 +38,28 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
   }
 
   return (
-    <article>
-      {current.launchedDices && (
-        <span>Vous avez fait {current.dicesResult}</span>
-      )}
-      {current.canLaunchDices && <button onClick={testDices}>Test</button>}
-      <input type="number" id="diceInput" placeholder="Entrez un nombre" />
-      {current.canLaunchDices && (
-        <button onClick={launchDices}>Lancer les dés</button>
-      )}
-      {current.canEndTurn && (
-        <button onClick={endTurn}>Terminer le tour</button>
-      )}
+    <article className="playerActions">
+      <div className="numbersContainer">
+        {current.launchedDices && (
+          <span>Vous avez fait {current.dicesResult}</span>
+        )}
+        {current.canLaunchDices && <button onClick={testDices}>Triche</button>}
+        <input type="number" id="diceInput" placeholder="Entrez un nombre" />
+        {current.canLaunchDices && (
+          <button onClick={launchDices}>Lancer les dés</button>
+        )}
+        {current.canEndTurn && (
+          <button onClick={endTurn}>Terminer le tour</button>
+        )}
+      </div>
+      <div className="giveCardContainer">
+        <button onClick={testGiveCard}>Triche</button>
+        <input
+          type="text"
+          id="giveCardInput"
+          placeholder="Entrez le nom de la carte"
+        />
+      </div>
     </article>
   );
 };
