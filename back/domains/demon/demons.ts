@@ -297,7 +297,6 @@ const macabreOni = new DemonCard({
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
     if (game.data.turn.current.player.id === cardOwner.data.id) {
-      console.log(cardOwner.getBoysAndGirlsSoulsTokenCount());
       cardOwner.addSoulToken(cardOwner.getBoysAndGirlsSoulsTokenCount());
     }
   },

@@ -80,8 +80,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     });
     this.dicesResult = dicesResult;
     this.game.emitDataToSockets();
-    console.log(this.data.shouldSelectCards);
-    console.log(this.data.shouldSelectCardsFilter);
 
     this.activateCards(this.dicesResult);
   }
@@ -107,7 +105,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
           neighborCard.data.isActivable
         ) {
           this.cardSelector = player.data.id;
-          console.log('Card owner assigné ? :', this.data.cardSelector);
           await neighborCard.activate({
             game: this.game,
             cardOwner: player,
@@ -151,7 +148,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       );
       game.emitDataToSockets();
       // Temporisation pour éviter une boucle infinie
-      console.log(this.cardChoiceCountdown);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
     }
     this.cardChoiceCountdown = null;

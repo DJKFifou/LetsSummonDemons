@@ -15,7 +15,6 @@ export const GameDataDisplay = ({
   const itsYourTurn = gameData.turn?.current.player.id === playerId;
 
   const isMarketOpen = itsYourTurn && !!gameData.turn?.current.canBuyNeighbor;
-  console.log('Owner de la dolores', gameData.turn?.current.cardSelector);
   return (
     <article className={styles.game}>
       <p>

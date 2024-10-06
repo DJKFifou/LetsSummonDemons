@@ -43,14 +43,8 @@ const jane: CardArgs<NeighborCardData> = {
         ['ANIMAL'],
         null,
       );
-      console.log('avant waitForCardSelection');
       try {
         await game.turn.current.waitForCardSelection(game);
-        console.log('après waitForCardSelection');
-        console.log(
-          'playerChoicesCardId: ',
-          game.turn.current.playerChoicesCardId,
-        );
         for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
           game.neighborsDeck.giveCard(
             cardOwner,
@@ -242,7 +236,6 @@ const dolores: CardArgs<NeighborCardData> = {
           [i].data.neighborKindness.includes('ADORABLE')
       ) {
         game.neighborsDeck.throwMarketCards(i);
-        console.log('Spliced');
         i--;
       }
     }
@@ -268,14 +261,8 @@ const dolores: CardArgs<NeighborCardData> = {
         ['BOY', 'GIRL'],
         'HORRIBLE',
       );
-      console.log('avant waitForCardSelection');
       try {
         await game.turn.current.waitForCardSelection(game);
-        console.log('après waitForCardSelection');
-        console.log(
-          'playerChoicesCardId: ',
-          game.turn.current.playerChoicesCardId,
-        );
         for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
           game.neighborsDeck.giveCard(
             cardOwner,
@@ -559,14 +546,8 @@ const marilyn: CardArgs<NeighborCardData> = {
         ['BOY'],
         null,
       );
-      console.log('avant waitForCardSelection');
       try {
         await game.turn.current.waitForCardSelection(game);
-        console.log('après waitForCardSelection');
-        console.log(
-          'playerChoicesCardId: ',
-          game.turn.current.playerChoicesCardId,
-        );
         for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
           game.neighborsDeck.giveCard(
             cardOwner,
@@ -1071,7 +1052,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
   ...createNeighborCards(annie, 2),
-  ...createNeighborCards(dolores, 30),
+  ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),
