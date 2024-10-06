@@ -30,11 +30,11 @@ const jane: CardArgs<NeighborCardData> = {
     const animalNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
       if (neighborsMarket[i].data.neighborType.includes('ANIMAL')) {
-        animalNeighborCards.push(neighborsMarket[i]);
+        animalNeighborCards.push(neighborsMarket[i].data.id);
       }
     }
     if (animalNeighborCards.length === 1) {
-      game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0].data.id);
+      game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0]);
     } else if (animalNeighborCards.length > 1) {
       game.turn.current.setShouldSelectCards(
         1,
@@ -45,17 +45,23 @@ const jane: CardArgs<NeighborCardData> = {
       );
       try {
         await game.turn.current.waitForCardSelection(game);
-        for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
-          game.neighborsDeck.giveCard(
-            cardOwner,
-            game.turn.current.playerChoicesCardId[i],
-          );
+        if (game.turn.current.playerChoicesCardId.length > 0) {
+          for (
+            let i = 0;
+            i < game.turn.current.playerChoicesCardId.length;
+            i++
+          ) {
+            game.neighborsDeck.giveCard(
+              cardOwner,
+              game.turn.current.playerChoicesCardId[i],
+            );
+          }
+        } else {
+          game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0]);
         }
         game.turn.current.cleanShouldSelectCards();
       } catch (error) {
         console.log('error: ', error);
-      }
-      if (!game.turn.data.current.playerChoosed) {
         game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0]);
       }
     }
@@ -263,17 +269,23 @@ const dolores: CardArgs<NeighborCardData> = {
       );
       try {
         await game.turn.current.waitForCardSelection(game);
-        for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
-          game.neighborsDeck.giveCard(
-            cardOwner,
-            game.turn.current.playerChoicesCardId[i],
-          );
+        if (game.turn.current.playerChoicesCardId.length > 0) {
+          for (
+            let i = 0;
+            i < game.turn.current.playerChoicesCardId.length;
+            i++
+          ) {
+            game.neighborsDeck.giveCard(
+              cardOwner,
+              game.turn.current.playerChoicesCardId[i],
+            );
+          }
+        } else {
+          game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
         }
         game.turn.current.cleanShouldSelectCards();
       } catch (error) {
         console.log('error: ', error);
-      }
-      if (!game.turn.data.current.playerChoosed) {
         game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
       }
     }
@@ -533,11 +545,11 @@ const marilyn: CardArgs<NeighborCardData> = {
     const boyNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
       if (neighborsMarket[i].data.neighborType.includes('BOY')) {
-        boyNeighborCards.push(neighborsMarket[i]);
+        boyNeighborCards.push(neighborsMarket[i].data.id);
       }
     }
     if (boyNeighborCards.length === 1) {
-      game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0].data.id);
+      game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0]);
     } else if (boyNeighborCards.length > 1) {
       game.turn.current.setShouldSelectCards(
         1,
@@ -548,17 +560,23 @@ const marilyn: CardArgs<NeighborCardData> = {
       );
       try {
         await game.turn.current.waitForCardSelection(game);
-        for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
-          game.neighborsDeck.giveCard(
-            cardOwner,
-            game.turn.current.playerChoicesCardId[i],
-          );
+        if (game.turn.current.playerChoicesCardId.length > 0) {
+          for (
+            let i = 0;
+            i < game.turn.current.playerChoicesCardId.length;
+            i++
+          ) {
+            game.neighborsDeck.giveCard(
+              cardOwner,
+              game.turn.current.playerChoicesCardId[i],
+            );
+          }
+        } else {
+          game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0]);
         }
         game.turn.current.cleanShouldSelectCards();
       } catch (error) {
         console.log('error: ', error);
-      }
-      if (!game.turn.data.current.playerChoosed) {
         game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0]);
       }
     }
@@ -1047,7 +1065,7 @@ export const neighbors: Array<NeighborCard> = [
   // Girls
   ...createNeighborCards(lisa, 2),
   ...createNeighborCards(alice, 2),
-  ...createNeighborCards(marilyn, 2),
+  ...createNeighborCards(marilyn, 30),
   ...createNeighborCards(destiny, 2),
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
