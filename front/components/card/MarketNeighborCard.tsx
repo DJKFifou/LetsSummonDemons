@@ -51,7 +51,7 @@ export const MarketNeighborCard = ({
           ? neighborKindness.some((kindness) =>
               cardData.neighborKindness.includes(kindness),
             )
-          : false;
+          : cardData.neighborKindness.includes(neighborKindness);
       return (
         isRangeOfSelectionMarketChoice &&
         isTypeCorrespond &&
