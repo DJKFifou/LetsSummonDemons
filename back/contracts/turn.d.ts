@@ -10,13 +10,23 @@ export interface PlayerTurnData {
   canEndTurn: boolean;
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
+  canChoosedCard: boolean;
   canLaunchDices: boolean;
+  cardSelector?: PlayerId;
   shouldSelectCards: boolean;
+  cardChoiceCountdown: number;
   shouldSelectCardsFilter?: {
+    numberCard?: number;
+    rangeOfSelection?:
+      | 'marketChoice'
+      | 'opponentChoice'
+      | 'selfChoice'
+      | 'null';
     type?: Array<CardType>;
-    neighborKindness?: Array<NeighborKindness>;
     neighborType?: Array<NeighborType>;
+    neighborKindness?: Array<NeighborKindness>;
   };
+  playerChoosed: boolean;
 }
 
 export interface TurnData {

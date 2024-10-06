@@ -15,6 +15,7 @@ export const GameDataDisplay = ({
   const itsYourTurn = gameData.turn?.current.player.id === playerId;
 
   const isMarketOpen = itsYourTurn && !!gameData.turn?.current.canBuyNeighbor;
+  console.log('Owner de la dolores', gameData.turn?.current.cardSelector);
   return (
     <article className={styles.game}>
       <p>
@@ -23,12 +24,14 @@ export const GameDataDisplay = ({
       <p>ID: {gameData.id}</p>
       <p>STATE: {gameData.state}</p>
       <div className={styles.neighbourDeck}>
-      {gameData.neighborsDeck && (
-        <NeighborsDeck
-          isMarketOpen={isMarketOpen}
-          neighborsDeck={gameData.neighborsDeck}
-        />
-      )}
+        {gameData.neighborsDeck && (
+          <NeighborsDeck
+            gameData={gameData}
+            isMarketOpen={isMarketOpen}
+            neighborsDeck={gameData.neighborsDeck}
+            itsYou={gameData.turn?.current.cardSelector === playerId}
+          />
+        )}
       </div>
       <p>PLAYERS:</p>
       <div className={styles.players}>

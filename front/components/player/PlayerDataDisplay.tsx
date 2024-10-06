@@ -47,7 +47,10 @@ export const PlayerDataDisplay = ({
     }
   };
 
-  const canSummonDemon = demonToSummonId && neighborsToSacrifice.length === 3;
+  const canSummonDemon =
+    demonToSummonId &&
+    neighborsToSacrifice.length === 3 &&
+    !gameData.turn?.current.shouldSelectCards;
 
   const summonDemon = () => {
     if (
@@ -91,7 +94,11 @@ export const PlayerDataDisplay = ({
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
             isYourCard={itsYou}
-            isSummonable={itsYourTurn && gameData.turn?.current.canSummonDemon}
+            isSummonable={
+              itsYourTurn &&
+              gameData.turn?.current.canSummonDemon &&
+              !gameData.turn?.current.shouldSelectCards
+            }
             cardData={card}
             onToggleSelect={() => toggleDemonToSummon(card.id)}
             isSelected={demonToSummonId === card.id}
