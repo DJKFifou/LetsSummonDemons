@@ -66,6 +66,20 @@ export const MarketNeighborCard = ({
       );
     }
   };
+  const isReplacable = (cardId): boolean => {
+    const currentTurn = gameData.turn?.current;
+    let cardIsReplacable = false;
+    if (!currentTurn || !currentTurn.shouldReplaceMarketCards) {
+      return false;
+    }
+    const cardsCanBeReplaced = currentTurn.instanceOfMarketCanBeReplaced;
+    cardsCanBeReplaced.forEach(element => {
+      if(element == cardId) {
+        cardIsReplacable = true;
+      }
+    });
+    return cardIsReplacable;
+  };
 
   return (
     <article className={styles.marketCard}>
@@ -75,6 +89,9 @@ export const MarketNeighborCard = ({
       )}
       {itsYou && isSelectable() && gameData.turn?.current.canChoosedCard && (
         <button onClick={choosedCard}>Récupérer {cardData.name}</button>
+      )}
+      {itsYou && isReplacable(cardData.id) && gameData.turn?.current.canReplaceCard && (
+        <button onClick={choosedCard}>Remplacer {cardData.name}</button>
       )}
     </article>
   );

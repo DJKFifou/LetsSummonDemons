@@ -961,9 +961,31 @@ const owl: CardArgs<NeighborCardData> = {
     neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
+    drawableToActivateIt: false,
     cardImage: '/cards/neighbourhood/owl.png',
   },
-  activateFn: async (): Promise<void> => {},
+  activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+    console.log("Activé qu'elle est la chouette");
+    let drawnedOrNot = false;
+    card.data.drawableToActivateIt = true;
+    game.turn.current.setShouldDrawCards(1);
+    try {
+      console.log("tu jettes ou pas :", game.turn.current.waitForDrawOrNot(game))
+      drawnedOrNot = await game.turn.current.waitForDrawOrNot(game);
+      console.log("tu jettes ou pas assigné :", drawnedOrNot)
+      cardOwner.removeNeighborCardById(game.turn.current.playerDrawChoicesCardId[0]);
+      game.turn.current.cleanCardIdToDraw();
+    } catch (error) {
+      console.log('error: ', error);
+    }
+    card.data.drawableToActivateIt = false;
+    game.turn.current.cleanShouldDrawCards();
+    if(drawnedOrNot) {
+      console.log("on est in poto")
+      cardOwner.addSoulToken(4);
+      game.turn.current.setShouldReplaceMarketCards();
+    }
+  },
 };
 
 const skunk: CardArgs<NeighborCardData> = {
@@ -1048,7 +1070,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(araMacao, 2),
   ...createNeighborCards(rabbit, 2),
   ...createNeighborCards(strayCat, 2),
-  ...createNeighborCards(owl, 4),
+  ...createNeighborCards(owl, 100),
   ...createNeighborCards(goldenFish, 4),
   ...createNeighborCards(cat, 6),
   ...createNeighborCards(dog, 6),
@@ -1061,7 +1083,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
   ...createNeighborCards(annie, 2),
-  ...createNeighborCards(dolores, 30),
+  ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
   ...createNeighborCards(lola, 2),

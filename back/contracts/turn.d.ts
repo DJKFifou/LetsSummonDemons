@@ -1,4 +1,4 @@
-import { CardType, NeighborKindness, NeighborType } from './card.js';
+import { CardId, CardType, NeighborKindness, NeighborType } from './card.js';
 import { PlayerData, PlayerId } from './player.js';
 
 export interface PlayerTurnData {
@@ -11,9 +11,11 @@ export interface PlayerTurnData {
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
   canChoosedCard: boolean;
+  canReplaceCard: boolean;
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;
+  shouldReplaceMarketCards?: boolean;
   cardChoiceCountdown: number;
   shouldSelectCardsFilter?: {
     numberCard?: number;
@@ -27,6 +29,7 @@ export interface PlayerTurnData {
     neighborKindness?: Array<NeighborKindness>;
   };
   playerChoosed: boolean;
+  instanceOfMarketCanBeReplaced?: Array<CardId>;
 }
 
 export interface TurnData {

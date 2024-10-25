@@ -66,6 +66,12 @@ export const PlayerDataDisplay = ({
     });
   };
 
+  const drawCardToActivation = (cardData) => {
+
+    socket.emit('drawCardAndActiveIt', cardData.id);
+    console.log('socketEmitted');
+  };
+
   return (
     <article className={styles.player}>
       <p>
@@ -115,13 +121,17 @@ export const PlayerDataDisplay = ({
       <p>NEIGHBORS CARDS:</p>
       <div className={styles.cards}>
         {playerData.neighborsCards.map((card) => (
-          <Card
-            isSelectable={!!demonToSummonId}
-            isSelected={neighborsToSacrifice.includes(card.id)}
-            onToggleSelect={() => toggleNeighborToSacrifice(card.id)}
-            cardData={card}
-            key={card.id}
-          />
+          <div key={card.id}>
+            <Card
+              isSelectable={!!demonToSummonId}
+              isSelected={neighborsToSacrifice.includes(card.id)}
+              onToggleSelect={() => toggleNeighborToSacrifice(card.id)}
+              cardData={card}
+            />
+            {itsYou && card.drawableToActivateIt && (
+              <button onClick={() => drawCardToActivation(card)}>Défausser et activer {card.name}</button>
+            )}
+          </div>
         ))}
       </div>
     </article>
