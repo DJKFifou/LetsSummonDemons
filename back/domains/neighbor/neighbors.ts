@@ -795,12 +795,24 @@ const goldenFish: CardArgs<NeighborCardData> = {
     neighborType: ['ANIMAL'],
     cardBack: cardBack,
     isActivable: false,
+    drawableToActivateIt: false,
     cardImage: '/cards/neighbourhood/golden_fish.png',
   },
-  activateFn: async ({ cardOwner, card }): Promise<void> => {
-    // TO FINISH
-    cardOwner.removeNeighborCardById(card.data.id);
-    cardOwner.addSoulToken(5);
+  activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+    card.data.drawableToActivateIt = true;
+    game.turn.current.setShouldDrawCards(1);
+    try {
+      await game.turn.current.waitForDrawOrNot(game);
+      cardOwner.removeNeighborCardById(
+        game.turn.current.playerDrawChoicesCardId[0],
+      );
+    } catch (error) {
+      console.log('error: ', error);
+    }
+    card.data.drawableToActivateIt = false;
+    if (game.turn.data.current.playerChoosed) {
+      cardOwner.addSoulToken(5);
+    }
   },
 };
 
@@ -969,14 +981,16 @@ const owl: CardArgs<NeighborCardData> = {
     game.turn.current.setShouldDrawCards(1);
     try {
       await game.turn.current.waitForDrawOrNot(game);
-      cardOwner.removeNeighborCardById(game.turn.current.playerDrawChoicesCardId[0]);
+      cardOwner.removeNeighborCardById(
+        game.turn.current.playerDrawChoicesCardId[0],
+      );
       game.turn.current.cleanCardIdToDraw();
     } catch (error) {
       console.log('error: ', error);
     }
     card.data.drawableToActivateIt = false;
     game.turn.current.cleanShouldDrawCards();
-    if(game.turn.data.current.playerChoosed) {
+    if (game.turn.data.current.playerChoosed) {
       cardOwner.addSoulToken(4);
       game.turn.current.setShouldReplaceMarketCards();
     }
@@ -1065,8 +1079,8 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(araMacao, 2),
   ...createNeighborCards(rabbit, 2),
   ...createNeighborCards(strayCat, 2),
-  ...createNeighborCards(owl, 100),
-  ...createNeighborCards(goldenFish, 4),
+  ...createNeighborCards(owl, 50),
+  ...createNeighborCards(goldenFish, 2),
   ...createNeighborCards(cat, 6),
   ...createNeighborCards(dog, 6),
 
