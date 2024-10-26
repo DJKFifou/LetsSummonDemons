@@ -965,14 +965,10 @@ const owl: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/owl.png',
   },
   activateFn: async ({ game, cardOwner, card }): Promise<void> => {
-    console.log("Activé qu'elle est la chouette");
-    let drawnedOrNot = false;
     card.data.drawableToActivateIt = true;
     game.turn.current.setShouldDrawCards(1);
     try {
-      console.log("tu jettes ou pas :", game.turn.current.waitForDrawOrNot(game))
-      drawnedOrNot = await game.turn.current.waitForDrawOrNot(game);
-      console.log("tu jettes ou pas assigné :", drawnedOrNot)
+      await game.turn.current.waitForDrawOrNot(game);
       cardOwner.removeNeighborCardById(game.turn.current.playerDrawChoicesCardId[0]);
       game.turn.current.cleanCardIdToDraw();
     } catch (error) {
@@ -980,8 +976,7 @@ const owl: CardArgs<NeighborCardData> = {
     }
     card.data.drawableToActivateIt = false;
     game.turn.current.cleanShouldDrawCards();
-    if(drawnedOrNot) {
-      console.log("on est in poto")
+    if(game.turn.data.current.playerChoosed) {
       cardOwner.addSoulToken(4);
       game.turn.current.setShouldReplaceMarketCards();
     }

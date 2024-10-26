@@ -164,14 +164,15 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
     }
     this.cardChoiceCountdown = null;
-    this.playerChoosed = true;
-    if (!this.playerChoicesCardId) {
+    if (this.playerChoicesCardId) {
+      this.playerChoosed = true;
+    } else {
       this.playerChoosed = false;
       throw new Error('Timeout: Card selection took too long.');
     }
   }
 
-  async waitForDrawOrNot(game: Game): Promise<boolean> {
+  async waitForDrawOrNot(game: Game): Promise<void> {
     const timeout = 15000; // 15 secondes
     const startTime = Date.now();
     let drawnedOrNot = false;
@@ -188,17 +189,15 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       console.log(this.cardChoiceCountdown);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
     }
+    this.cardChoiceCountdown = null;
     if (this.playerDrawChoicesCardId)
     {
       this.playerChoosed = true;
-      drawnedOrNot = true;
-    }
-    this.cardChoiceCountdown = null;
-    if (!this.playerDrawChoicesCardId) {
+    } else {
       this.playerChoosed = false;
       throw new Error('Timeout: Card selection took too long.');
     }
-    return drawnedOrNot;
+    drawnedOrNot;
   }
 
   buyNeighbor(neighborCardId: CardId): void {
