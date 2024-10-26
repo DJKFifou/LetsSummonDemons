@@ -175,7 +175,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   async waitForDrawOrNot(game: Game): Promise<void> {
     const timeout = 15000; // 15 secondes
     const startTime = Date.now();
-    let drawnedOrNot = false;
     while (
       this.cardIdToDraw.length <
         this.shouldDrawCards &&
@@ -197,7 +196,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       this.playerChoosed = false;
       throw new Error('Timeout: Card selection took too long.');
     }
-    drawnedOrNot;
   }
 
   buyNeighbor(neighborCardId: CardId): void {
@@ -289,6 +287,13 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
     console.log(this.instanceOfMarketCanBeReplaced)
     this.shouldReplaceMarketCards = true;
+  }
+
+  cleanShouldReplaceMarketCards(): void {
+    this.instanceOfMarketCanBeReplaced = [];
+    this.shouldReplaceMarketCards = false;
+    this.playerChoosed = false;
+    this.playerChoicesCardId.length = 0;
   }
 
   cleanShouldSelectCards(): void {

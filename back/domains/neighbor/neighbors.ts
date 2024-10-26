@@ -979,7 +979,13 @@ const owl: CardArgs<NeighborCardData> = {
     if(game.turn.data.current.playerChoosed) {
       cardOwner.addSoulToken(4);
       game.turn.current.setShouldReplaceMarketCards();
+      try {
+        await game.turn.current.waitForCardSelection(game);
+      } catch (error) {
+        console.log('error: ', error);
+      }
     }
+    game.turn.current.cleanShouldReplaceMarketCards();
   },
 };
 

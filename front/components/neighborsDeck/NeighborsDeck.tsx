@@ -5,6 +5,7 @@ import { MarketNeighborCard } from '../card/MarketNeighborCard';
 import { DrawnedNeighborCard } from '../card/DrawnNeighborCard';
 import styles from './NeighborsDeck.module.scss';
 import { GameData } from '@lsd/back/contracts/game';
+import { socket } from '@/socket';
 
 interface CoveredCardStackProps {
   cardData: CardData;
@@ -33,6 +34,16 @@ export const NeighborsDeck = ({
   isMarketOpen,
   itsYou,
 }: NeighborsDeckProps) => {
+
+  const stopCardReplacement = () => {
+    if (!gameData.turn?.current.canReplaceCard || !itsYou) {
+      return false;
+    }
+
+    socket.emit('stopCardReplacement');
+    console.log('socketEmitted');
+  };
+
   return (
     <article className={styles.deck}>
       <h3>Voisinage</h3>
@@ -53,6 +64,9 @@ export const NeighborsDeck = ({
           />
         ))}
       </div>
+      {itsYou && gameData.turn?.current.canReplaceCard && (
+        <button onClick={stopCardReplacement}>Je m'arrète la !</button>
+      )}
       <div className={styles.neighborsDrawned}>
         {neighborsDeck.drawned.map((card) => (
           <DrawnedNeighborCard cardData={card} key={card.id} />
