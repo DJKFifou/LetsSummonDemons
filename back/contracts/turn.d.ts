@@ -28,7 +28,7 @@ export interface PlayerTurnData {
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;
   };
-  playerChoosed: boolean;
+  playerChoosed?: boolean;
   instanceOfMarketCanBeReplaced?: Array<CardId>;
 }
 
