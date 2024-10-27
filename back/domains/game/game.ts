@@ -31,6 +31,18 @@ import {
   StartWithoutEnoughPlayersError,
 } from './game.errors.js';
 
+function shortUuidv4(): string {
+  let uuidArray: string[] = [];
+  uuidv4()
+    .split('')
+    .forEach((char) => {
+      if (char !== '-' && /\D/.test(char)) {
+        uuidArray.push(char);
+      }
+    });
+  return uuidArray.slice(0, 6).join('').toUpperCase();
+}
+
 export class Game implements EntityClass<GameData> {
   protected id: GameId;
   protected players: Player[];
@@ -45,7 +57,7 @@ export class Game implements EntityClass<GameData> {
   neighborsDeck?: NeighborsDeck;
 
   constructor() {
-    this.id = uuidv4();
+    this.id = shortUuidv4();
     this.players = [];
     this.turn = null;
     this.state = 'starting';
