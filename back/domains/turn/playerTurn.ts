@@ -56,7 +56,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     neighborKindness?: Array<NeighborKindness>;
   };
   protected playerChoosed?: boolean;
-  protected instanceOfMarketCanBeReplaced? : Array<CardId>;
+  protected instanceOfMarketCanBeReplaced?: Array<CardId>;
 
   constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
@@ -72,7 +72,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.cardIdSelected = [];
     this.cardIdToDraw = [];
     this.instanceOfMarketCanBeReplaced = [];
-    
   }
 
   launchDices(): void {
@@ -151,16 +150,15 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     while (
       (this.playerChoicesCardId.length <
         this.shouldSelectCardsFilter.numberCard ||
-      this.playerChoicesCardId.length <
-        this.instanceOfMarketCanBeReplaced.length) &&
+        this.playerChoicesCardId.length <
+          this.instanceOfMarketCanBeReplaced.length) &&
       Date.now() - startTime < timeout
     ) {
       this.cardChoiceCountdown = Math.round(
-        30 - (Date.now() - startTime) / 1007,
+        30 - (Date.now() - startTime) / 1000,
       );
       game.emitDataToSockets();
       // Temporisation pour éviter une boucle infinie
-      console.log(this.cardChoiceCountdown);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
     }
     this.cardChoiceCountdown = null;
@@ -176,21 +174,18 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     const timeout = 15000; // 15 secondes
     const startTime = Date.now();
     while (
-      this.cardIdToDraw.length <
-        this.shouldDrawCards &&
+      this.cardIdToDraw.length < this.shouldDrawCards &&
       Date.now() - startTime < timeout
     ) {
       this.cardChoiceCountdown = Math.round(
-        15 - (Date.now() - startTime) / 1007,
+        15 - (Date.now() - startTime) / 1000,
       );
       game.emitDataToSockets();
       // Temporisation pour éviter une boucle infinie
-      console.log(this.cardChoiceCountdown);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
     }
     this.cardChoiceCountdown = null;
-    if (this.playerDrawChoicesCardId)
-    {
+    if (this.playerDrawChoicesCardId) {
       this.playerChoosed = true;
     } else {
       this.playerChoosed = false;
@@ -214,8 +209,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     if (this.canChoosedCard || this.canReplaceCard) {
       this.cardIdSelected.push(neighborCardId);
 
-      this.game.neighborsDeck.replaceCard(neighborCardId);
-      
+      if (this.canReplaceCard) {
+        this.game.neighborsDeck.replaceCard(neighborCardId);
+      }
+
       this.game.emitDataToSockets();
     } else {
       throw new CannotChoosedCardError();
@@ -223,7 +220,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   drawnedCard(neighborCardId: CardId): void {
-
     this.cardIdToDraw.push(neighborCardId);
 
     this.game.emitDataToSockets();
@@ -276,7 +272,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.data.shouldSelectCardsFilter.neighborKindness = neighborKindnessAwait;
   }
 
-  setShouldDrawCards(number:number): void {
+  setShouldDrawCards(number: number): void {
     this.shouldDrawCards = number;
   }
 
@@ -285,7 +281,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     for (const item of this.game.data.neighborsDeck.market) {
       this.instanceOfMarketCanBeReplaced.push(item.id);
     }
-    console.log(this.instanceOfMarketCanBeReplaced)
+    console.log(this.instanceOfMarketCanBeReplaced);
     this.shouldReplaceMarketCards = true;
   }
 
@@ -375,7 +371,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       shouldSelectCardsFilter: this.shouldSelectCardsFilter,
       playerChoosed: this.playerChoosed,
       instanceOfMarketCanBeReplaced: this.instanceOfMarketCanBeReplaced,
-      shouldReplaceMarketCards: this.shouldReplaceMarketCards
+      shouldReplaceMarketCards: this.shouldReplaceMarketCards,
     };
   }
 }

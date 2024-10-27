@@ -1,6 +1,5 @@
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
-import { Game } from '../game/game.js';
 import { NeighborCard } from './neighbor.js';
 
 const createNeighborCards = (
@@ -25,7 +24,6 @@ const jane: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/jane.png',
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-    // TO FINISH
     const neighborsMarket = game.neighborsDeck.getMarket();
     const animalNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
@@ -43,14 +41,8 @@ const jane: CardArgs<NeighborCardData> = {
         ['ANIMAL'],
         null,
       );
-      console.log('avant waitForCardSelection');
       try {
         await game.turn.current.waitForCardSelection(game);
-        console.log('après waitForCardSelection');
-        console.log(
-          'playerChoicesCardId: ',
-          game.turn.current.playerChoicesCardId,
-        );
         for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
           game.neighborsDeck.giveCard(
             cardOwner,
@@ -239,7 +231,6 @@ const dolores: CardArgs<NeighborCardData> = {
           [i].data.neighborKindness.includes('ADORABLE')
       ) {
         game.neighborsDeck.throwMarketCards(i);
-        console.log('Spliced');
         i--;
       }
     }
@@ -265,14 +256,8 @@ const dolores: CardArgs<NeighborCardData> = {
         ['BOY', 'GIRL'],
         'HORRIBLE',
       );
-      console.log('avant waitForCardSelection');
       try {
         await game.turn.current.waitForCardSelection(game);
-        console.log('après waitForCardSelection');
-        console.log(
-          'playerChoicesCardId: ',
-          game.turn.current.playerChoicesCardId,
-        );
         for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
           game.neighborsDeck.giveCard(
             cardOwner,
@@ -329,6 +314,29 @@ const annie: CardArgs<NeighborCardData> = {
     isActivable: false,
     cardImage: '/cards/neighbourhood/annie.png',
   },
+  // activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+  //   // TO FINISH
+  //   const kidNeighborCardsPlayerList = [];
+  //   if (game.playerList[2]) {
+  //     const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
+  //     for (let i = 0; i < neighborsPlayerList.length; i++) {
+  //       if (!neighborsPlayerList[i].data.neighborType.includes('ANIMAL')) {
+  //         kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
+  //       }
+  //     }
+  //   }
+
+  //   if (kidNeighborCardsPlayerList.length > 0) {
+  //     cardOwner.removeNeighborCardById(card.data.id);
+  //     game.playerList[2].removeNeighborCardById(
+  //       kidNeighborCardsPlayerList[0].data.id,
+  //     );
+  //     cardOwner.addNeighborCard(kidNeighborCardsPlayerList[0]);
+  //   } else if (kidNeighborCards.length > 0) {
+  //     cardOwner.removeNeighborCardById(card.data.id);
+  //     game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
+  //   }
+  // },
   activateFn: async ({ game, cardOwner, card }): Promise<void> => {
     // TO FINISH
     const neighborsMarket = game.neighborsDeck.getMarket();
@@ -338,28 +346,88 @@ const annie: CardArgs<NeighborCardData> = {
         kidNeighborCards.push(neighborsMarket[i]);
       }
     }
-
-    const kidNeighborCardsPlayerList = [];
-    if (game.playerList[2]) {
-      const neighborsPlayerList = game.playerList[2].getKidNeighborCards();
-      for (let i = 0; i < neighborsPlayerList.length; i++) {
-        if (!neighborsPlayerList[i].data.neighborType.includes('ANIMAL')) {
-          kidNeighborCardsPlayerList.push(neighborsPlayerList[i]);
+    if (kidNeighborCards.length > 0) {
+      card.data.drawableToActivateIt = true;
+      game.turn.current.setShouldDrawCards(1);
+      try {
+        await game.turn.current.waitForDrawOrNot(game);
+        cardOwner.removeNeighborCardById(
+          game.turn.current.playerDrawChoicesCardId[0],
+        );
+        game.turn.current.cleanCardIdToDraw();
+      } catch (error) {
+        console.log('error: ', error);
+      }
+      card.data.drawableToActivateIt = false;
+      if (game.turn.data.current.playerChoosed) {
+        if (kidNeighborCards.length == 1) {
+          game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
+        } else if (kidNeighborCards.length > 1) {
+          game.turn.current.setShouldSelectCards(
+            1,
+            'marketChoice',
+            'NEIGHBOR',
+            ['BOY', 'GIRL'],
+            null,
+          );
+          try {
+            await game.turn.current.waitForDrawOrNot(game);
+            for (
+              let i = 0;
+              i < game.turn.current.playerChoicesCardId.length;
+              i++
+            ) {
+              game.neighborsDeck.giveCard(
+                cardOwner,
+                game.turn.current.playerChoicesCardId[i],
+              );
+            }
+            game.turn.current.cleanShouldSelectCards();
+          } catch (error) {
+            console.log('error: ', error);
+          }
+          if (!game.turn.data.current.playerChoosed) {
+            game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0]);
+          }
         }
       }
     }
-
-    if (kidNeighborCardsPlayerList.length > 0) {
-      cardOwner.removeNeighborCardById(card.data.id);
-      game.playerList[2].removeNeighborCardById(
-        kidNeighborCardsPlayerList[0].data.id,
-      );
-      cardOwner.addNeighborCard(kidNeighborCardsPlayerList[0]);
-    } else if (kidNeighborCards.length > 0) {
-      cardOwner.removeNeighborCardById(card.data.id);
-      game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
-    }
   },
+  // activateFn: async ({ game, cardOwner, card }): Promise<void> => {
+  //   const neighborsMarket = game.neighborsDeck.getMarket();
+  //   const kidNeighborCards = [];
+  //   for (let i = 0; i < neighborsMarket.length; i++) {
+  //     if (!neighborsMarket[i].data.neighborType.includes('ANIMAL')) {
+  //       kidNeighborCards.push(neighborsMarket[i]);
+  //     }
+  //   }
+  //   if (kidNeighborCards.length === 1) {
+  //     game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
+  //   } else if (kidNeighborCards.length > 1) {
+  //     game.turn.current.setShouldSelectCards(
+  //       1,
+  //       'marketChoice',
+  //       'NEIGHBOR',
+  //       ['BOY', 'GIRL'],
+  //       null,
+  //     );
+  //     try {
+  //       await game.turn.current.waitForCardSelection(game);
+  //       for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
+  //         game.neighborsDeck.giveCard(
+  //           cardOwner,
+  //           game.turn.current.playerChoicesCardId[i],
+  //         );
+  //       }
+  //       game.turn.current.cleanShouldSelectCards();
+  //     } catch (error) {
+  //       console.log('error: ', error);
+  //     }
+  //     if (!game.turn.data.current.playerChoosed) {
+  //       game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0]);
+  //     }
+  //   }
+  // },
 };
 
 const jesus: CardArgs<NeighborCardData> = {
@@ -536,7 +604,6 @@ const marilyn: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/marilyn.png',
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-    // TO FINISH
     const neighborsMarket = game.neighborsDeck.getMarket();
     const boyNeighborCards = [];
     for (let i = 0; i < neighborsMarket.length; i++) {
@@ -554,14 +621,8 @@ const marilyn: CardArgs<NeighborCardData> = {
         ['BOY'],
         null,
       );
-      console.log('avant waitForCardSelection');
       try {
         await game.turn.current.waitForCardSelection(game);
-        console.log('après waitForCardSelection');
-        console.log(
-          'playerChoicesCardId: ',
-          game.turn.current.playerChoicesCardId,
-        );
         for (let i = 0; i < game.turn.current.playerChoicesCardId.length; i++) {
           game.neighborsDeck.giveCard(
             cardOwner,
@@ -1085,7 +1146,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(araMacao, 2),
   ...createNeighborCards(rabbit, 2),
   ...createNeighborCards(strayCat, 2),
-  ...createNeighborCards(owl, 50),
+  ...createNeighborCards(owl, 2),
   ...createNeighborCards(goldenFish, 2),
   ...createNeighborCards(cat, 6),
   ...createNeighborCards(dog, 6),
@@ -1097,7 +1158,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(destiny, 2),
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
-  ...createNeighborCards(annie, 2),
+  ...createNeighborCards(annie, 50),
   ...createNeighborCards(dolores, 2),
   ...createNeighborCards(carrie, 4),
   ...createNeighborCards(regan, 4),
