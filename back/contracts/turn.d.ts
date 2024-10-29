@@ -12,6 +12,7 @@ export interface PlayerTurnData {
   canBuyNeighbor: boolean;
   canChoosedCard: boolean;
   canReplaceCard: boolean;
+  shouldStoleCard: boolean;
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;

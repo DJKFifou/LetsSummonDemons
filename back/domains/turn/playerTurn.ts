@@ -57,6 +57,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   };
   protected playerChoosed?: boolean;
   protected instanceOfMarketCanBeReplaced?: Array<CardId>;
+  protected shouldStoleCard?: boolean;
 
   constructor({ game, player }: PlayerTurnArgs) {
     this.game = game;
@@ -276,6 +277,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.shouldDrawCards = number;
   }
 
+  setShouldStoleCard(): void {
+    this.shouldStoleCard = true;
+  }
+
   setShouldReplaceMarketCards(): void {
     this.instanceOfMarketCanBeReplaced = [];
     for (const item of this.game.data.neighborsDeck.market) {
@@ -304,6 +309,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
   cleanShouldDrawCards(): void {
     this.shouldDrawCards = null;
+  }
+
+  cleanShouldStoleCard(): void {
+    this.shouldStoleCard = false;
   }
 
   get canLaunchDices(): boolean {
@@ -339,6 +348,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     );
   }
 
+  get canStoleCard(): boolean {
+    return this.shouldStoleCard;
+  }
+
   get canSummonDemon(): boolean {
     return (
       !this.summonedDemon &&
@@ -363,6 +376,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       canBuyNeighbor: this.canBuyNeighbor,
       canChoosedCard: this.canChoosedCard,
       canReplaceCard: this.canReplaceCard,
+      shouldStoleCard: this.canStoleCard,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
       cardSelector: this.cardSelector,

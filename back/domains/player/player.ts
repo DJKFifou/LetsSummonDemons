@@ -187,8 +187,15 @@ export class Player implements EntityClass<PlayerData> {
     this.neighborsCards = this.neighborsCards.filter(
       (card) => card.data.id !== neighborIdToRemove,
     );
+    console.log("les cartes du volé :", this.getNeighborCards())
+    this.getNeighborCards();
 
     return removedCard;
+  }
+
+  stealNeighborCardById(game, card, cardOwner): void {
+    cardOwner.removeNeighborCardById(card.data.id);
+    this.addNeighborCard(card)
   }
 
   getNeighborCardById(neighborCardId: CardId): NeighborCard {

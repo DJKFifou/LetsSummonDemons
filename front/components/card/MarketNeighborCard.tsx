@@ -39,7 +39,10 @@ export const MarketNeighborCard = ({
     const { rangeOfSelection, type, neighborType, neighborKindness } =
       currentTurn.shouldSelectCardsFilter;
 
-    const isRangeOfSelectionMarketChoice = rangeOfSelection === 'marketChoice';
+    const isRangeOfSelectionMarketChoice = 
+      rangeOfSelection && Array.isArray(rangeOfSelection)
+      ? rangeOfSelection.includes('marketChoice')
+      : false;
     const isTypeCorrespond = type ? type.includes(cardData.type) : false;
     const isNeighborTypeCorrespond =
       neighborType && Array.isArray(neighborType)

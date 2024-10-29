@@ -341,11 +341,24 @@ const annie: CardArgs<NeighborCardData> = {
     // TO FINISH
     const neighborsMarket = game.neighborsDeck.getMarket();
     const kidNeighborCards = [];
+    let kidNeighborCardInMarket = false;
+    let kidNeighborCardInPlayer = false;
     for (let i = 0; i < neighborsMarket.length; i++) {
       if (!neighborsMarket[i].data.neighborType.includes('ANIMAL')) {
+        kidNeighborCardInMarket = true;
         kidNeighborCards.push(neighborsMarket[i]);
       }
     }
+    game.playerList.forEach(player => {
+      const playerKidDeck = player.getKidNeighborCards();
+      if (playerKidDeck) {
+        for (let i = 0; i < playerKidDeck.length; i++) {
+          kidNeighborCardInPlayer = true;
+          kidNeighborCards.push(playerKidDeck[i]);
+        }
+      }
+    });
+    console.log(kidNeighborCards);
     if (kidNeighborCards.length > 0) {
       card.data.drawableToActivateIt = true;
       game.turn.current.setShouldDrawCards(1);
@@ -360,27 +373,39 @@ const annie: CardArgs<NeighborCardData> = {
       }
       card.data.drawableToActivateIt = false;
       if (game.turn.data.current.playerChoosed) {
-        if (kidNeighborCards.length == 1) {
+        if (kidNeighborCards.length == 1 && kidNeighborCardInMarket) {
           game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
+          console.log("On prends ici dans le marché")
+        } else if (kidNeighborCards.length == 1 && kidNeighborCardInPlayer) {
+          console.log("On prends ici", kidNeighborCards[0].data)
+          cardOwner.stealNeighborCardById(game, kidNeighborCards[0].data);
         } else if (kidNeighborCards.length > 1) {
+          game.turn.current.setShouldStoleCard();
           game.turn.current.setShouldSelectCards(
             1,
-            'marketChoice',
+            ['marketChoice', 'opponentChoice'],
             'NEIGHBOR',
             ['BOY', 'GIRL'],
             null,
           );
           try {
-            await game.turn.current.waitForDrawOrNot(game);
-            for (
-              let i = 0;
-              i < game.turn.current.playerChoicesCardId.length;
-              i++
-            ) {
+            await game.turn.current.waitForCardSelection(game);
+            if (game.defineCardAreaById(game.turn.current.playerChoicesCardId[0]) == 'marketArea') {
               game.neighborsDeck.giveCard(
                 cardOwner,
-                game.turn.current.playerChoicesCardId[i],
+                game.turn.current.playerChoicesCardId[0],
               );
+            } else if (game.defineCardAreaById(game.turn.current.playerChoicesCardId[0]) == 'playerArea') {
+              game.playerList.forEach(player => {
+                const playerKidDeck = player.getKidNeighborCards();
+                for (let i = 0; i < playerKidDeck.length; i++) {
+                  if (playerKidDeck[i].data.id = game.turn.current.playerChoicesCardId[0]) {
+                    const card = player.getNeighborCardById(game.turn.current.playerChoicesCardId[0]);
+                    console.log("On prends ici", card.data)
+                    cardOwner.stealNeighborCardById(game, card, player);
+                  }
+                }
+              });
             }
             game.turn.current.cleanShouldSelectCards();
           } catch (error) {

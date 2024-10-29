@@ -30,6 +30,7 @@ import {
   JoinFullGameError,
   StartWithoutEnoughPlayersError,
 } from './game.errors.js';
+import { CardId } from '../../contracts/card.js';
 
 export class Game implements EntityClass<GameData> {
   protected id: GameId;
@@ -74,6 +75,14 @@ export class Game implements EntityClass<GameData> {
   get playerList(): Player[] {
     return this.players;
   }
+
+  defineCardAreaById(cardId: CardId): string {
+    const neighborMarket = this.neighborsDeck.getMarket();
+    if (neighborMarket.find((card) => card.data.id === cardId)) {
+      return 'marketArea';
+    }
+    return 'playerArea';
+}
 
   start(): void {
     if (this.players.length < MIN_GAME_PLAYERS) {

@@ -72,6 +72,57 @@ export const PlayerDataDisplay = ({
     console.log('socketEmitted');
   };
 
+  const isStolable = (card): boolean => {
+    const currentTurn = gameData.turn?.current;
+    if (!currentTurn || !currentTurn.shouldSelectCardsFilter) {
+      return false;
+    }
+    console.log("currentTurn.shouldSelectCardsFilter:", currentTurn.shouldSelectCardsFilter)
+    const { rangeOfSelection, type, neighborType, neighborKindness } =
+      currentTurn.shouldSelectCardsFilter;
+
+    console.log("Unique test 1:", rangeOfSelection)
+    const isRangeOfSelectionOpponentChoice = 
+    rangeOfSelection && Array.isArray(rangeOfSelection)
+      ? rangeOfSelection.includes('opponentChoice')
+      : false;
+    console.log("Unique test 2:", isRangeOfSelectionOpponentChoice)
+    const isTypeCorrespond = type ? type.includes(card.type) : false;
+    const isNeighborTypeCorrespond =
+      neighborType && Array.isArray(neighborType)
+        ? neighborType.some((type) => card.neighborType.includes(type))
+        : false;
+    if (neighborKindness && card.neighborKindness) {
+      const isNeighborKindnessCorrespond =
+        neighborKindness && Array.isArray(neighborKindness)
+          ? neighborKindness.some((kindness) =>
+              card.neighborKindness.includes(kindness),
+            )
+          : card.neighborKindness.includes(neighborKindness);
+      return (
+        isRangeOfSelectionOpponentChoice &&
+        isTypeCorrespond &&
+        isNeighborTypeCorrespond &&
+        isNeighborKindnessCorrespond
+      );
+    } else {
+      return (
+        isRangeOfSelectionOpponentChoice &&
+        isTypeCorrespond &&
+        isNeighborTypeCorrespond
+      );
+    }
+  };
+
+  const choosedCard = (cardData) => {
+    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+      return false;
+    }
+
+    socket.emit('turnChoosedCard', cardData.id);
+    console.log('socketEmitted');
+  };
+
   return (
     <article className={styles.player}>
       <p>
@@ -130,6 +181,9 @@ export const PlayerDataDisplay = ({
             />
             {itsYou && card.drawableToActivateIt && (
               <button onClick={() => drawCardToActivation(card)}>Défausser et activer {card.name}</button>
+            )}
+            {!itsYou && isStolable(card) && gameData.turn?.current.canChoosedCard && (
+              <button onClick={() => choosedCard(card)}>Voler {card.name}</button>
             )}
           </div>
         ))}
