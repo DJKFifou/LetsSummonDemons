@@ -18,11 +18,11 @@ export interface PlayerTurnData {
   cardChoiceCountdown: number;
   shouldSelectCardsFilter?: {
     numberCard?: number;
-    rangeOfSelection?:
+    rangeOfSelection?: Array<
       | 'marketChoice'
       | 'opponentChoice'
       | 'selfChoice'
-      | 'null';
+      | 'null'>;
     actionAwaited?:
       | 'draw'
       | 'replace'

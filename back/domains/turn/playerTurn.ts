@@ -43,11 +43,11 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected cardIdSelected?: Array<CardId>;
   protected shouldSelectCardsFilter?: {
     numberCard?: number;
-    rangeOfSelection?:
+    rangeOfSelection?: Array<
       | 'marketChoice'
       | 'opponentChoice'
       | 'selfChoice'
-      | 'null';
+      | 'null'>;
     actionAwaited?:
       | 'draw'
       | 'replace'
@@ -171,10 +171,9 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   async cardSelectionRequired(
-      game: Game,
       cardOwner : Player,
       numberOfCard : Number,
-      rangeOfSelection : String,
+      rangeOfSelection : Array<String>,
       actionAwaited : String,
       type? : Array<CardType>,
       neighborType? : Array<NeighborType>,
@@ -193,12 +192,12 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       neighborKindness ? neighborKindness : null,
     );
 
-    game.emitDataToSockets();
+    this.game.emitDataToSockets();
 
     switch (actionAwaited)
     {
       case 'draw':
-        if (rangeOfSelection == 'selfChoice')
+        if (rangeOfSelection.includes('selfChoice'))
         {
           try {
             await this.waitForCardSelection(numberOfCard);
@@ -216,7 +215,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         break;
       case 'replace':
         this.setShouldReplaceMarketCards();
-        game.emitDataToSockets();
+        this.game.emitDataToSockets();
         try {
           await this.waitForCardSelection(numberOfCard);
         } catch (error) {
@@ -224,9 +223,29 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         }
         this.cleanShouldReplaceMarketCards();
         break;
-      // case 'steal':
-      //   await this.waitForSelection(numberOfCard);
-      //   break;
+        case 'steal':
+          try {
+              await this.waitForCardSelection(numberOfCard);
+              if (this.playerChoosed) {
+                  this.playerChoicesCardId.forEach(cardId => {
+                      if (this.getCardOwnerById(cardId) == null) {
+                          this.game.neighborsDeck.giveCard(cardOwner, cardId);
+                      }
+                      else {
+                          const cardOwnerOpponent = this.getCardOwnerById(cardId);
+                          console.log('Player owner of the card returned is :', cardOwnerOpponent);
+                          const card = cardOwnerOpponent.getNeighborCardById(cardId);
+                          cardOwnerOpponent.removeNeighborCardById(cardId);
+                          cardOwner.addNeighborCard(card);
+                      }
+                  });
+                  response = true;
+              }
+          }
+          catch (error) {
+              console.error(error);
+          }
+          break;
       // case 'pick':
       //   await this.waitForSelection(numberOfCard);
       //   break;
@@ -266,6 +285,23 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       throw new CannotChoosedCardError();
     }
   }
+
+  getCardOwnerById(cardId) {
+    let cardOwner = null;
+    console.log('Card to test :', cardId);
+    this.game.playerList.forEach(player => {
+        const playerKidDeck = player.getKidNeighborCards();
+        console.log('A player deck :', playerKidDeck);
+        for (let i = 0; i < playerKidDeck.length; i++) {
+            console.log("Each card of a player's deck :", playerKidDeck[i].data.id);
+            if (playerKidDeck[i].data.id = cardId) {
+                console.log('Player owner of the card find is :', player);
+                cardOwner = player;
+            }
+        }
+    });
+    return cardOwner;
+}
 
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
     if (!this.canSummonDemon) {
