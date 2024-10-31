@@ -23,6 +23,12 @@ export interface PlayerTurnData {
       | 'opponentChoice'
       | 'selfChoice'
       | 'null';
+    actionAwaited?:
+      | 'draw'
+      | 'replace'
+      | 'steal'
+      | 'pick'
+      | 'sacrifice';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;

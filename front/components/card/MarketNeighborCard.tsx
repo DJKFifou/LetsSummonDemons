@@ -69,7 +69,7 @@ export const MarketNeighborCard = ({
   const isReplacable = (cardId): boolean => {
     const currentTurn = gameData.turn?.current;
     let cardIsReplacable = false;
-    if (!currentTurn || currentTurn.canReplaceCard) {
+    if (!currentTurn || !currentTurn.canReplaceCard) {
       return false;
     }
     const cardsCanBeReplaced = currentTurn.instanceOfMarketCanBeReplaced;

@@ -42,10 +42,6 @@ export class Turn implements EntityClass<TurnData> {
     this.current.choosedCard(neighborCardId);
   }
 
-  drawnedCard(neighborCardId: CardId): void {
-    this.current.drawnedCard(neighborCardId);
-  }
-
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
     this.current.summonDemon(demonCardId, neighborsSacrifiedIds);
   }
