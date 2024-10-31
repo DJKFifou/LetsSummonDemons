@@ -41,16 +41,19 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected shouldSelectCards: boolean;
   cardChoiceCountdown: number;
   protected cardIdSelected?: Array<CardId>;
-  protected cardIdToDraw?: Array<CardId>;
-  protected shouldDrawCards?: number;
-  protected shouldReplaceMarketCards?: boolean;
-  protected shouldSelectCardsFilter: {
+  protected shouldSelectCardsFilter?: {
     numberCard?: number;
     rangeOfSelection?:
       | 'marketChoice'
       | 'opponentChoice'
       | 'selfChoice'
       | 'null';
+    actionAwaited?:
+      | 'draw'
+      | 'replace'
+      | 'steal'
+      | 'pick'
+      | 'sacrifice';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;
@@ -70,7 +73,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.cardChoiceCountdown = null;
     this.shouldSelectCardsFilter = {};
     this.cardIdSelected = [];
-    this.cardIdToDraw = [];
     this.instanceOfMarketCanBeReplaced = [];
     
   }
@@ -87,8 +89,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     });
     this.dicesResult = dicesResult;
     this.game.emitDataToSockets();
-    console.log(this.data.shouldSelectCards);
-    console.log(this.data.shouldSelectCardsFilter);
 
     this.activateCards(this.dicesResult);
   }
@@ -143,59 +143,102 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
   }
 
-  async waitForCardSelection(game: Game): Promise<void> {
-    game.emitDataToSockets();
-    const timeout = 30000; // 30 secondes
+  async waitForCardSelection(numberOfCardAwaited): Promise<void> {
     const startTime = Date.now();
+    this.cardChoiceCountdown = 30;
 
     while (
-      (this.playerChoicesCardId.length <
-        this.shouldSelectCardsFilter.numberCard ||
-      this.playerChoicesCardId.length <
-        this.instanceOfMarketCanBeReplaced.length) &&
-      Date.now() - startTime < timeout
+      (this.playerChoicesCardId.length < numberOfCardAwaited
+      || this.canReplaceCard)
+      && this.cardChoiceCountdown
+      && this.cardChoiceCountdown > 0
     ) {
       this.cardChoiceCountdown = Math.round(
         30 - (Date.now() - startTime) / 1007,
       );
-      game.emitDataToSockets();
+      this.game.emitDataToSockets();
       // Temporisation pour éviter une boucle infinie
-      console.log(this.cardChoiceCountdown);
+      console.log("Temps restant : ", this.cardChoiceCountdown);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
     }
-    this.cardChoiceCountdown = null;
-    if (this.playerChoicesCardId) {
+    if (this.playerChoicesCardId.length === numberOfCardAwaited) {
       this.playerChoosed = true;
-    } else {
+    } else if (this.cardChoiceCountdown !== 0) {
       this.playerChoosed = false;
       throw new Error('Timeout: Card selection took too long.');
     }
+    this.cardChoiceCountdown = null;
   }
 
-  async waitForDrawOrNot(game: Game): Promise<void> {
-    const timeout = 15000; // 15 secondes
-    const startTime = Date.now();
-    while (
-      this.cardIdToDraw.length <
-        this.shouldDrawCards &&
-      Date.now() - startTime < timeout
-    ) {
-      this.cardChoiceCountdown = Math.round(
-        15 - (Date.now() - startTime) / 1007,
-      );
-      game.emitDataToSockets();
-      // Temporisation pour éviter une boucle infinie
-      console.log(this.cardChoiceCountdown);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
-    }
-    this.cardChoiceCountdown = null;
-    if (this.playerDrawChoicesCardId)
+  async cardSelectionRequired(
+      game: Game,
+      cardOwner : Player,
+      numberOfCard : Number,
+      rangeOfSelection : String,
+      actionAwaited : String,
+      type? : Array<CardType>,
+      neighborType? : Array<NeighborType>,
+      neighborKindness? : Array<NeighborKindness>
+    ): Promise<Boolean> {
+
+    let response = false;
+
+    this.cleanShouldSelectCards();
+    this.setShouldSelectCards(
+      numberOfCard,
+      rangeOfSelection,
+      actionAwaited,
+      type ? type : null,
+      neighborType ? neighborType : null,
+      neighborKindness ? neighborKindness : null,
+    );
+
+    game.emitDataToSockets();
+
+    switch (actionAwaited)
     {
-      this.playerChoosed = true;
-    } else {
-      this.playerChoosed = false;
-      throw new Error('Timeout: Card selection took too long.');
+      case 'draw':
+        if (rangeOfSelection == 'selfChoice')
+        {
+          try {
+            await this.waitForCardSelection(numberOfCard);
+            if(this.playerChoosed)
+            {
+              this.playerChoicesCardId.forEach(cardId => {
+                cardOwner.removeNeighborCardById(cardId);
+              });
+              response = true;
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        break;
+      case 'replace':
+        this.setShouldReplaceMarketCards();
+        game.emitDataToSockets();
+        try {
+          await this.waitForCardSelection(numberOfCard);
+        } catch (error) {
+          console.error(error);
+        }
+        this.cleanShouldReplaceMarketCards();
+        break;
+      // case 'steal':
+      //   await this.waitForSelection(numberOfCard);
+      //   break;
+      // case 'pick':
+      //   await this.waitForSelection(numberOfCard);
+      //   break;
+      // case 'sacrifice':
+      //   await this.waitForSelection(numberOfCard);
+      //   break;
     }
+
+    this.cleanShouldSelectCards();
+
+    return response;
+
   }
 
   buyNeighbor(neighborCardId: CardId): void {
@@ -210,27 +253,18 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
-  choosedCard(neighborCardId: CardId): void {
-    if (this.canChoosedCard || this.canReplaceCard) {
+   choosedCard(neighborCardId: CardId): void {
+    if (this.canChoosedCard) {
       this.cardIdSelected.push(neighborCardId);
-
-      this.game.neighborsDeck.replaceCard(neighborCardId);
       
+      if (this.shouldSelectCardsFilter.actionAwaited == 'replace') {
+        this.game.neighborsDeck.replaceCard(neighborCardId);
+      }
+
       this.game.emitDataToSockets();
     } else {
       throw new CannotChoosedCardError();
     }
-  }
-
-  drawnedCard(neighborCardId: CardId): void {
-
-    this.cardIdToDraw.push(neighborCardId);
-
-    this.game.emitDataToSockets();
-  }
-
-  cleanCardIdToDraw(): void {
-    this.cardIdToDraw = [];
   }
 
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
@@ -264,6 +298,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   setShouldSelectCards(
     numberCard,
     rangeOfSelections,
+    actionAwaited,
     cardTypeAwait,
     neighborTypeAwait?,
     neighborKindnessAwait?,
@@ -271,13 +306,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.shouldSelectCards = true;
     this.data.shouldSelectCardsFilter.numberCard = numberCard;
     this.data.shouldSelectCardsFilter.rangeOfSelection = rangeOfSelections;
+    this.data.shouldSelectCardsFilter.actionAwaited = actionAwaited;
     this.data.shouldSelectCardsFilter.type = cardTypeAwait;
     this.data.shouldSelectCardsFilter.neighborType = neighborTypeAwait;
     this.data.shouldSelectCardsFilter.neighborKindness = neighborKindnessAwait;
-  }
-
-  setShouldDrawCards(number:number): void {
-    this.shouldDrawCards = number;
   }
 
   setShouldReplaceMarketCards(): void {
@@ -285,13 +317,11 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     for (const item of this.game.data.neighborsDeck.market) {
       this.instanceOfMarketCanBeReplaced.push(item.id);
     }
-    console.log(this.instanceOfMarketCanBeReplaced)
-    this.shouldReplaceMarketCards = true;
+    console.log(this.instanceOfMarketCanBeReplaced);
   }
 
   cleanShouldReplaceMarketCards(): void {
     this.instanceOfMarketCanBeReplaced = [];
-    this.shouldReplaceMarketCards = false;
     this.playerChoosed = false;
     this.playerChoicesCardId.length = 0;
   }
@@ -300,14 +330,12 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.shouldSelectCards = false;
     this.data.shouldSelectCardsFilter.numberCard = null;
     this.data.shouldSelectCardsFilter.rangeOfSelection = null;
+    this.data.shouldSelectCardsFilter.actionAwaited = null;
     this.data.shouldSelectCardsFilter.type = null;
     this.data.shouldSelectCardsFilter.neighborType = null;
     this.data.shouldSelectCardsFilter.neighborKindness = null;
     this.playerChoicesCardId.length = 0;
-  }
-
-  cleanShouldDrawCards(): void {
-    this.shouldDrawCards = null;
+    this.playerChoosed = false;
   }
 
   get canLaunchDices(): boolean {
@@ -325,10 +353,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     return this.cardIdSelected;
   }
 
-  get playerDrawChoicesCardId(): Array<CardId> {
-    return this.cardIdToDraw;
-  }
-
   get canChoosedCard(): boolean {
     return (
       this.shouldSelectCards &&
@@ -338,7 +362,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
   get canReplaceCard(): boolean {
     return (
-      this.shouldReplaceMarketCards &&
+      this.shouldSelectCardsFilter.actionAwaited == 'replace' &&
       this.cardIdSelected.length < this.instanceOfMarketCanBeReplaced.length
     );
   }
@@ -375,7 +399,6 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       shouldSelectCardsFilter: this.shouldSelectCardsFilter,
       playerChoosed: this.playerChoosed,
       instanceOfMarketCanBeReplaced: this.instanceOfMarketCanBeReplaced,
-      shouldReplaceMarketCards: this.shouldReplaceMarketCards
     };
   }
 }

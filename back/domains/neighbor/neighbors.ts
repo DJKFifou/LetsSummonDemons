@@ -1,3 +1,4 @@
+import { NEIGHBORS_MARKET_COUNT } from '../../constants/game.js';
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
 import { Game } from '../game/game.js';
@@ -966,26 +967,17 @@ const owl: CardArgs<NeighborCardData> = {
   },
   activateFn: async ({ game, cardOwner, card }): Promise<void> => {
     card.data.drawableToActivateIt = true;
-    game.turn.current.setShouldDrawCards(1);
     try {
-      await game.turn.current.waitForDrawOrNot(game);
-      cardOwner.removeNeighborCardById(game.turn.current.playerDrawChoicesCardId[0]);
-      game.turn.current.cleanCardIdToDraw();
+      if(await game.turn.current.cardSelectionRequired(game, cardOwner, 1, 'selfChoice', 'draw'))
+      {
+        cardOwner.addSoulToken(4);
+        game.emitDataToSockets();
+        await game.turn.current.cardSelectionRequired(game, cardOwner, NEIGHBORS_MARKET_COUNT, 'marketChoice', 'replace');
+      }
     } catch (error) {
       console.log('error: ', error);
     }
     card.data.drawableToActivateIt = false;
-    game.turn.current.cleanShouldDrawCards();
-    if(game.turn.data.current.playerChoosed) {
-      cardOwner.addSoulToken(4);
-      game.turn.current.setShouldReplaceMarketCards();
-      try {
-        await game.turn.current.waitForCardSelection(game);
-      } catch (error) {
-        console.log('error: ', error);
-      }
-    }
-    game.turn.current.cleanShouldReplaceMarketCards();
   },
 };
 

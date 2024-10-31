@@ -66,9 +66,22 @@ export const PlayerDataDisplay = ({
     });
   };
 
-  const drawCardToActivation = (cardData) => {
+  const choosedCard = (cardData) => {
+    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+      return false;
+    }
 
-    socket.emit('drawCardAndActiveIt', cardData.id);
+    socket.emit('turnChoosedCard', cardData.id);
+    console.log('socketEmitted');
+  };
+
+  const stopDrawSelfCardChoice = () => {
+    if (gameData.turn?.current.shouldSelectCardsFilter.actionAwaited !== 'draw' || !itsYou) {
+      console.log('return false');
+      return false;
+    }
+
+    socket.emit('stopCardAction');
     console.log('socketEmitted');
   };
 
@@ -129,7 +142,10 @@ export const PlayerDataDisplay = ({
               cardData={card}
             />
             {itsYou && card.drawableToActivateIt && (
-              <button onClick={() => drawCardToActivation(card)}>Défausser et activer {card.name}</button>
+              <button onClick={() => choosedCard(card)}>Défausser et activer {card.name}</button>
+            )}
+            {itsYou && card.drawableToActivateIt && (
+              <button onClick={stopDrawSelfCardChoice}>Ne pas défausser et activer {card.name}</button>
             )}
           </div>
         ))}

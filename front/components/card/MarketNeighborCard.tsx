@@ -32,7 +32,7 @@ export const MarketNeighborCard = ({
   };
   const isSelectable = (): boolean => {
     const currentTurn = gameData.turn?.current;
-    if (!currentTurn || !currentTurn.shouldSelectCardsFilter) {
+    if (!currentTurn || !currentTurn.shouldSelectCards) {
       return false;
     }
 
@@ -69,12 +69,12 @@ export const MarketNeighborCard = ({
   const isReplacable = (cardId): boolean => {
     const currentTurn = gameData.turn?.current;
     let cardIsReplacable = false;
-    if (!currentTurn || !currentTurn.shouldReplaceMarketCards) {
+    if (!currentTurn || currentTurn.canReplaceCard) {
       return false;
     }
     const cardsCanBeReplaced = currentTurn.instanceOfMarketCanBeReplaced;
-    cardsCanBeReplaced.forEach(element => {
-      if(element == cardId) {
+    cardsCanBeReplaced.forEach(allowedCardId => {
+      if(cardId == allowedCardId) {
         cardIsReplacable = true;
       }
     });

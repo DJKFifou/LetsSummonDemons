@@ -40,7 +40,7 @@ export const NeighborsDeck = ({
       return false;
     }
 
-    socket.emit('stopCardReplacement');
+    socket.emit('stopCardAction');
     console.log('socketEmitted');
   };
 

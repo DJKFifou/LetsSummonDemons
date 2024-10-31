@@ -15,7 +15,6 @@ export interface PlayerTurnData {
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;
-  shouldReplaceMarketCards?: boolean;
   cardChoiceCountdown: number;
   shouldSelectCardsFilter?: {
     numberCard?: number;

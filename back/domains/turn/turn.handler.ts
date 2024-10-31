@@ -51,20 +51,12 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.emit('gameData', game.data);
   });
 
-  socket.on('stopCardReplacement', () => {
+  socket.on('stopCardAction', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
 
-    game.turn.current.cleanShouldReplaceMarketCards();
-
-    socket.emit('gameData', game.data);
-  });
-
-  socket.on('drawCardAndActiveIt', (neighborCardId) => {
-    const game = gameRepository.getGameById(socket.data.gameId);
-
-    game.turn.drawnedCard(neighborCardId);
-
+    game.turn.current.cardChoiceCountdown = 0;
+    
     socket.emit('gameData', game.data);
   });
 
