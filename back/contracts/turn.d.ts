@@ -24,7 +24,7 @@ export interface PlayerTurnData {
       | 'selfChoice'
       | 'null'>;
     actionAwaited?:
-      | 'draw'
+      | 'discard'
       | 'replace'
       | 'steal'
       | 'pick'

@@ -70,13 +70,13 @@ export const PlayerDataDisplay = ({
     if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
       return false;
     }
-
+    console.log('La carte cliqué:', cardData);
     socket.emit('turnChoosedCard', cardData.id);
     console.log('socketEmitted');
   };
 
-  const stopDrawSelfCardChoice = () => {
-    if (gameData.turn?.current.shouldSelectCardsFilter.actionAwaited !== 'draw' || !itsYou) {
+  const stopDiscardSelfCardChoice = () => {
+    if (gameData.turn?.current.shouldSelectCardsFilter.actionAwaited !== 'discard' || !itsYou) {
       console.log('return false');
       return false;
     }
@@ -90,21 +90,108 @@ export const PlayerDataDisplay = ({
     if (!currentTurn || currentTurn.shouldSelectCardsFilter.actionAwaited !== 'steal') {
       return false;
     }
-    console.log("currentTurn.shouldSelectCardsFilter:", currentTurn.shouldSelectCardsFilter)
+
     const { rangeOfSelection, type, neighborType, neighborKindness } =
       currentTurn.shouldSelectCardsFilter;
 
-    console.log("Unique test 1:", rangeOfSelection)
     const isRangeOfSelectionOpponentChoice = 
     rangeOfSelection && Array.isArray(rangeOfSelection)
       ? rangeOfSelection.includes('opponentChoice')
       : false;
-    console.log("Unique test 2:", isRangeOfSelectionOpponentChoice)
+
     const isTypeCorrespond = type ? type.includes(card.type) : false;
+    
     const isNeighborTypeCorrespond =
       neighborType && Array.isArray(neighborType)
         ? neighborType.some((type) => card.neighborType.includes(type))
         : false;
+    if (neighborKindness && card.neighborKindness) {
+      const isNeighborKindnessCorrespond =
+        neighborKindness && Array.isArray(neighborKindness)
+          ? neighborKindness.some((kindness) =>
+              card.neighborKindness.includes(kindness),
+            )
+          : card.neighborKindness.includes(neighborKindness);
+      return (
+        isRangeOfSelectionOpponentChoice &&
+        isTypeCorrespond &&
+        isNeighborTypeCorrespond &&
+        isNeighborKindnessCorrespond
+      );
+    } else {
+      return (
+        isRangeOfSelectionOpponentChoice &&
+        isTypeCorrespond &&
+        isNeighborTypeCorrespond
+      );
+    }
+  };
+
+  const isDiscardable = (card): boolean => {
+    const currentTurn = gameData.turn?.current;
+    if (!currentTurn || currentTurn.shouldSelectCardsFilter.actionAwaited !== 'discard') {
+      return false;
+    }
+
+    const { rangeOfSelection, type, neighborType, neighborKindness } =
+      currentTurn.shouldSelectCardsFilter;
+
+    const isRangeOfSelectionOpponentChoice = 
+    rangeOfSelection && Array.isArray(rangeOfSelection)
+      ? rangeOfSelection.includes('opponentChoice')
+      : false;
+
+    const isTypeCorrespond = type ? type.includes(card.type) : false;
+
+    const isNeighborTypeCorrespond =
+      neighborType && Array.isArray(neighborType)
+        ? neighborType.some((type) => card.neighborType.includes(type))
+        : false;
+
+    if (neighborKindness && card.neighborKindness) {
+      const isNeighborKindnessCorrespond =
+        neighborKindness && Array.isArray(neighborKindness)
+          ? neighborKindness.some((kindness) =>
+              card.neighborKindness.includes(kindness),
+            )
+          : card.neighborKindness.includes(neighborKindness);
+
+      return (
+        isRangeOfSelectionOpponentChoice &&
+        isTypeCorrespond &&
+        isNeighborTypeCorrespond &&
+        isNeighborKindnessCorrespond
+      );
+    } else {
+      return (
+        isRangeOfSelectionOpponentChoice &&
+        isTypeCorrespond &&
+        isNeighborTypeCorrespond
+      );
+    }
+  };
+
+  const isSacrifiable = (card): boolean => {
+    const currentTurn = gameData.turn?.current;
+    if (!currentTurn || currentTurn.shouldSelectCardsFilter.actionAwaited !== 'sacrifice') {
+      return false;
+    }
+
+    const { rangeOfSelection, type, neighborType, neighborKindness } =
+      currentTurn.shouldSelectCardsFilter;
+
+    const isRangeOfSelectionOpponentChoice = 
+    rangeOfSelection && Array.isArray(rangeOfSelection)
+      ? rangeOfSelection.includes('selfChoice')
+      : false;
+
+    const isTypeCorrespond = type ? type.includes(card.type) : false;
+
+    const isNeighborTypeCorrespond =
+      neighborType && Array.isArray(neighborType)
+        ? neighborType.some((type) => card.neighborType.includes(type))
+        : false;
+
     if (neighborKindness && card.neighborKindness) {
       const isNeighborKindnessCorrespond =
         neighborKindness && Array.isArray(neighborKindness)
@@ -141,7 +228,7 @@ export const PlayerDataDisplay = ({
         <button onClick={summonDemon}>Invoquer le démon selectionné</button>
       )}
       {itsYourTurn && (
-        <PlayerActions gameData={gameData} playerData={playerData} />
+        <PlayerActions gameData={gameData} playerData={playerData} itsYou={itsYou} />
       )}
       <p>ID: {playerData.id}</p>
       <p>NAME: {playerData.name}</p>
@@ -183,14 +270,20 @@ export const PlayerDataDisplay = ({
               onToggleSelect={() => toggleNeighborToSacrifice(card.id)}
               cardData={card}
             />
-            {itsYou && card.drawableToActivateIt && (
+            {itsYou && card.discardableToActivateIt && (
               <button onClick={() => choosedCard(card)}>Défausser et activer {card.name}</button>
             )}
-            {itsYou && card.drawableToActivateIt && (
-              <button onClick={stopDrawSelfCardChoice}>Ne pas défausser et activer {card.name}</button>
+            {itsYou && card.discardableToActivateIt && (
+              <button onClick={stopDiscardSelfCardChoice}>Ne pas défausser et activer {card.name}</button>
             )}
             {!itsYou && isStolable(card) && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Voler {card.name}</button>
+            )}
+            {!itsYou && isDiscardable(card) && gameData.turn?.current.canChoosedCard &&(
+              <button onClick={() => choosedCard(card)}>Défausser {card.name}</button>
+            )}
+            {itsYou && isSacrifiable(card) && gameData.turn?.current.canChoosedCard && (
+              <button onClick={() => choosedCard(card)}>Sacrifier {card.name}</button>
             )}
           </div>
         ))}

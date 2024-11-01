@@ -22,7 +22,7 @@ export interface NeighborCardData extends CardData {
   neighborType: Array<NeighborType>;
   neighborKindness?: Array<NeighborKindness>;
   isActivable: boolean;
-  drawableToActivateIt?: boolean;
+  discardableToActivateIt?: boolean;
 }
 
 export interface DemonCardData extends CardData {

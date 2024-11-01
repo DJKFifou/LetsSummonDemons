@@ -5,9 +5,10 @@ import { PlayerData } from '@lsd/back/contracts/player';
 type GameActionsProps = {
   playerData: PlayerData;
   gameData: GameData;
+  itsYou: boolean;
 };
 
-export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
+export const PlayerActions = ({ gameData, playerData, itsYou }: GameActionsProps) => {
   const launchDices = () => {
     socket.emit('turnLaunchDices');
   };
@@ -32,6 +33,16 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
     return <article></article>;
   }
 
+  const stopCardChoice = () => {
+    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+      console.log('return false');
+      return false;
+    }
+
+    socket.emit('stopCardAction');
+    console.log('socketEmitted');
+  };
+
   return (
     <article>
       {current.launchedDices && (
@@ -44,6 +55,9 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
       )}
       {current.canEndTurn && (
         <button onClick={endTurn}>Terminer le tour</button>
+      )}
+      {itsYou && current.shouldSelectCard && (
+        <button onClick={stopCardChoice}>Annuler</button>
       )}
     </article>
   );

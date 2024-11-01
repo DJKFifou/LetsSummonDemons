@@ -49,7 +49,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       | 'selfChoice'
       | 'null'>;
     actionAwaited?:
-      | 'draw'
+      | 'discard'
       | 'replace'
       | 'steal'
       | 'pick'
@@ -196,7 +196,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
     switch (actionAwaited)
     {
-      case 'draw':
+      case 'discard':
         if (rangeOfSelection.includes('selfChoice'))
         {
           try {
@@ -211,6 +211,21 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
           } catch (error) {
             console.error(error);
           }
+        } else if (rangeOfSelection.includes('opponentChoice')) 
+        {
+          try {
+            await this.waitForCardSelection(numberOfCard);
+            if(this.playerChoosed)
+            {
+              this.playerChoicesCardId.forEach(cardId => {
+                  this.getCardOwnerById(cardId).removeNeighborCardById(cardId);
+                });
+              response = true;
+            }
+          } catch (error) {
+            console.log("Player didn't make choice", error);
+            console.error(error);
+          }
         }
         break;
       case 'replace':
@@ -219,43 +234,71 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
         try {
           await this.waitForCardSelection(numberOfCard);
         } catch (error) {
+          console.log("Player didn't make choice", error);
           console.error(error);
         }
         this.cleanShouldReplaceMarketCards();
         break;
-        case 'steal':
-          try {
-              await this.waitForCardSelection(numberOfCard);
-              if (this.playerChoosed) {
-                  this.playerChoicesCardId.forEach(cardId => {
-                      if (this.getCardOwnerById(cardId) == null) {
-                          this.game.neighborsDeck.giveCard(cardOwner, cardId);
-                      }
-                      else {
-                          const cardOwnerOpponent = this.getCardOwnerById(cardId);
-                          console.log('Player owner of the card returned is :', cardOwnerOpponent);
-                          const card = cardOwnerOpponent.getNeighborCardById(cardId);
-                          cardOwnerOpponent.removeNeighborCardById(cardId);
-                          cardOwner.addNeighborCard(card);
-                      }
-                  });
-                  response = true;
-              }
+      case 'steal':
+        try {
+            await this.waitForCardSelection(numberOfCard);
+            if (this.playerChoosed) {
+                this.playerChoicesCardId.forEach(cardId => {
+                  console.log('cardId :', cardId);
+                  console.log('this.getCardOwnerById(cardId) :', this.getCardOwnerById(cardId));
+                    if (this.getCardOwnerById(cardId) == null) {
+                        this.game.neighborsDeck.giveCard(cardOwner, cardId);
+                    }
+                    else {
+                        const cardOwnerOpponent = this.getCardOwnerById(cardId);
+                        console.log('Player owner of the card returned is :', cardOwnerOpponent);
+                        const card = cardOwnerOpponent.getNeighborCardById(cardId);
+                        cardOwnerOpponent.removeNeighborCardById(cardId);
+                        cardOwner.addNeighborCard(card);
+                    }
+                });
+                response = true;
+            }
+        }
+        catch (error) {
+          console.log("Player didn't make choice", error);
+          console.error(error);
+        }
+        break;
+      case 'pick':
+        try {
+          await this.waitForCardSelection(numberOfCard);
+          if (this.playerChoosed) {
+            this.playerChoicesCardId.forEach(cardId => {
+              this.game.neighborsDeck.giveCard(cardOwner, cardId);
+            });
+            response = true;
           }
-          catch (error) {
-              console.error(error);
+        }
+        catch (error) {
+          console.log("Player didn't make choice", error);
+          console.error(error);
+        }
+        break;
+      case 'sacrifice':
+        try {
+          await this.waitForCardSelection(numberOfCard);
+          if (this.playerChoosed) {
+            this.playerChoicesCardId.forEach(cardId => {
+              cardOwner.removeNeighborCardById(cardId);
+            });
+            response = true;
           }
-          break;
-      // case 'pick':
-      //   await this.waitForSelection(numberOfCard);
-      //   break;
-      // case 'sacrifice':
-      //   await this.waitForSelection(numberOfCard);
-      //   break;
+        } catch (error) {
+          console.log("Player didn't make choice", error);
+          console.error(error);
+        }
+        break;
     }
 
     this.cleanShouldSelectCards();
 
+    this.game.emitDataToSockets();
     return response;
 
   }
@@ -288,14 +331,10 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
   getCardOwnerById(cardId) {
     let cardOwner = null;
-    console.log('Card to test :', cardId);
     this.game.playerList.forEach(player => {
         const playerKidDeck = player.getKidNeighborCards();
-        console.log('A player deck :', playerKidDeck);
         for (let i = 0; i < playerKidDeck.length; i++) {
-            console.log("Each card of a player's deck :", playerKidDeck[i].data.id);
-            if (playerKidDeck[i].data.id = cardId) {
-                console.log('Player owner of the card find is :', player);
+            if (playerKidDeck[i].data.id == cardId) {
                 cardOwner = player;
             }
         }

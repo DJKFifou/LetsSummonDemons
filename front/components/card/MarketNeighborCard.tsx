@@ -26,13 +26,13 @@ export const MarketNeighborCard = ({
     if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
       return false;
     }
-
+    console.log('La carte cliqué:', cardData);
     socket.emit('turnChoosedCard', cardData.id);
     console.log('socketEmitted');
   };
   const isSelectable = (): boolean => {
     const currentTurn = gameData.turn?.current;
-    if (!currentTurn || !currentTurn.shouldSelectCards) {
+    if (!currentTurn || (currentTurn.shouldSelectCardsFilter.actionAwaited !== 'pick' && currentTurn.shouldSelectCardsFilter.actionAwaited !== 'steal')) {
       return false;
     }
 

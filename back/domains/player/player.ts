@@ -203,6 +203,11 @@ export class Player implements EntityClass<PlayerData> {
     return card;
   }
 
+  stealNeighborCardToPlayerById(cardId: CardId, player: Player) {
+    const neighborCard = player.removeNeighborCardById(cardId);
+    this.addNeighborCard(neighborCard);
+  }
+
   getNeighborCards(): Array<NeighborCard> {
     return this.neighborsCards;
   }
