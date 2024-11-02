@@ -25,7 +25,11 @@ export const JoinOrCreateGameScreen = () => {
       </div>
       <div>
         <label>Id de la partie</label>
-        <input value={gameId} onChange={(e) => setGameId(e.target.value)} />
+        <input
+          className="border"
+          value={gameId}
+          onChange={(e) => setGameId(e.target.value)}
+        />
         <button onClick={joinGame}>Rejoindre la partie</button>
       </div>
     </article>

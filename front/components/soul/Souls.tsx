@@ -1,5 +1,4 @@
 import { SoulToken } from './SoulToken';
-import styles from './Souls.module.scss';
 
 type SoulsProps = {
   count: number;
@@ -7,9 +6,9 @@ type SoulsProps = {
 
 export const Souls = ({ count }: SoulsProps) => {
   return (
-    <article className={styles.souls}>
+    <article>
       <p>{count} âmes </p>
-      <ul>
+      <ul className="flex gap-2 list-none">
         {Array.from({ length: count }, (_, index) => (
           <li key={index}>
             <SoulToken />

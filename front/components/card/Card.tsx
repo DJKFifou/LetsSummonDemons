@@ -1,6 +1,5 @@
 import { CardData } from '@lsd/back/contracts/card';
 import Image from 'next/image';
-import styles from './Card.module.scss';
 import { GameData } from '@lsd/back/contracts/game';
 
 type CardProps = {
@@ -19,16 +18,19 @@ export const Card = ({
   onToggleSelect,
 }: CardProps) => {
   return (
-    <figure className={styles.card} aria-selected={isSelected}>
+    <figure
+      className="card relative w-[10vw] rounded-full"
+      aria-selected={isSelected}
+    >
       <Image
-        className={styles.cardImage}
+        className="w-full h-auto aspect-square"
         src={covered ? cardData.cardBack : cardData.cardImage}
         width={500}
         height={500}
         alt=""
       />
 
-      <figcaption className={styles.cardDescription}>
+      <figcaption className="hidden absolute top-0 left-0 w-px h-px">
         <p>Carte {cardData.name}</p>
         <p>{cardData.description}</p>
       </figcaption>
@@ -36,7 +38,7 @@ export const Card = ({
       {isSelectable && (
         <button
           onClick={onToggleSelect}
-          className={styles.cardSelectBtn}
+          className="absolute top-0 left-0 w-full h-full border-none bg-transparent rounded-full"
           aria-label={`Sélectionner ${cardData.name}`}
         ></button>
       )}

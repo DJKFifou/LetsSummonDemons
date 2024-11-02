@@ -3,7 +3,6 @@ import { NeighborsDeckData } from '@lsd/back/contracts/neighborsDeck';
 import { Card } from '../card/Card';
 import { MarketNeighborCard } from '../card/MarketNeighborCard';
 import { DrawnedNeighborCard } from '../card/DrawnNeighborCard';
-import styles from './NeighborsDeck.module.scss';
 import { GameData } from '@lsd/back/contracts/game';
 
 interface CoveredCardStackProps {
@@ -12,7 +11,7 @@ interface CoveredCardStackProps {
 }
 const CoveredCardStack = ({ cardData, cardCount }: CoveredCardStackProps) => {
   return (
-    <div className={styles.coveredCardStack}>
+    <div className="coveredCardStack relative *:absolute ">
       {cardCount > 1 && <Card cardData={cardData} covered={true} />}
       {cardCount > 2 && <Card cardData={cardData} covered={true} />}
       {cardCount > 3 && <Card cardData={cardData} covered={true} />}
@@ -34,9 +33,9 @@ export const NeighborsDeck = ({
   itsYou,
 }: NeighborsDeckProps) => {
   return (
-    <article className={styles.deck}>
-      <h3>Voisinage</h3>
-      <div className={styles.cards}>
+    <article className="flex flex-col items-center gap-4">
+      <h3 className="text-2xl">Voisinage</h3>
+      <div className="grid grid-cols-6 gap-4">
         {neighborsDeck.market[0] && (
           <CoveredCardStack
             cardCount={neighborsDeck.remainingCardsCount}
@@ -53,7 +52,7 @@ export const NeighborsDeck = ({
           />
         ))}
       </div>
-      <div className={styles.neighborsDrawned}>
+      <div className="flex justify-center items-center gap-4 max-w-full flex-wrap">
         {neighborsDeck.drawned.map((card) => (
           <DrawnedNeighborCard cardData={card} key={card.id} />
         ))}

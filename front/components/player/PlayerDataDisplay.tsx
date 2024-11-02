@@ -7,7 +7,6 @@ import { Card } from '../card/Card';
 import { CoveredDemonCard } from '../card/CoveredDemonCard';
 import { Souls } from '../soul/Souls';
 import { PlayerActions } from './PlayerActions';
-import styles from './PlayerDataDisplay.module.scss';
 
 type PlayerDataDisplayProps = {
   gameData: GameData;
@@ -67,7 +66,7 @@ export const PlayerDataDisplay = ({
   };
 
   return (
-    <article className={styles.player}>
+    <article className="flex flex-col gap-2 p-2 border">
       <p>
         <b>PLAYER</b>
       </p>
@@ -86,11 +85,11 @@ export const PlayerDataDisplay = ({
       <p>NAME: {playerData.name}</p>
       <Souls count={playerData.soulsTokenCount} />
       <p>CANDLE CARD:</p>
-      <div className={styles.cards}>
+      <div className="flex gap-2">
         {playerData.candleCard && <Card cardData={playerData.candleCard} />}
       </div>
       <p>COVERED DEMON CARDS:</p>
-      <div className={styles.cards}>
+      <div className="flex gap-2">
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
             isYourCard={itsYou}
@@ -107,13 +106,13 @@ export const PlayerDataDisplay = ({
         ))}
       </div>
       <p>SUMMONED DEMON CARDS:</p>
-      <div className={styles.cards}>
+      <div className="flex gap-2">
         {playerData.summonedDemonsCards.map((card) => (
           <Card cardData={card} key={card.id} />
         ))}
       </div>
       <p>NEIGHBORS CARDS:</p>
-      <div className={styles.cards}>
+      <div className="flex gap-2">
         {playerData.neighborsCards.map((card) => (
           <Card
             isSelectable={!!demonToSummonId}
