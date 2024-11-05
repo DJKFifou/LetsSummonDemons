@@ -20,6 +20,7 @@ import { Player } from '../player/player.js';
 import {
   CannotBuyNeighborError,
   CannotChoosedCardError,
+  CannotChoosedPlayerError,
   CannotLaunchDicesError,
   CannotSummonDemonError,
 } from './turn.errors.js';
@@ -39,10 +40,15 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   protected bougthNeighbor: boolean;
   protected cardSelector?: PlayerId;
   protected shouldSelectCards: boolean;
-  cardChoiceCountdown: number;
+  protected shouldSelectPlayers: boolean;
+  choiceCountdown: number;
   protected cardIdSelected?: Array<CardId>;
-  protected shouldSelectCardsFilter?: {
-    numberCard?: number;
+  protected playerIdSelected?: PlayerId;
+  protected shouldSelectFilter?: {
+    choiceType?:
+      | 'card'
+      | 'player';
+    number?: number;
     rangeOfSelection?: Array<
       | 'marketChoice'
       | 'opponentChoice'
@@ -53,7 +59,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       | 'replace'
       | 'steal'
       | 'pick'
-      | 'sacrifice';
+      | 'sacrifice'
+      | 'give';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;
@@ -70,11 +77,11 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.summonedDemon = false;
     this.bougthNeighbor = false;
     this.shouldSelectCards = false;
-    this.cardChoiceCountdown = null;
-    this.shouldSelectCardsFilter = {};
+    this.choiceCountdown = null;
+    this.shouldSelectFilter = {};
     this.cardIdSelected = [];
     this.instanceOfMarketCanBeReplaced = [];
-    
+    this.shouldSelectPlayers = null;
   }
 
   launchDices(): void {
@@ -143,36 +150,64 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
   }
 
+  async timer (startTime : number): Promise<void> {
+    this.choiceCountdown = Math.round(
+      30 - (Date.now() - startTime) / 1007,
+    );
+    this.game.emitDataToSockets();
+    // Temporisation pour éviter une boucle infinie
+    console.log("Temps restant : ", this.choiceCountdown);
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
+  }
+
   async waitForCardSelection(numberOfCardAwaited): Promise<void> {
+    this.choiceCountdown = 30;
     const startTime = Date.now();
-    this.cardChoiceCountdown = 30;
 
     while (
       (this.playerChoicesCardId.length < numberOfCardAwaited
       || this.canReplaceCard)
-      && this.cardChoiceCountdown
-      && this.cardChoiceCountdown > 0
+      && this.choiceCountdown
+      && this.choiceCountdown > 0
     ) {
-      this.cardChoiceCountdown = Math.round(
-        30 - (Date.now() - startTime) / 1007,
-      );
-      this.game.emitDataToSockets();
-      // Temporisation pour éviter une boucle infinie
-      console.log("Temps restant : ", this.cardChoiceCountdown);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Attendre 1 seconde avant de vérifier à nouveau
+      await this.timer(startTime);
     }
     if (this.playerChoicesCardId.length === numberOfCardAwaited) {
       this.playerChoosed = true;
-    } else if (this.cardChoiceCountdown !== 0) {
+    } else if (this.choiceCountdown !== 0) {
       this.playerChoosed = false;
       throw new Error('Timeout: Card selection took too long.');
     }
-    this.cardChoiceCountdown = null;
+    this.choiceCountdown = null;
   }
 
-  async cardSelectionRequired(
+  async waitForPlayerSelection(): Promise<PlayerId> {
+    const startTime = Date.now();
+    this.choiceCountdown = 30;
+    let playerId = null;
+
+    while (
+      this.shouldSelectPlayers &&
+      !this.playerIdSelected &&
+      this.choiceCountdown > 0
+    ) {
+      await this.timer(startTime);
+    }
+    if (this.playerIdSelected) {
+      playerId = this.playerIdSelected;
+      this.playerChoosed = true;
+    } else if (this.choiceCountdown !== 0) {
+      this.playerChoosed = false;
+      throw new Error('Timeout: Selection took too long.');
+    }
+    this.choiceCountdown = null;
+    return playerId;
+  }
+
+  async selectionRequired(
       cardOwner : Player,
-      numberOfCard : Number,
+      choiceType : 'card' | 'player',
+      choiceNumber : number,
       rangeOfSelection : Array<String>,
       actionAwaited : String,
       type? : Array<CardType>,
@@ -182,120 +217,168 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
     let response = false;
 
-    this.cleanShouldSelectCards();
-    this.setShouldSelectCards(
-      numberOfCard,
-      rangeOfSelection,
-      actionAwaited,
-      type ? type : null,
-      neighborType ? neighborType : null,
-      neighborKindness ? neighborKindness : null,
-    );
+    if(choiceType == 'card') {
+      
+      this.cleanShouldSelectCards();
+      this.setShouldSelectCards(
+        choiceType,
+        choiceNumber,
+        rangeOfSelection,
+        actionAwaited,
+        type ? type : null,
+        neighborType ? neighborType : null,
+        neighborKindness ? neighborKindness : null,
+      );
 
-    this.game.emitDataToSockets();
+      this.game.emitDataToSockets();
 
-    switch (actionAwaited)
-    {
-      case 'discard':
-        if (rangeOfSelection.includes('selfChoice'))
-        {
+      switch (actionAwaited)
+      {
+        case 'discard':
+          if (rangeOfSelection.includes('selfChoice'))
+          {
+            try {
+              await this.waitForCardSelection(choiceNumber);
+              if(this.playerChoosed)
+              {
+                this.playerChoicesCardId.forEach(cardId => {
+                  cardOwner.removeNeighborCardById(cardId);
+                });
+                response = true;
+              }
+            } catch (error) {
+              console.error(error);
+            }
+          } else if (rangeOfSelection.includes('opponentChoice')) 
+          {
+            try {
+              await this.waitForCardSelection(choiceNumber);
+              if(this.playerChoosed)
+              {
+                this.playerChoicesCardId.forEach(cardId => {
+                    this.getCardOwnerById(cardId).removeNeighborCardById(cardId);
+                  });
+                response = true;
+              }
+            } catch (error) {
+              console.log("Player didn't make choice", error);
+              console.error(error);
+            }
+          }
+          break;
+        case 'replace':
+          this.setShouldReplaceMarketCards();
+          this.game.emitDataToSockets();
           try {
-            await this.waitForCardSelection(numberOfCard);
-            if(this.playerChoosed)
-            {
+            await this.waitForCardSelection(choiceNumber);
+          } catch (error) {
+            console.log("Player didn't make choice", error);
+            console.error(error);
+          }
+          this.cleanShouldReplaceMarketCards();
+          break;
+        case 'steal':
+          try {
+              await this.waitForCardSelection(choiceNumber);
+              if (this.playerChoosed) {
+                  this.playerChoicesCardId.forEach(cardId => {
+                    console.log('cardId :', cardId);
+                    console.log('this.getCardOwnerById(cardId) :', this.getCardOwnerById(cardId));
+                      if (this.getCardOwnerById(cardId) == null) {
+                          this.game.neighborsDeck.giveCard(cardOwner, cardId);
+                      }
+                      else {
+                          const cardOwnerOpponent = this.getCardOwnerById(cardId);
+                          console.log('Player owner of the card returned is :', cardOwnerOpponent);
+                          const card = cardOwnerOpponent.getNeighborCardById(cardId);
+                          cardOwnerOpponent.removeNeighborCardById(cardId);
+                          cardOwner.addNeighborCard(card);
+                      }
+                  });
+                  response = true;
+              }
+          }
+          catch (error) {
+            console.log("Player didn't make choice", error);
+            console.error(error);
+          }
+          break;
+        case 'pick':
+          try {
+            await this.waitForCardSelection(choiceNumber);
+            if (this.playerChoosed) {
+              this.playerChoicesCardId.forEach(cardId => {
+                this.game.neighborsDeck.giveCard(cardOwner, cardId);
+              });
+              response = true;
+            }
+          }
+          catch (error) {
+            console.log("Player didn't make choice", error);
+            console.error(error);
+          }
+          break;
+        case 'sacrifice':
+          try {
+            await this.waitForCardSelection(choiceNumber);
+            if (this.playerChoosed) {
               this.playerChoicesCardId.forEach(cardId => {
                 cardOwner.removeNeighborCardById(cardId);
               });
               response = true;
             }
           } catch (error) {
+            console.log("Player didn't make choice", error);
             console.error(error);
           }
-        } else if (rangeOfSelection.includes('opponentChoice')) 
-        {
+          break;
+      }
+
+    } else if(choiceType == 'player') {
+
+      this.cleanShouldSelectPlayers();
+      this.setShouldSelectPlayers(
+        choiceType,
+        choiceNumber,
+        rangeOfSelection,
+        actionAwaited,
+      );
+      this.game.emitDataToSockets();
+
+      switch (actionAwaited) {
+        case 'steal':
           try {
-            await this.waitForCardSelection(numberOfCard);
-            if(this.playerChoosed)
-            {
-              this.playerChoicesCardId.forEach(cardId => {
-                  this.getCardOwnerById(cardId).removeNeighborCardById(cardId);
-                });
+            const targetId : PlayerId = await this.waitForPlayerSelection();
+            if (this.playerChoosed) {
+              console.log('target :', targetId);
+              if(targetId !== 'market') {
+                this.game.getPlayerById(targetId).removeSoulToken(choiceNumber);
+              }
+              console.log('choiceNumber :', choiceNumber);
+              cardOwner.addSoulToken(choiceNumber);
               response = true;
             }
           } catch (error) {
             console.log("Player didn't make choice", error);
             console.error(error);
           }
-        }
-        break;
-      case 'replace':
-        this.setShouldReplaceMarketCards();
-        this.game.emitDataToSockets();
-        try {
-          await this.waitForCardSelection(numberOfCard);
-        } catch (error) {
-          console.log("Player didn't make choice", error);
-          console.error(error);
-        }
-        this.cleanShouldReplaceMarketCards();
-        break;
-      case 'steal':
-        try {
-            await this.waitForCardSelection(numberOfCard);
+          break;
+        case 'give':
+          try {
+            const targetId : PlayerId = await this.waitForPlayerSelection();
             if (this.playerChoosed) {
-                this.playerChoicesCardId.forEach(cardId => {
-                  console.log('cardId :', cardId);
-                  console.log('this.getCardOwnerById(cardId) :', this.getCardOwnerById(cardId));
-                    if (this.getCardOwnerById(cardId) == null) {
-                        this.game.neighborsDeck.giveCard(cardOwner, cardId);
-                    }
-                    else {
-                        const cardOwnerOpponent = this.getCardOwnerById(cardId);
-                        console.log('Player owner of the card returned is :', cardOwnerOpponent);
-                        const card = cardOwnerOpponent.getNeighborCardById(cardId);
-                        cardOwnerOpponent.removeNeighborCardById(cardId);
-                        cardOwner.addNeighborCard(card);
-                    }
-                });
-                response = true;
+              this.game.getPlayerById(targetId).addSoulToken(choiceNumber);
+              response = true;
             }
-        }
-        catch (error) {
-          console.log("Player didn't make choice", error);
-          console.error(error);
-        }
-        break;
-      case 'pick':
-        try {
-          await this.waitForCardSelection(numberOfCard);
-          if (this.playerChoosed) {
-            this.playerChoicesCardId.forEach(cardId => {
-              this.game.neighborsDeck.giveCard(cardOwner, cardId);
-            });
-            response = true;
+          } catch (error) {
+            console.log("Player didn't make choice", error);
+            console.error(error);
           }
-        }
-        catch (error) {
-          console.log("Player didn't make choice", error);
-          console.error(error);
-        }
-        break;
-      case 'sacrifice':
-        try {
-          await this.waitForCardSelection(numberOfCard);
-          if (this.playerChoosed) {
-            this.playerChoicesCardId.forEach(cardId => {
-              cardOwner.removeNeighborCardById(cardId);
-            });
-            response = true;
-          }
-        } catch (error) {
-          console.log("Player didn't make choice", error);
-          console.error(error);
-        }
-        break;
+          break;
+      }
     }
 
+    this.cleanShouldSelectPlayers();
     this.cleanShouldSelectCards();
 
     this.game.emitDataToSockets();
@@ -315,17 +398,27 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     this.game.emitDataToSockets();
   }
 
-   choosedCard(neighborCardId: CardId): void {
+  choosedCard(neighborCardId: CardId): void {
     if (this.canChoosedCard) {
       this.cardIdSelected.push(neighborCardId);
       
-      if (this.shouldSelectCardsFilter.actionAwaited == 'replace') {
+      if (this.shouldSelectFilter.actionAwaited == 'replace') {
         this.game.neighborsDeck.replaceCard(neighborCardId);
       }
 
       this.game.emitDataToSockets();
     } else {
       throw new CannotChoosedCardError();
+    }
+  }
+
+  choosedPlayer(playerId: PlayerId): void {
+    if (this.canChoosedPlayer) {
+      this.playerIdSelected = playerId;
+
+      this.game.emitDataToSockets();
+    } else {
+      throw new CannotChoosedPlayerError();
     }
   }
 
@@ -371,7 +464,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   setShouldSelectCards(
-    numberCard,
+    choiceType,
+    cardNumber,
     rangeOfSelections,
     actionAwaited,
     cardTypeAwait,
@@ -379,12 +473,27 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     neighborKindnessAwait?,
   ): void {
     this.shouldSelectCards = true;
-    this.data.shouldSelectCardsFilter.numberCard = numberCard;
-    this.data.shouldSelectCardsFilter.rangeOfSelection = rangeOfSelections;
-    this.data.shouldSelectCardsFilter.actionAwaited = actionAwaited;
-    this.data.shouldSelectCardsFilter.type = cardTypeAwait;
-    this.data.shouldSelectCardsFilter.neighborType = neighborTypeAwait;
-    this.data.shouldSelectCardsFilter.neighborKindness = neighborKindnessAwait;
+    this.data.shouldSelectFilter.choiceType = choiceType;
+    this.data.shouldSelectFilter.number = cardNumber;
+    this.data.shouldSelectFilter.rangeOfSelection = rangeOfSelections;
+    this.data.shouldSelectFilter.actionAwaited = actionAwaited;
+    this.data.shouldSelectFilter.type = cardTypeAwait;
+    this.data.shouldSelectFilter.neighborType = neighborTypeAwait;
+    this.data.shouldSelectFilter.neighborKindness = neighborKindnessAwait;
+  }
+
+  setShouldSelectPlayers(
+    choiceType,
+    number,
+    rangeOfSelections,
+    actionAwaited,
+  ): void {
+    this.playerIdSelected = null;
+    this.shouldSelectPlayers = true;
+    this.data.shouldSelectFilter.choiceType = choiceType;
+    this.data.shouldSelectFilter.number = number;
+    this.data.shouldSelectFilter.rangeOfSelection = rangeOfSelections;
+    this.data.shouldSelectFilter.actionAwaited = actionAwaited;
   }
 
   setShouldReplaceMarketCards(): void {
@@ -403,14 +512,22 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
 
   cleanShouldSelectCards(): void {
     this.shouldSelectCards = false;
-    this.data.shouldSelectCardsFilter.numberCard = null;
-    this.data.shouldSelectCardsFilter.rangeOfSelection = null;
-    this.data.shouldSelectCardsFilter.actionAwaited = null;
-    this.data.shouldSelectCardsFilter.type = null;
-    this.data.shouldSelectCardsFilter.neighborType = null;
-    this.data.shouldSelectCardsFilter.neighborKindness = null;
+    this.data.shouldSelectFilter.number = null;
+    this.data.shouldSelectFilter.rangeOfSelection = null;
+    this.data.shouldSelectFilter.actionAwaited = null;
+    this.data.shouldSelectFilter.type = null;
+    this.data.shouldSelectFilter.neighborType = null;
+    this.data.shouldSelectFilter.neighborKindness = null;
     this.playerChoicesCardId.length = 0;
     this.playerChoosed = false;
+  }
+
+  cleanShouldSelectPlayers(): void {
+    this.playerIdSelected = null;
+    this.shouldSelectPlayers = false;
+    this.data.shouldSelectFilter.number = null;
+    this.data.shouldSelectFilter.rangeOfSelection = null;
+    this.data.shouldSelectFilter.actionAwaited = null;
   }
 
   get canLaunchDices(): boolean {
@@ -428,16 +545,26 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     return this.cardIdSelected;
   }
 
+  get playerChoicesPlayerId(): PlayerId {
+    return this.playerIdSelected;
+  }
+
   get canChoosedCard(): boolean {
     return (
       this.shouldSelectCards &&
-      this.cardIdSelected.length < this.shouldSelectCardsFilter.numberCard
+      this.cardIdSelected.length < this.shouldSelectFilter.number
+    );
+  }
+
+  get canChoosedPlayer(): boolean {
+    return (
+      this.shouldSelectPlayers && this.playerIdSelected == null
     );
   }
 
   get canReplaceCard(): boolean {
     return (
-      this.shouldSelectCardsFilter.actionAwaited == 'replace' &&
+      this.shouldSelectFilter.actionAwaited == 'replace' &&
       this.cardIdSelected.length < this.instanceOfMarketCanBeReplaced.length
     );
   }
@@ -452,7 +579,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
   }
 
   get canEndTurn(): boolean {
-    return this.launchedDices && !this.shouldSelectCards;
+    return this.launchedDices && !this.shouldSelectCards && !this.shouldSelectPlayers;
   }
 
   get data(): PlayerTurnData {
@@ -465,15 +592,17 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       canEndTurn: this.canEndTurn,
       canBuyNeighbor: this.canBuyNeighbor,
       canChoosedCard: this.canChoosedCard,
+      canChoosedPlayer: this.canChoosedPlayer,
       canReplaceCard: this.canReplaceCard,
       canSummonDemon: this.canSummonDemon,
       canLaunchDices: this.canLaunchDices,
       cardSelector: this.cardSelector,
       shouldSelectCards: this.shouldSelectCards,
-      cardChoiceCountdown: this.cardChoiceCountdown,
-      shouldSelectCardsFilter: this.shouldSelectCardsFilter,
+      choiceCountdown: this.choiceCountdown,
+      shouldSelectFilter: this.shouldSelectFilter,
       playerChoosed: this.playerChoosed,
       instanceOfMarketCanBeReplaced: this.instanceOfMarketCanBeReplaced,
+      shouldSelectPlayers: this.shouldSelectPlayers,
     };
   }
 }

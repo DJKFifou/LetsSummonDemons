@@ -44,6 +44,15 @@ export const NeighborsDeck = ({
     console.log('socketEmitted');
   };
 
+  const chooseMarket = () => {
+    if (!itsYou || gameData.turn?.current.shouldSelectFilter.choiceType !== 'player') {
+      return false;
+    }
+
+    socket.emit('turnChoosedPlayer', 'market');
+    console.log('socketEmitted');
+  };
+
   return (
     <article className={styles.deck}>
       <h3>Voisinage</h3>
@@ -66,6 +75,11 @@ export const NeighborsDeck = ({
       </div>
       {itsYou && gameData.turn?.current.canReplaceCard && (
         <button onClick={stopCardReplacement}>Je m'arrète la !</button>
+      )}
+      {itsYou
+      && gameData.turn?.current.canChoosedPlayer
+      && gameData.turn?.current.shouldSelectFilter.actionAwaited == 'steal' && (
+        <button onClick={chooseMarket}>Je Prends ici</button>
       )}
       <div className={styles.neighborsDrawned}>
         {neighborsDeck.drawned.map((card) => (

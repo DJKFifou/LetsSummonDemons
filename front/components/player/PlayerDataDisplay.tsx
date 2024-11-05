@@ -67,7 +67,7 @@ export const PlayerDataDisplay = ({
   };
 
   const choosedCard = (cardData) => {
-    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+    if (!gameData.turn?.current.shouldSelectCards || !itsYou) {
       return false;
     }
     console.log('La carte cliqué:', cardData);
@@ -76,7 +76,7 @@ export const PlayerDataDisplay = ({
   };
 
   const stopDiscardSelfCardChoice = () => {
-    if (gameData.turn?.current.shouldSelectCardsFilter.actionAwaited !== 'discard' || !itsYou) {
+    if (gameData.turn?.current.shouldSelectFilter.actionAwaited !== 'discard' || !itsYou) {
       console.log('return false');
       return false;
     }
@@ -85,19 +85,41 @@ export const PlayerDataDisplay = ({
     console.log('socketEmitted');
   };
 
-  const isStolable = (card): boolean => {
+  const choosePlayer = (playerId) => {
+    if (itsYou || gameData.turn?.current.shouldSelectFilter.choiceType !== 'player') {
+      return false;
+    }
+    console.log('Le joueur choisi:', playerId);
+    socket.emit('turnChoosedPlayer', playerId);
+    console.log('socketEmitted');
+  };
+
+  const isSelectable = (card, action : string): boolean => {
     const currentTurn = gameData.turn?.current;
-    if (!currentTurn || currentTurn.shouldSelectCardsFilter.actionAwaited !== 'steal') {
+    if (!currentTurn || currentTurn.shouldSelectFilter.actionAwaited !== action) {
       return false;
     }
 
-    const { rangeOfSelection, type, neighborType, neighborKindness } =
-      currentTurn.shouldSelectCardsFilter;
+    const { choiceType, rangeOfSelection, type, neighborType, neighborKindness } =
+      currentTurn.shouldSelectFilter;
 
-    const isRangeOfSelectionOpponentChoice = 
-    rangeOfSelection && Array.isArray(rangeOfSelection)
-      ? rangeOfSelection.includes('opponentChoice')
-      : false;
+    const isChoiceTypeCard = choiceType === 'card' ? true : false;
+
+    let isRightRangeOfSelection = null;
+
+    if(action === 'sacrifice') {
+      const isRangeOfSelectionSelfChoice = 
+      rangeOfSelection && Array.isArray(rangeOfSelection)
+        ? rangeOfSelection.includes('selfChoice')
+        : false;
+      isRightRangeOfSelection = isRangeOfSelectionSelfChoice;
+    } else {
+      const isRangeOfSelectionOpponentChoice = 
+      rangeOfSelection && Array.isArray(rangeOfSelection)
+        ? rangeOfSelection.includes('opponentChoice')
+        : false;
+      isRightRangeOfSelection = isRangeOfSelectionOpponentChoice;
+    }
 
     const isTypeCorrespond = type ? type.includes(card.type) : false;
     
@@ -113,101 +135,16 @@ export const PlayerDataDisplay = ({
             )
           : card.neighborKindness.includes(neighborKindness);
       return (
-        isRangeOfSelectionOpponentChoice &&
+        isChoiceTypeCard &&
+        isRightRangeOfSelection &&
         isTypeCorrespond &&
         isNeighborTypeCorrespond &&
         isNeighborKindnessCorrespond
       );
     } else {
       return (
-        isRangeOfSelectionOpponentChoice &&
-        isTypeCorrespond &&
-        isNeighborTypeCorrespond
-      );
-    }
-  };
-
-  const isDiscardable = (card): boolean => {
-    const currentTurn = gameData.turn?.current;
-    if (!currentTurn || currentTurn.shouldSelectCardsFilter.actionAwaited !== 'discard') {
-      return false;
-    }
-
-    const { rangeOfSelection, type, neighborType, neighborKindness } =
-      currentTurn.shouldSelectCardsFilter;
-
-    const isRangeOfSelectionOpponentChoice = 
-    rangeOfSelection && Array.isArray(rangeOfSelection)
-      ? rangeOfSelection.includes('opponentChoice')
-      : false;
-
-    const isTypeCorrespond = type ? type.includes(card.type) : false;
-
-    const isNeighborTypeCorrespond =
-      neighborType && Array.isArray(neighborType)
-        ? neighborType.some((type) => card.neighborType.includes(type))
-        : false;
-
-    if (neighborKindness && card.neighborKindness) {
-      const isNeighborKindnessCorrespond =
-        neighborKindness && Array.isArray(neighborKindness)
-          ? neighborKindness.some((kindness) =>
-              card.neighborKindness.includes(kindness),
-            )
-          : card.neighborKindness.includes(neighborKindness);
-
-      return (
-        isRangeOfSelectionOpponentChoice &&
-        isTypeCorrespond &&
-        isNeighborTypeCorrespond &&
-        isNeighborKindnessCorrespond
-      );
-    } else {
-      return (
-        isRangeOfSelectionOpponentChoice &&
-        isTypeCorrespond &&
-        isNeighborTypeCorrespond
-      );
-    }
-  };
-
-  const isSacrifiable = (card): boolean => {
-    const currentTurn = gameData.turn?.current;
-    if (!currentTurn || currentTurn.shouldSelectCardsFilter.actionAwaited !== 'sacrifice') {
-      return false;
-    }
-
-    const { rangeOfSelection, type, neighborType, neighborKindness } =
-      currentTurn.shouldSelectCardsFilter;
-
-    const isRangeOfSelectionOpponentChoice = 
-    rangeOfSelection && Array.isArray(rangeOfSelection)
-      ? rangeOfSelection.includes('selfChoice')
-      : false;
-
-    const isTypeCorrespond = type ? type.includes(card.type) : false;
-
-    const isNeighborTypeCorrespond =
-      neighborType && Array.isArray(neighborType)
-        ? neighborType.some((type) => card.neighborType.includes(type))
-        : false;
-
-    if (neighborKindness && card.neighborKindness) {
-      const isNeighborKindnessCorrespond =
-        neighborKindness && Array.isArray(neighborKindness)
-          ? neighborKindness.some((kindness) =>
-              card.neighborKindness.includes(kindness),
-            )
-          : card.neighborKindness.includes(neighborKindness);
-      return (
-        isRangeOfSelectionOpponentChoice &&
-        isTypeCorrespond &&
-        isNeighborTypeCorrespond &&
-        isNeighborKindnessCorrespond
-      );
-    } else {
-      return (
-        isRangeOfSelectionOpponentChoice &&
+        isChoiceTypeCard &&
+        isRightRangeOfSelection &&
         isTypeCorrespond &&
         isNeighborTypeCorrespond
       );
@@ -218,6 +155,9 @@ export const PlayerDataDisplay = ({
     <article className={styles.player}>
       <p>
         <b>PLAYER</b>
+        {!itsYou && gameData.turn?.current.canChoosedPlayer && (
+          <button onClick={() => choosePlayer(playerData.id)}>Choisir ce joueur</button>
+        )}
       </p>
       {itsTurn && (
         <p>
@@ -276,13 +216,13 @@ export const PlayerDataDisplay = ({
             {itsYou && card.discardableToActivateIt && (
               <button onClick={stopDiscardSelfCardChoice}>Ne pas défausser et activer {card.name}</button>
             )}
-            {!itsYou && isStolable(card) && gameData.turn?.current.canChoosedCard && (
+            {!itsYou && isSelectable(card, 'steal') && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Voler {card.name}</button>
             )}
-            {!itsYou && isDiscardable(card) && gameData.turn?.current.canChoosedCard &&(
+            {!itsYou && isSelectable(card, 'draw') && gameData.turn?.current.canChoosedCard &&(
               <button onClick={() => choosedCard(card)}>Défausser {card.name}</button>
             )}
-            {itsYou && isSacrifiable(card) && gameData.turn?.current.canChoosedCard && (
+            {itsYou && isSelectable(card, 'sacrifice') && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Sacrifier {card.name}</button>
             )}
           </div>

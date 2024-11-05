@@ -11,13 +11,18 @@ export interface PlayerTurnData {
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
   canChoosedCard: boolean;
+  canChoosedPlayer: boolean;
   canReplaceCard: boolean;
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;
-  cardChoiceCountdown: number;
-  shouldSelectCardsFilter?: {
-    numberCard?: number;
+  shouldSelectPlayers: boolean;
+  choiceCountdown: number;
+  shouldSelectFilter?: {
+    choiceType?:
+      | 'card'
+      | 'player';
+    number?: number;
     rangeOfSelection?: Array<
       | 'marketChoice'
       | 'opponentChoice'
@@ -28,7 +33,8 @@ export interface PlayerTurnData {
       | 'replace'
       | 'steal'
       | 'pick'
-      | 'sacrifice';
+      | 'sacrifice'
+      | 'give';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;

@@ -56,7 +56,7 @@ export const PlayerActions = ({ gameData, playerData, itsYou }: GameActionsProps
       {current.canEndTurn && (
         <button onClick={endTurn}>Terminer le tour</button>
       )}
-      {itsYou && current.shouldSelectCard && (
+      {itsYou && (gameData.turn?.current.canChoosedCard || gameData.turn?.current.canChoosedPlayer) && (
         <button onClick={stopCardChoice}>Annuler</button>
       )}
     </article>

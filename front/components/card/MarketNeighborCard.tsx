@@ -23,7 +23,7 @@ export const MarketNeighborCard = ({
     console.log('socketEmitted');
   };
   const choosedCard = () => {
-    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+    if (!gameData.turn?.current.shouldSelectCards || !itsYou) {
       return false;
     }
     console.log('La carte cliqué:', cardData);
@@ -32,12 +32,14 @@ export const MarketNeighborCard = ({
   };
   const isSelectable = (): boolean => {
     const currentTurn = gameData.turn?.current;
-    if (!currentTurn || (currentTurn.shouldSelectCardsFilter.actionAwaited !== 'pick' && currentTurn.shouldSelectCardsFilter.actionAwaited !== 'steal')) {
+    if (!currentTurn 
+        || currentTurn.shouldSelectFilter.actionAwaited !== 'pick'
+        || currentTurn.shouldSelectFilter.actionAwaited !== 'steal') {
       return false;
     }
 
     const { rangeOfSelection, type, neighborType, neighborKindness } =
-      currentTurn.shouldSelectCardsFilter;
+      currentTurn.shouldSelectFilter;
 
     const isRangeOfSelectionMarketChoice = rangeOfSelection ? rangeOfSelection.includes('marketChoice') : false;
     const isTypeCorrespond = type ? type.includes(cardData.type) : false;
