@@ -15,6 +15,7 @@ export const MarketNeighborCard = ({
   isBuyable,
   itsYou,
 }: MarketNeighborCardProps) => {
+
   const buyNeighbor = () => {
     if (!isBuyable) {
       return;
@@ -22,6 +23,7 @@ export const MarketNeighborCard = ({
     socket.emit('turnBuyNeighbor', cardData.id);
     console.log('socketEmitted');
   };
+
   const choosedCard = () => {
     if (!gameData.turn?.current.shouldSelectCards || !itsYou) {
       return false;
@@ -30,11 +32,12 @@ export const MarketNeighborCard = ({
     socket.emit('turnChoosedCard', cardData.id);
     console.log('socketEmitted');
   };
+
   const isSelectable = (): boolean => {
     const currentTurn = gameData.turn?.current;
     if (!currentTurn 
-        || currentTurn.shouldSelectFilter.actionAwaited !== 'pick'
-        || currentTurn.shouldSelectFilter.actionAwaited !== 'steal') {
+        || (currentTurn.shouldSelectFilter.actionAwaited !== 'pick'
+        && currentTurn.shouldSelectFilter.actionAwaited !== 'steal')) {
       return false;
     }
 

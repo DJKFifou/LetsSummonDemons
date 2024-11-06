@@ -60,6 +60,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       | 'steal'
       | 'pick'
       | 'sacrifice'
+      | 'active'
       | 'give';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;
@@ -331,6 +332,27 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
             console.log("Player didn't make choice", error);
             console.error(error);
           }
+          break;
+        case 'active':
+          try {
+            console.log('this.shouldSelectFilter :', this.shouldSelectFilter);
+            await this.waitForCardSelection(choiceNumber);
+            if (this.playerChoosed) {
+              this.playerChoicesCardId.forEach(cardId => {
+                const card = cardOwner.getNeighborCardById(cardId);
+                card.data.isActivable = false;
+                card.activate({
+                  game: this.game,
+                  cardOwner: cardOwner,
+                });
+              });
+              response = true;
+            }
+          } catch (error) {
+            console.log("Player didn't make choice", error);
+            console.error(error);
+          }
+          this.cleanShouldReplaceMarketCards();
           break;
       }
 

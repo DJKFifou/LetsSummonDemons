@@ -34,6 +34,7 @@ export interface PlayerTurnData {
       | 'steal'
       | 'pick'
       | 'sacrifice'
+      | 'active'
       | 'give';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;

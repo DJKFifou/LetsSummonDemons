@@ -59,7 +59,7 @@ export class NeighborsDeck implements EntityClass<NeighborsDeckData> {
   replaceCard(cardId: CardId): void {
     for (let i = 0, iMax = this.market.length; i < iMax; i++) {
       if (this.market[i].data.id === cardId) {
-        this.market[i] = null;
+        this.throwMarketCards(i); // this.market[i] = null;
       }
     }
     this.fillMarket();

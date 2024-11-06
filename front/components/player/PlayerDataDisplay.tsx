@@ -107,7 +107,7 @@ export const PlayerDataDisplay = ({
 
     let isRightRangeOfSelection = null;
 
-    if(action === 'sacrifice') {
+    if(action === 'sacrifice' || action === 'active') {
       const isRangeOfSelectionSelfChoice = 
       rangeOfSelection && Array.isArray(rangeOfSelection)
         ? rangeOfSelection.includes('selfChoice')
@@ -224,6 +224,9 @@ export const PlayerDataDisplay = ({
             )}
             {itsYou && isSelectable(card, 'sacrifice') && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Sacrifier {card.name}</button>
+            )}
+            {itsYou && isSelectable(card, 'active') && gameData.turn?.current.canChoosedCard && card.name !== 'DESTINY' &&(
+              <button onClick={() => choosedCard(card)}>Activer {card.name}</button>
             )}
           </div>
         ))}
