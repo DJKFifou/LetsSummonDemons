@@ -113,6 +113,8 @@ export const PlayerDataDisplay = ({
         ? rangeOfSelection.includes('selfChoice')
         : false;
       isRightRangeOfSelection = isRangeOfSelectionSelfChoice;
+    } else if(action === 'discard') {
+      isRightRangeOfSelection = true;
     } else {
       const isRangeOfSelectionOpponentChoice = 
       rangeOfSelection && Array.isArray(rangeOfSelection)
@@ -219,7 +221,10 @@ export const PlayerDataDisplay = ({
             {!itsYou && isSelectable(card, 'steal') && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Voler {card.name}</button>
             )}
-            {!itsYou && isSelectable(card, 'draw') && gameData.turn?.current.canChoosedCard &&(
+            {gameData.turn?.current.shouldSelectFilter.rangeOfSelection == 'opponentChoice' ? !itsYou : itsYou
+            && isSelectable(card, 'discard') 
+            && gameData.turn?.current.canChoosedCard 
+            &&(
               <button onClick={() => choosedCard(card)}>Défausser {card.name}</button>
             )}
             {itsYou && isSelectable(card, 'sacrifice') && gameData.turn?.current.canChoosedCard && (
