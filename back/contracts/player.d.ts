@@ -13,7 +13,7 @@ export interface PlayerData {
   summonedDemonsCards: Array<DemonCardData>;
   neighborsCards: Array<NeighborCardData>;
   isBot?: boolean;
-  minDemonsInvocatedForWin: number;
+  sacrificeNeighborsCountToInvokeDemon: number;
 }
 
 export interface PlayerInputData {

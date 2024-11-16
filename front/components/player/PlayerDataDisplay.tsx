@@ -49,7 +49,7 @@ export const PlayerDataDisplay = ({
 
   const canSummonDemon =
     demonToSummonId &&
-    neighborsToSacrifice.length === 3 &&
+    neighborsToSacrifice.length === playerData.sacrificeNeighborsCountToInvokeDemon &&
     !gameData.turn?.current.shouldSelectCards;
 
   const summonDemon = () => {
@@ -64,10 +64,13 @@ export const PlayerDataDisplay = ({
       demonCardId: demonToSummonId,
       neighborsSacrifiedIds: neighborsToSacrifice,
     });
+
+    setDemonToSummonId(null);
+    setNeighborsToSacrifice([]);
   };
 
   const choosedCard = (cardData) => {
-    if (!gameData.turn?.current.shouldSelectCards || !itsYou) {
+    if (!gameData.turn?.current.shouldSelectCards) {
       return false;
     }
     console.log('La carte cliqué:', cardData);
@@ -221,12 +224,15 @@ export const PlayerDataDisplay = ({
             {!itsYou && isSelectable(card, 'steal') && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Voler {card.name}</button>
             )}
-            {gameData.turn?.current.shouldSelectFilter.rangeOfSelection == 'opponentChoice' ? !itsYou : itsYou
-            && isSelectable(card, 'discard') 
-            && gameData.turn?.current.canChoosedCard 
-            &&(
-              <button onClick={() => choosedCard(card)}>Défausser {card.name}</button>
-            )}
+            {
+            gameData.turn?.current?.shouldSelectFilter?.rangeOfSelection?.includes('opponentChoice') 
+              ? (!itsYou && isSelectable(card, 'discard') && gameData.turn?.current.canChoosedCard && (
+                  <button onClick={() => choosedCard(card)}>Défausser {card.name}</button>
+                )) 
+              : (itsYou && isSelectable(card, 'discard') && gameData.turn?.current.canChoosedCard && (
+                  <button onClick={() => choosedCard(card)}>Défausser {card.name}</button>
+                ))
+            }
             {itsYou && isSelectable(card, 'sacrifice') && gameData.turn?.current.canChoosedCard && (
               <button onClick={() => choosedCard(card)}>Sacrifier {card.name}</button>
             )}

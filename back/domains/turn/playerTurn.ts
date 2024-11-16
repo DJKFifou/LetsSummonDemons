@@ -463,13 +463,13 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     }
 
     if (
-      neighborsSacrifiedIds.length < SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+      neighborsSacrifiedIds.length < this.player.data.sacrificeNeighborsCountToInvokeDemon
     ) {
       throw new NotEnoughNeighborsProdivedToSummonDemonError();
     }
 
     if (
-      neighborsSacrifiedIds.length > SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+      neighborsSacrifiedIds.length > this.player.data.sacrificeNeighborsCountToInvokeDemon
     ) {
       throw new TooManyNeighborsProdivedToSummonDemonError();
     }
@@ -596,7 +596,7 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       !this.summonedDemon &&
       this.player.getCoveredDemonCards().length &&
       this.player.getNeighborCards().length >=
-        SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON
+      this.player.data.sacrificeNeighborsCountToInvokeDemon
     );
   }
 

@@ -45,7 +45,7 @@ export const NeighborsDeck = ({
   };
 
   const chooseMarket = () => {
-    if (!itsYou || gameData.turn?.current.shouldSelectFilter.choiceType !== 'player') {
+    if (itsYou || gameData.turn?.current.shouldSelectFilter.choiceType !== 'player') {
       return false;
     }
 
@@ -76,8 +76,7 @@ export const NeighborsDeck = ({
       {itsYou && gameData.turn?.current.canReplaceCard && (
         <button onClick={stopCardReplacement}>Je m'arrète la !</button>
       )}
-      {itsYou
-      && gameData.turn?.current.canChoosedPlayer
+      {!itsYou && gameData.turn?.current.canChoosedPlayer
       && gameData.turn?.current.shouldSelectFilter.actionAwaited == 'steal' && (
         <button onClick={chooseMarket}>Je Prends ici</button>
       )}

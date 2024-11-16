@@ -1,7 +1,6 @@
 import { NEIGHBORS_MARKET_COUNT } from '../../constants/game.js';
 import { NeighborCardData } from '../../contracts/card.js';
 import { CardArgs } from '../card/card.js';
-import { Game } from '../game/game.js';
 import { NeighborCard } from './neighbor.js';
 
 const createNeighborCards = (
