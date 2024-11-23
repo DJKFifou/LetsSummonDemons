@@ -33,7 +33,7 @@ a {
 
 input,
 button {
-  @apply border;
+  @apply border border-black;
 }
 
 .card[aria-selected='true'] {

@@ -684,8 +684,16 @@ video {
   left: 0px;
 }
 
+.right-2 {
+  right: 0.5rem;
+}
+
 .top-0 {
   top: 0px;
+}
+
+.top-2 {
+  top: 0.5rem;
 }
 
 .isolate {
@@ -945,6 +953,8 @@ a {
 input,
 button {
   border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(15 14 9 / var(--tw-border-opacity));
 }
 
 .card[aria-selected='true'] {

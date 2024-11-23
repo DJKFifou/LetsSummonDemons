@@ -17,7 +17,7 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
     <article>
       <h1>En partie</h1>
       {gameData.turn?.current.cardChoiceCountdown !== null && (
-        <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+        <div className="absolute top-2 right-2">
           {gameData.turn?.current.cardChoiceCountdown}
         </div>
       )}
