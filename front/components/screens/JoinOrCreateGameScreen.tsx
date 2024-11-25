@@ -1,7 +1,9 @@
 import { socket } from '@/socket';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const JoinOrCreateGameScreen = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState('Bob');
   const [gameId, setGameId] = useState('');
 
@@ -15,22 +17,26 @@ export const JoinOrCreateGameScreen = () => {
 
   return (
     <article>
-      <h1>Créer ou rejoindre une partie</h1>
+      <h1>{t('screens.joinOrCreate.title')}</h1>
       <div>
-        <label>Nom</label>
+        <label>{t('screens.joinOrCreate.name')}</label>
         <input value={name} onChange={(e) => setName(e.target.value)} />
       </div>
       <div>
-        <button onClick={createGame}>Créer une partie</button>
+        <button onClick={createGame}>
+          {t('screens.joinOrCreate.createButton')}
+        </button>
       </div>
       <div>
-        <label>Id de la partie</label>
+        <label>{t('screens.joinOrCreate.gameId')}</label>
         <input
           className="border"
           value={gameId}
           onChange={(e) => setGameId(e.target.value)}
         />
-        <button onClick={joinGame}>Rejoindre la partie</button>
+        <button onClick={joinGame}>
+          {t('screens.joinOrCreate.joinButton')}
+        </button>
       </div>
     </article>
   );

@@ -2,6 +2,7 @@ import { socket } from '@/socket';
 import { NeighborCardData } from '@lsd/back/contracts/card';
 import { Card } from './Card';
 import { GameData } from '@lsd/back/contracts/game';
+import { useTranslation } from 'react-i18next';
 type MarketNeighborCardProps = {
   gameData: GameData;
   cardData: NeighborCardData;
@@ -14,6 +15,7 @@ export const MarketNeighborCard = ({
   isBuyable,
   itsYou,
 }: MarketNeighborCardProps) => {
+  const { t } = useTranslation();
   const buyNeighbor = () => {
     if (!isBuyable) {
       return;
@@ -68,10 +70,14 @@ export const MarketNeighborCard = ({
     <article className="flex flex-col justify-center">
       <Card cardData={cardData} />
       {isBuyable && !gameData.turn?.current.shouldSelectCards && (
-        <button onClick={buyNeighbor}>Acheter {cardData.name}</button>
+        <button onClick={buyNeighbor}>
+          {t('card.marketNeighborCard.buy')} {cardData.name}
+        </button>
       )}
       {itsYou && isSelectable() && gameData.turn?.current.canChoosedCard && (
-        <button onClick={choosedCard}>Récupérer {cardData.name}</button>
+        <button onClick={choosedCard}>
+          {t('card.marketNeighborCard.retrieve')} {cardData.name}
+        </button>
       )}
     </article>
   );

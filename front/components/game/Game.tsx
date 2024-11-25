@@ -2,6 +2,7 @@ import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
 import { NeighborsDeck } from '../neighborsDeck/NeighborsDeck';
 import { PlayerDataDisplay } from '../player/PlayerDataDisplay';
+import { useTranslation } from 'react-i18next';
 
 type GameDataDisplayProps = {
   playerId: PlayerId;
@@ -11,16 +12,20 @@ export const GameDataDisplay = ({
   gameData,
   playerId,
 }: GameDataDisplayProps) => {
+  const { t } = useTranslation();
   const itsYourTurn = gameData.turn?.current.player.id === playerId;
-
   const isMarketOpen = itsYourTurn && !!gameData.turn?.current.canBuyNeighbor;
   return (
     <article className="flex flex-col gap-2 p-2 border">
       <p>
-        <b>GAME</b>
+        <b>{t('game.game.game')}</b>
       </p>
-      <p>ID: {gameData.id}</p>
-      <p>STATE: {gameData.state}</p>
+      <p>
+        {t('game.game.id')}: {gameData.id}
+      </p>
+      <p>
+        {t('game.game.state')}: {gameData.state}
+      </p>
       <div className="flex flex-col gap-2 p-2 border">
         {gameData.neighborsDeck && (
           <NeighborsDeck
@@ -31,7 +36,7 @@ export const GameDataDisplay = ({
           />
         )}
       </div>
-      <p>PLAYERS:</p>
+      <p>{t('game.game.players')}:</p>
       <div className="flex gap-2">
         {gameData.players.map((player) => (
           <PlayerDataDisplay

@@ -1,0 +1,64 @@
+{
+  "card": {
+    "card": {
+      "card": "Carte"
+    },
+    "marketNeighborCard": {
+      "buy": "Acheter",
+      "retrieve": "Récupérer"
+    }
+  },
+  "game": {
+    "game": {
+      "game": "PARTIE",
+      "id": "ID",
+      "state": "ÉTAT",
+      "players": "JOUEURS"
+    }
+  },
+  "neighborsDeck": {
+    "NeighborsDeck": {
+      "Neighbors Deck": "Voisinage"
+    }
+  },
+  "player": {
+    "playerActions": {
+      "dicesResult": "Vous avez fait",
+      "launchDices": "Lancer les dés",
+      "endTurn": "Terminer le tour",
+      "testDices": "Triche",
+      "diceInput": "Entrez un chiffre",
+      "testGiveCard": "Triche",
+      "giveCardInput": "Entrez le nom d'une carte"
+    },
+    "playerDataDisplay": {
+      "player": "JOUEUR",
+      "turn": "C'est son tour",
+      "summonSelectedDemon": "Invoquer le démon selectionné",
+      "id": "ID",
+      "name": "NOM",
+      "candleCard": "CARTE CIERGE",
+      "coveredDemonCards": "CARTES DEMON CACHĖES",
+      "summonedDemonCards": "CARTES DEMON INVOQUĖES",
+      "neighborsCards": "CARTES DU VOISINAGE"
+    }
+  },
+  "screens": {
+    "joinOrCreate": {
+      "title": "Créer ou rejoindre une partie",
+      "name": "Nom",
+      "createButton": "Créer une partie",
+      "gameId": "Id de la partie",
+      "joinButton": "Rejoindre la partie"
+    },
+    "inGame": {
+      "title": "En partie",
+      "startButton": "Démarrer"
+    }
+  },
+  "soul": {
+    "souls": {
+      "souls": "âmes"
+    }
+  }
+}

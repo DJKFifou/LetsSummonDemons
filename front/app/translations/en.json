@@ -1,0 +1,64 @@
+{
+  "card": {
+    "card": {
+      "card": "CARD"
+    },
+    "marketNeighborCard": {
+      "buy": "Buy",
+      "retrieve": "Retrieve"
+    }
+  },
+  "game": {
+    "game": {
+      "game": "GAME",
+      "id": "ID",
+      "state": "STATE",
+      "players": "PLAYERS"
+    }
+  },
+  "neighborsDeck": {
+    "NeighborsDeck": {
+      "NeighborsDeck": "Neighbors Deck"
+    }
+  },
+  "player": {
+    "playerActions": {
+      "dicesResult": "You made",
+      "launchDices": "Launch dices",
+      "endTurn": "End turn",
+      "testDices": "Cheat",
+      "diceInput": "Enter a number",
+      "testGiveCard": "Cheat",
+      "giveCardInput": "Enter the name of a card"
+    },
+    "playerDataDisplay": {
+      "player": "PLAYER",
+      "turn": "It's his turn",
+      "summonSelectedDemon": "Summon selected demon",
+      "id": "ID",
+      "name": "NAME",
+      "candleCard": "CANDLE CARD",
+      "coveredDemonCards": "COVERED DEMON CARDS",
+      "summonedDemonCards": "SUMMONED DEMON CARDS",
+      "neighborsCards": "NEIGHBORS CARDS"
+    }
+  },
+  "screens": {
+    "joinOrCreate": {
+      "title": "Create or Join a Game",
+      "name": "Name",
+      "createButton": "Create Game",
+      "gameId": "Game ID",
+      "joinButton": "Join Game"
+    },
+    "inGame": {
+      "title": "In game",
+      "startButton": "Start"
+    }
+  },
+  "soul": {
+    "souls": {
+      "souls": "souls"
+    }
+  }
+}

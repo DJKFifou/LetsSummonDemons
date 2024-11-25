@@ -1,6 +1,7 @@
 import { socket } from '@/socket';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
+import { useTranslation } from 'react-i18next';
 
 type GameActionsProps = {
   playerData: PlayerData;
@@ -8,6 +9,7 @@ type GameActionsProps = {
 };
 
 export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
+  const { t } = useTranslation();
   const launchDices = () => {
     socket.emit('turnLaunchDices');
   };
@@ -41,23 +43,37 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
     <article className="playerActions">
       <div className="numbersContainer">
         {current.launchedDices && (
-          <span>Vous avez fait {current.dicesResult}</span>
+          <span>
+            {t('player.playerActions.dicesResult')} {current.dicesResult}
+          </span>
         )}
-        {current.canLaunchDices && <button onClick={testDices}>Triche</button>}
-        <input type="number" id="diceInput" placeholder="Entrez un nombre" />
         {current.canLaunchDices && (
-          <button onClick={launchDices}>Lancer les dés</button>
+          <button onClick={testDices}>
+            {t('player.playerActions.testDices')}
+          </button>
+        )}
+        <input
+          type="number"
+          id="diceInput"
+          placeholder={t('player.playerActions.diceInput')}
+        />
+        {current.canLaunchDices && (
+          <button onClick={launchDices}>
+            {t('player.playerActions.launchDices')}
+          </button>
         )}
         {current.canEndTurn && (
-          <button onClick={endTurn}>Terminer le tour</button>
+          <button onClick={endTurn}>{t('player.playerActions.endTurn')}</button>
         )}
       </div>
       <div className="giveCardContainer">
-        <button onClick={testGiveCard}>Triche</button>
+        <button onClick={testGiveCard}>
+          {t('player.playerActions.testGiveCard')}
+        </button>
         <input
           type="text"
           id="giveCardInput"
-          placeholder="Entrez le nom de la carte"
+          placeholder={t('player.playerActions.giveCardInput')}
         />
       </div>
     </article>

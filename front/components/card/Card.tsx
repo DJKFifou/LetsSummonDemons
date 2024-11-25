@@ -1,6 +1,7 @@
 import { CardData } from '@lsd/back/contracts/card';
 import Image from 'next/image';
 import { GameData } from '@lsd/back/contracts/game';
+import { useTranslation } from 'react-i18next';
 
 type CardProps = {
   gameData?: GameData;
@@ -17,6 +18,7 @@ export const Card = ({
   isSelectable,
   onToggleSelect,
 }: CardProps) => {
+  const { t } = useTranslation();
   return (
     <figure
       className="card relative w-[10vw] rounded-full"
@@ -31,7 +33,9 @@ export const Card = ({
       />
 
       <figcaption className="hidden absolute top-0 left-0 w-px h-px">
-        <p>Carte {cardData.name}</p>
+        <p>
+          {t('card.card.card')} {cardData.name}
+        </p>
         <p>{cardData.description}</p>
       </figcaption>
 

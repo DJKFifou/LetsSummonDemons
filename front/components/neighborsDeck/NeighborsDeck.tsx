@@ -4,6 +4,7 @@ import { Card } from '../card/Card';
 import { MarketNeighborCard } from '../card/MarketNeighborCard';
 import { DrawnedNeighborCard } from '../card/DrawnNeighborCard';
 import { GameData } from '@lsd/back/contracts/game';
+import { useTranslation } from 'react-i18next';
 
 interface CoveredCardStackProps {
   cardData: CardData;
@@ -32,9 +33,12 @@ export const NeighborsDeck = ({
   isMarketOpen,
   itsYou,
 }: NeighborsDeckProps) => {
+  const { t } = useTranslation();
   return (
     <article className="flex flex-col items-center gap-4">
-      <h3 className="text-2xl">Voisinage</h3>
+      <h3 className="text-2xl">
+        {t('NeighborsDeck.NeighborsDeck.NeighborsDeck')}
+      </h3>
       <div className="grid grid-cols-6 gap-4">
         {neighborsDeck.market[0] && (
           <CoveredCardStack

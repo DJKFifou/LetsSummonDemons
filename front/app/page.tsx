@@ -1,10 +1,12 @@
 'use client';
+import { TranslationButtons } from '@/components/layout/TranslationButtons';
 import { IngameScreen } from '@/components/screens/IngameScreen';
 import { JoinOrCreateGameScreen } from '@/components/screens/JoinOrCreateGameScreen';
 import { socket } from '@/socket';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
 import { useEffect, useState } from 'react';
+import './i18n';
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
@@ -47,6 +49,7 @@ export default function Home() {
     <main>
       {isConnected ? (
         <>
+          <TranslationButtons />
           {gameData && playerId ? (
             <IngameScreen playerId={playerId} gameData={gameData} />
           ) : (

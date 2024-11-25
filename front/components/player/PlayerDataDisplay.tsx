@@ -7,6 +7,7 @@ import { Card } from '../card/Card';
 import { CoveredDemonCard } from '../card/CoveredDemonCard';
 import { Souls } from '../soul/Souls';
 import { PlayerActions } from './PlayerActions';
+import { useTranslation } from 'react-i18next';
 
 type PlayerDataDisplayProps = {
   gameData: GameData;
@@ -25,6 +26,7 @@ export const PlayerDataDisplay = ({
     Array<CardId>
   >([]);
 
+  const { t } = useTranslation();
   const itsYourTurn = itsTurn && itsYou;
 
   const toggleDemonToSummon = (demonId: CardId) => {
@@ -68,27 +70,33 @@ export const PlayerDataDisplay = ({
   return (
     <article className="flex flex-col gap-2 p-2 border">
       <p>
-        <b>PLAYER</b>
+        <b>{t('player.playerDataDisplay.player')}</b>
       </p>
       {itsTurn && (
         <p>
-          <b>C&apos;est son tour</b>
+          <b>{t('player.playerDataDisplay.turn')}</b>
         </p>
       )}
       {canSummonDemon && (
-        <button onClick={summonDemon}>Invoquer le démon selectionné</button>
+        <button onClick={summonDemon}>
+          {t('player.playerDataDisplay.summonSelectedDemon')}
+        </button>
       )}
       {itsYourTurn && (
         <PlayerActions gameData={gameData} playerData={playerData} />
       )}
-      <p>ID: {playerData.id}</p>
-      <p>NAME: {playerData.name}</p>
+      <p>
+        {t('player.playerDataDisplay.id')}: {playerData.id}
+      </p>
+      <p>
+        {t('player.playerDataDisplay.name')}: {playerData.name}
+      </p>
       <Souls count={playerData.soulsTokenCount} />
-      <p>CANDLE CARD:</p>
+      <p>{t('player.playerDataDisplay.candleCard')}:</p>
       <div className="flex gap-2">
         {playerData.candleCard && <Card cardData={playerData.candleCard} />}
       </div>
-      <p>COVERED DEMON CARDS:</p>
+      <p>{t('player.playerDataDisplay.coveredDemonCards')}:</p>
       <div className="flex gap-2">
         {playerData.coveredDemonsCards.map((card) => (
           <CoveredDemonCard
@@ -105,13 +113,13 @@ export const PlayerDataDisplay = ({
           />
         ))}
       </div>
-      <p>SUMMONED DEMON CARDS:</p>
+      <p>{t('player.playerDataDisplay.summonedDemonCards')}:</p>
       <div className="flex gap-2">
         {playerData.summonedDemonsCards.map((card) => (
           <Card cardData={card} key={card.id} />
         ))}
       </div>
-      <p>NEIGHBORS CARDS:</p>
+      <p>{t('player.playerDataDisplay.neighborsCards')}:</p>
       <div className="flex gap-2">
         {playerData.neighborsCards.map((card) => (
           <Card
