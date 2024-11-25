@@ -1282,7 +1282,7 @@ export const neighbors: Array<NeighborCard> = [
   // Girls
   ...createNeighborCards(lisa, 2),
   ...createNeighborCards(alice, 2),
-  ...createNeighborCards(marilyn, 30),
+  ...createNeighborCards(marilyn, 2),
   ...createNeighborCards(destiny, 2),
   ...createNeighborCards(caroline, 2),
   ...createNeighborCards(fifi, 2),
