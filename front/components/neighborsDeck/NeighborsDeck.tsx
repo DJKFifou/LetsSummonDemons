@@ -48,7 +48,7 @@ export const NeighborsDeck = ({
   const chooseMarket = () => {
     if (
       itsYou ||
-      gameData.turn?.current.shouldSelectFilter.choiceType !== 'player'
+      gameData.turn?.current.shouldSelectFilter?.choiceType !== 'player'
     ) {
       return false;
     }
@@ -85,9 +85,9 @@ export const NeighborsDeck = ({
         )}
         {!itsYou &&
           gameData.turn?.current.canChoosedPlayer &&
-          gameData.turn?.current.shouldSelectFilter.actionAwaited ==
+          gameData.turn?.current.shouldSelectFilter?.actionAwaited ==
             'steal' && <button onClick={chooseMarket}>Je Prends ici</button>}
-        <div className={styles.neighborsDrawned}>
+        <div>
           {neighborsDeck.drawned.map((card) => (
             <DrawnedNeighborCard cardData={card} key={card.id} />
           ))}

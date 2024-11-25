@@ -36,8 +36,8 @@ export const MarketNeighborCard = ({
     const currentTurn = gameData.turn?.current;
     if (
       !currentTurn ||
-      (currentTurn.shouldSelectFilter.actionAwaited !== 'pick' &&
-        currentTurn.shouldSelectFilter.actionAwaited !== 'steal')
+      (currentTurn.shouldSelectFilter?.actionAwaited !== 'pick' &&
+        currentTurn.shouldSelectFilter?.actionAwaited !== 'steal')
     ) {
       return false;
     }
@@ -56,8 +56,8 @@ export const MarketNeighborCard = ({
     if (neighborKindness && cardData.neighborKindness) {
       const isNeighborKindnessCorrespond =
         neighborKindness && Array.isArray(neighborKindness)
-          ? neighborKindness.some((kindness) =>
-              cardData.neighborKindness.includes(kindness),
+          ? neighborKindness.some(
+              (kindness) => cardData.neighborKindness?.includes(kindness),
             )
           : cardData.neighborKindness.includes(neighborKindness);
       return (
@@ -81,7 +81,7 @@ export const MarketNeighborCard = ({
       return false;
     }
     const cardsCanBeReplaced = currentTurn.instanceOfMarketCanBeReplaced;
-    cardsCanBeReplaced.forEach((allowedCardId) => {
+    cardsCanBeReplaced?.forEach((allowedCardId) => {
       if (cardId == allowedCardId) {
         cardIsReplacable = true;
       }

@@ -82,7 +82,7 @@ export const PlayerDataDisplay = ({
 
   const stopDiscardSelfCardChoice = () => {
     if (
-      gameData.turn?.current.shouldSelectFilter.actionAwaited !== 'discard' ||
+      gameData.turn?.current.shouldSelectFilter?.actionAwaited !== 'discard' ||
       !itsYou
     ) {
       console.log('return false');
@@ -96,7 +96,7 @@ export const PlayerDataDisplay = ({
   const choosePlayer = (playerId) => {
     if (
       itsYou ||
-      gameData.turn?.current.shouldSelectFilter.choiceType !== 'player'
+      gameData.turn?.current?.shouldSelectFilter?.choiceType !== 'player'
     ) {
       return false;
     }
@@ -109,7 +109,7 @@ export const PlayerDataDisplay = ({
     const currentTurn = gameData.turn?.current;
     if (
       !currentTurn ||
-      currentTurn.shouldSelectFilter.actionAwaited !== action
+      currentTurn.shouldSelectFilter?.actionAwaited !== action
     ) {
       return false;
     }
