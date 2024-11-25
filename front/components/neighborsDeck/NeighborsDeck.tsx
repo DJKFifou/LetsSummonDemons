@@ -60,7 +60,7 @@ export const NeighborsDeck = ({
   return (
     <article className="flex flex-col items-center gap-4">
       <h3 className="text-2xl">
-        {t('NeighborsDeck.NeighborsDeck.NeighborsDeck')}
+        {t('neighborsDeck.neighborsDeck.neighborsDeck')}
       </h3>
       <div className="grid grid-cols-6 gap-4">
         {neighborsDeck.market[0] && (

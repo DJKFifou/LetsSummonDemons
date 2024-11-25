@@ -17,8 +17,8 @@
     }
   },
   "neighborsDeck": {
-    "NeighborsDeck": {
-      "Neighbors Deck": "Voisinage"
+    "neighborsDeck": {
+      "neighborsDeck": "Voisinage"
     }
   },
   "player": {

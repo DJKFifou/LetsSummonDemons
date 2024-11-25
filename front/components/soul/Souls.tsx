@@ -10,7 +10,7 @@ export const Souls = ({ count }: SoulsProps) => {
   return (
     <article>
       <p>
-        {count} {t('NeighborsDeck.NeighborsDeck.NeighborsDeck')}{' '}
+        {count} {t('soul.souls.souls')}{' '}
       </p>
       <ul className="flex gap-2 list-none">
         {Array.from({ length: count }, (_, index) => (

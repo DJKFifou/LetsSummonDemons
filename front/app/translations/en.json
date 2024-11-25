@@ -17,8 +17,8 @@
     }
   },
   "neighborsDeck": {
-    "NeighborsDeck": {
-      "NeighborsDeck": "Neighbors Deck"
+    "neighborsDeck": {
+      "neighborsDeck": "Neighbors Deck"
     }
   },
   "player": {
