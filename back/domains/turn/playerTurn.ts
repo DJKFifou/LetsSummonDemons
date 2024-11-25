@@ -139,6 +139,8 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
       }
     }
 
+    // Seulement si c'est le cardOwner qui a lancé les dés
+
     for await (const demonCard of this.player.getSummonedDemonCards()) {
       if (!demonCard.isActivatedByNumber(dicesResult)) {
         return;

@@ -130,18 +130,25 @@ const baelHound = new DemonCard({
     cardBack,
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-    //TO FINISH
     const animals = cardOwner.getAnimalNeighborCards();
     const soulTokens = animals.length;
     let soulTokensToSteal = 0;
     for (let i = 0; i < soulTokens; i++) {
-      game.playerList.forEach(player => {
-        if(player.data.id !== cardOwner.data.id) {
-          soulTokensToSteal =+ player.data.soulsTokenCount;
+      game.playerList.forEach((player) => {
+        if (player.data.id !== cardOwner.data.id) {
+          soulTokensToSteal = +player.data.soulsTokenCount;
         }
       });
       if (soulTokensToSteal >= 1) {
-        if (!await game.turn.current.selectionRequired(cardOwner, 'player', 1, ['opponentChoice'], 'steal')) {
+        if (
+          !(await game.turn.current.selectionRequired(
+            cardOwner,
+            'player',
+            1,
+            ['opponentChoice'],
+            'steal',
+          ))
+        ) {
           game.playerList[1].removeSoulToken(1);
           cardOwner.addSoulToken(1);
         }
@@ -182,13 +189,21 @@ const antechrist = new DemonCard({
     const soulTokens = 5;
     let soulTokensToSteal = 0;
     for (let i = 0; i < soulTokens; i++) {
-      game.playerList.forEach(player => {
-        if(player.data.id !== cardOwner.data.id) {
-          soulTokensToSteal =+ player.data.soulsTokenCount;
+      game.playerList.forEach((player) => {
+        if (player.data.id !== cardOwner.data.id) {
+          soulTokensToSteal = +player.data.soulsTokenCount;
         }
       });
       if (soulTokensToSteal >= 1) {
-        if (!await game.turn.current.selectionRequired(cardOwner, 'player', 1, ['opponentChoice'], 'steal')) {
+        if (
+          !(await game.turn.current.selectionRequired(
+            cardOwner,
+            'player',
+            1,
+            ['opponentChoice'],
+            'steal',
+          ))
+        ) {
           game.playerList[1].removeSoulToken(1);
           cardOwner.addSoulToken(1);
         }
@@ -197,7 +212,7 @@ const antechrist = new DemonCard({
       }
       cardOwner.addBoysAndGirlsSoulsToken(1);
     }
-  }
+  },
 });
 
 const mefilstopheles = new DemonCard({
@@ -357,9 +372,11 @@ const baphometal = new DemonCard({
     cardBack,
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-    game.playerList.forEach(player => {
+    game.playerList.forEach((player) => {
       if (player.data.id !== cardOwner.data.id) {
-        player.setSacrificeNeighborsCountToInvokeDemon(SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON_BAPHOMETAL_ACTIVE);
+        player.setSacrificeNeighborsCountToInvokeDemon(
+          SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON_BAPHOMETAL_ACTIVE,
+        );
       }
     });
   },

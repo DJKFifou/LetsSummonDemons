@@ -37,7 +37,17 @@ const jane: CardArgs<NeighborCardData> = {
       game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0].data.id);
     } else if (animalNeighborCards.length > 1) {
       try {
-        if(!await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['marketChoice'], 'pick', ['NEIGHBOR'], ['ANIMAL'])) {
+        if (
+          !(await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['marketChoice'],
+            'pick',
+            ['NEIGHBOR'],
+            ['ANIMAL'],
+          ))
+        ) {
           game.neighborsDeck.giveCard(cardOwner, animalNeighborCards[0]);
         }
       } catch (error) {
@@ -189,13 +199,21 @@ const calvin: CardArgs<NeighborCardData> = {
       const soulTokens = 2;
       let soulTokensToSteal = 0;
       for (let i = 0; i < soulTokens; i++) {
-        game.playerList.forEach(player => {
-          if(player.data.id !== cardOwner.data.id) {
-            soulTokensToSteal =+ player.data.soulsTokenCount;
+        game.playerList.forEach((player) => {
+          if (player.data.id !== cardOwner.data.id) {
+            soulTokensToSteal = +player.data.soulsTokenCount;
           }
         });
         if (soulTokensToSteal >= 1) {
-          if (!await game.turn.current.selectionRequired(cardOwner, 'player', 1, ['opponentChoice'], 'steal')) {
+          if (
+            !(await game.turn.current.selectionRequired(
+              cardOwner,
+              'player',
+              1,
+              ['opponentChoice'],
+              'steal',
+            ))
+          ) {
             game.playerList[1].removeSoulToken(1);
             cardOwner.addSoulToken(1);
           }
@@ -224,19 +242,21 @@ const dolores: CardArgs<NeighborCardData> = {
     cardImage: '/cards/neighbourhood/dolores.png',
   },
   activateFn: async ({ game, cardOwner }): Promise<void> => {
-
     // REMPLACER LES ADORABLES
 
     // Collecter les indices des cartes à supprimer
     const indicesToRemove = [];
     game.neighborsDeck.getMarket().forEach((marketCard, index) => {
-      if (marketCard.data.neighborKindness && marketCard.data.neighborKindness.includes('ADORABLE')) {
+      if (
+        marketCard.data.neighborKindness &&
+        marketCard.data.neighborKindness.includes('ADORABLE')
+      ) {
         indicesToRemove.push(index);
       }
     });
 
     // Supprimer les cartes en parcourant les indices dans l'ordre décroissant
-    indicesToRemove.reverse().forEach(index => {
+    indicesToRemove.reverse().forEach((index) => {
       game.neighborsDeck.throwMarketCards(index);
       console.log('Spliced');
     });
@@ -246,20 +266,34 @@ const dolores: CardArgs<NeighborCardData> = {
 
     const horribleNeighbors = [];
     game.neighborsDeck.getMarket().forEach((marketCard) => {
-      if (marketCard.data.neighborKindness && marketCard.data.neighborKindness.includes('HORRIBLE')) {
+      if (
+        marketCard.data.neighborKindness &&
+        marketCard.data.neighborKindness.includes('HORRIBLE')
+      ) {
         horribleNeighbors.push(marketCard.data.id);
       }
     });
     if (horribleNeighbors.length == 1) {
       game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
     } else if (horribleNeighbors.length > 1) {
-        try {
-          if(!await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['marketChoice'], 'pick', ['NEIGHBOR'], ['BOY', 'GIRL'], ['HORRIBLE'])) {
-            game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
-          }
-        } catch (error) {
-          console.log('error: ', error);
+      try {
+        if (
+          !(await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['marketChoice'],
+            'pick',
+            ['NEIGHBOR'],
+            ['BOY', 'GIRL'],
+            ['HORRIBLE'],
+          ))
+        ) {
+          game.neighborsDeck.giveCard(cardOwner, horribleNeighbors[0]);
         }
+      } catch (error) {
+        console.log('error: ', error);
+      }
     }
   },
 };
@@ -281,7 +315,17 @@ const sam: CardArgs<NeighborCardData> = {
     // TO FINISH
     if (cardOwner.getAnimalNeighborCards().length > 0) {
       try {
-        if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'discard', ['NEIGHBOR'], ['ANIMAL'])) {
+        if (
+          await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['selfChoice'],
+            'discard',
+            ['NEIGHBOR'],
+            ['ANIMAL'],
+          )
+        ) {
           const soulTokens = 6;
           cardOwner.addSoulToken(soulTokens);
           cardOwner.addBoysAndGirlsSoulsToken(soulTokens);
@@ -318,28 +362,50 @@ const annie: CardArgs<NeighborCardData> = {
         kidNeighborCards.push(neighborsMarket[i]);
       }
     }
-    game.playerList.forEach(player => {
+    game.playerList.forEach((player) => {
       const playerKidDeck = player.getKidNeighborCards();
       if (playerKidDeck) {
         for (let i = 0; i < playerKidDeck.length; i++) {
-          if(player.data.id !== cardOwner.data.id) {
+          if (player.data.id !== cardOwner.data.id) {
             kidNeighborCardInPlayer = true;
             kidNeighborCards.push(playerKidDeck[i]);
           }
         }
       }
     });
-    if(kidNeighborCardInMarket || kidNeighborCardInPlayer) {
+    if (kidNeighborCardInMarket || kidNeighborCardInPlayer) {
       card.data.discardableToActivateIt = true;
       try {
-        if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'discard')) {
-          if(kidNeighborCards.length > 1) {
-            await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['marketChoice', 'opponentChoice'], 'steal', ['NEIGHBOR'], ['BOY', 'GIRL']);
+        if (
+          await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['selfChoice'],
+            'discard',
+          )
+        ) {
+          if (kidNeighborCards.length > 1) {
+            await game.turn.current.selectionRequired(
+              cardOwner,
+              'card',
+              1,
+              ['marketChoice', 'opponentChoice'],
+              'steal',
+              ['NEIGHBOR'],
+              ['BOY', 'GIRL'],
+            );
           } else if (kidNeighborCards.length == 1) {
-            if(kidNeighborCardInMarket) {
-              game.neighborsDeck.giveCard(cardOwner, kidNeighborCards[0].data.id);
-            } else if(kidNeighborCardInPlayer) {
-              cardOwner.stealNeighborCardToPlayerById(kidNeighborCards[0].data.id, game.turn.current.getCardOwnerById(kidNeighborCards[0].data.id));
+            if (kidNeighborCardInMarket) {
+              game.neighborsDeck.giveCard(
+                cardOwner,
+                kidNeighborCards[0].data.id,
+              );
+            } else if (kidNeighborCardInPlayer) {
+              cardOwner.stealNeighborCardToPlayerById(
+                kidNeighborCards[0].data.id,
+                game.turn.current.getCardOwnerById(kidNeighborCards[0].data.id),
+              );
             }
           }
         }
@@ -447,13 +513,21 @@ const donnie: CardArgs<NeighborCardData> = {
     // TO FINISH
     let soulTokensToSteal = 0;
     for (let i = 0; i < cardOwner.getHorribleNeighborCards().length; i++) {
-      game.playerList.forEach(player => {
-        if(player.data.id !== cardOwner.data.id) {
-          soulTokensToSteal =+ player.data.soulsTokenCount;
+      game.playerList.forEach((player) => {
+        if (player.data.id !== cardOwner.data.id) {
+          soulTokensToSteal = +player.data.soulsTokenCount;
         }
       });
       if (soulTokensToSteal >= 1) {
-        if (!await game.turn.current.selectionRequired(cardOwner, 'player', 1, ['opponentChoice'], 'steal')) {
+        if (
+          !(await game.turn.current.selectionRequired(
+            cardOwner,
+            'player',
+            1,
+            ['opponentChoice'],
+            'steal',
+          ))
+        ) {
           game.playerList[1].removeSoulToken(1);
           cardOwner.addSoulToken(1);
         }
@@ -539,7 +613,10 @@ const marilyn: CardArgs<NeighborCardData> = {
     // TO FINISH
     const boyNeighborCards = [];
     game.neighborsDeck.getMarket().forEach((marketCard) => {
-      if (marketCard.data.neighborType && marketCard.data.neighborType.includes('BOY')) {
+      if (
+        marketCard.data.neighborType &&
+        marketCard.data.neighborType.includes('BOY')
+      ) {
         boyNeighborCards.push(marketCard.data.id);
       }
     });
@@ -547,7 +624,17 @@ const marilyn: CardArgs<NeighborCardData> = {
       game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0]);
     } else if (boyNeighborCards.length > 1) {
       try {
-        if(!await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['marketChoice'], 'pick', ['NEIGHBOR'], ['BOY'])) {
+        if (
+          !(await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['marketChoice'],
+            'pick',
+            ['NEIGHBOR'],
+            ['BOY'],
+          ))
+        ) {
           game.neighborsDeck.giveCard(cardOwner, boyNeighborCards[0]);
         }
       } catch (error) {
@@ -600,8 +687,15 @@ const damien: CardArgs<NeighborCardData> = {
 
     card.data.discardableToActivateIt = true;
     try {
-      if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'discard'))
-      {
+      if (
+        await game.turn.current.selectionRequired(
+          cardOwner,
+          'card',
+          1,
+          ['selfChoice'],
+          'discard',
+        )
+      ) {
         const randomDemonCard = cardOwner.getRandomDemonCard();
         cardOwner.uncoverDemonCard(randomDemonCard.data.id);
       }
@@ -628,7 +722,7 @@ const destiny: CardArgs<NeighborCardData> = {
     // TO FINISH
     const neighborArray = [];
 
-    cardOwner.getAdorableNeighborCards().forEach(adorableNeighborCard => {
+    cardOwner.getAdorableNeighborCards().forEach((adorableNeighborCard) => {
       if (adorableNeighborCard.data.name !== 'DESTINY') {
         neighborArray.push(adorableNeighborCard);
       }
@@ -636,7 +730,16 @@ const destiny: CardArgs<NeighborCardData> = {
 
     if (neighborArray.length > 0) {
       try {
-        await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'active', ['NEIGHBOR'], ['BOY','GIRL'], ['ADORABLE']);
+        await game.turn.current.selectionRequired(
+          cardOwner,
+          'card',
+          1,
+          ['selfChoice'],
+          'active',
+          ['NEIGHBOR'],
+          ['BOY', 'GIRL'],
+          ['ADORABLE'],
+        );
       } catch (error) {
         console.log('error: ', error);
       }
@@ -661,13 +764,21 @@ const dillinger: CardArgs<NeighborCardData> = {
     // TO FINISH
     const soulTokens = 1;
     let soulTokensToSteal = 0;
-    game.playerList.forEach(player => {
-      if(player.data.id !== cardOwner.data.id) {
-        soulTokensToSteal =+ player.data.soulsTokenCount;
+    game.playerList.forEach((player) => {
+      if (player.data.id !== cardOwner.data.id) {
+        soulTokensToSteal = +player.data.soulsTokenCount;
       }
     });
     if (soulTokensToSteal >= soulTokens) {
-      if (!await game.turn.current.selectionRequired(cardOwner, 'player', soulTokens, ['opponentChoice'], 'steal')) {
+      if (
+        !(await game.turn.current.selectionRequired(
+          cardOwner,
+          'player',
+          soulTokens,
+          ['opponentChoice'],
+          'steal',
+        ))
+      ) {
         game.playerList[1].removeSoulToken(1);
         cardOwner.addSoulToken(1);
       }
@@ -697,7 +808,15 @@ const glen: CardArgs<NeighborCardData> = {
     const soulTokensToGive = 1;
     cardOwner.addSoulToken(soulTokens);
     try {
-      if (!await game.turn.current.selectionRequired(cardOwner, 'player', soulTokensToGive, ['opponentChoice'], 'give')) {
+      if (
+        !(await game.turn.current.selectionRequired(
+          cardOwner,
+          'player',
+          soulTokensToGive,
+          ['opponentChoice'],
+          'give',
+        ))
+      ) {
         game.playerList[1].addSoulToken(soulTokensToGive);
       }
     } catch (error) {
@@ -810,8 +929,15 @@ const goldenFish: CardArgs<NeighborCardData> = {
     // TO FINISH
     card.data.discardableToActivateIt = true;
     try {
-      if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'discard'))
-      {
+      if (
+        await game.turn.current.selectionRequired(
+          cardOwner,
+          'card',
+          1,
+          ['selfChoice'],
+          'discard',
+        )
+      ) {
         cardOwner.addSoulToken(5);
       }
     } catch (error) {
@@ -880,9 +1006,29 @@ const goat: CardArgs<NeighborCardData> = {
       cardOwner.getGirlNeighborCards().length > 0
     ) {
       try {
-        if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'sacrifice', ['NEIGHBOR'], ['BOY'])) {
-          if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'sacrifice', ['NEIGHBOR'], ['GIRL'])) {
-            if(game.demonsDeck.length > 0) {
+        if (
+          await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['selfChoice'],
+            'sacrifice',
+            ['NEIGHBOR'],
+            ['BOY'],
+          )
+        ) {
+          if (
+            await game.turn.current.selectionRequired(
+              cardOwner,
+              'card',
+              1,
+              ['selfChoice'],
+              'sacrifice',
+              ['NEIGHBOR'],
+              ['GIRL'],
+            )
+          ) {
+            if (game.demonsDeck.length > 0) {
               const demon = game.demonsDeck.shift();
               cardOwner.addSummonedDemonCard(demon);
               game.demonsDeck.shift();
@@ -912,11 +1058,11 @@ const alligator: CardArgs<NeighborCardData> = {
   activateFn: async ({ game, cardOwner, card }): Promise<void> => {
     //TO FINISH
     const PlayersKidNeighborCards = [];
-    game.playerList.forEach(player => {
+    game.playerList.forEach((player) => {
       const playerKidDeck = player.getKidNeighborCards();
       if (playerKidDeck) {
         for (let i = 0; i < playerKidDeck.length; i++) {
-          if(player.data.id !== cardOwner.data.id) {
+          if (player.data.id !== cardOwner.data.id) {
             PlayersKidNeighborCards.push(playerKidDeck[i]);
           }
         }
@@ -925,12 +1071,35 @@ const alligator: CardArgs<NeighborCardData> = {
     if (PlayersKidNeighborCards.length > 0) {
       card.data.discardableToActivateIt = true;
       try {
-        if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'discard'))
-        {
+        if (
+          await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['selfChoice'],
+            'discard',
+          )
+        ) {
           game.emitDataToSockets();
           card.data.discardableToActivateIt = false;
-          await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['opponentChoice'], 'discard', ['NEIGHBOR'], ['BOY', 'GIRL']);
-          await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['opponentChoice'], 'discard', ['NEIGHBOR'], ['BOY', 'GIRL'])
+          await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['opponentChoice'],
+            'discard',
+            ['NEIGHBOR'],
+            ['BOY', 'GIRL'],
+          );
+          await game.turn.current.selectionRequired(
+            cardOwner,
+            'card',
+            1,
+            ['opponentChoice'],
+            'discard',
+            ['NEIGHBOR'],
+            ['BOY', 'GIRL'],
+          );
         }
       } catch (error) {
         console.log('error: ', error);
@@ -992,11 +1161,24 @@ const owl: CardArgs<NeighborCardData> = {
   activateFn: async ({ game, cardOwner, card }): Promise<void> => {
     card.data.discardableToActivateIt = true;
     try {
-      if(await game.turn.current.selectionRequired(cardOwner, 'card', 1, ['selfChoice'], 'discard'))
-      {
+      if (
+        await game.turn.current.selectionRequired(
+          cardOwner,
+          'card',
+          1,
+          ['selfChoice'],
+          'discard',
+        )
+      ) {
         cardOwner.addSoulToken(4);
         game.emitDataToSockets();
-        await game.turn.current.selectionRequired(cardOwner, 'card', NEIGHBORS_MARKET_COUNT, ['marketChoice'], 'replace');
+        await game.turn.current.selectionRequired(
+          cardOwner,
+          'card',
+          NEIGHBORS_MARKET_COUNT,
+          ['marketChoice'],
+          'replace',
+        );
       }
     } catch (error) {
       console.log('error: ', error);
@@ -1082,7 +1264,7 @@ export const neighbors: Array<NeighborCard> = [
   ...createNeighborCards(goat, 1),
   ...createNeighborCards(falcon, 1),
   ...createNeighborCards(skunk, 1),
-  ...createNeighborCards(alligator, 30),
+  ...createNeighborCards(alligator, 1),
   ...createNeighborCards(rabidDog, 2),
   ...createNeighborCards(araMacao, 2),
   ...createNeighborCards(rabbit, 2),
