@@ -5,6 +5,7 @@ import { MarketNeighborCard } from '../card/MarketNeighborCard';
 import { DrawnedNeighborCard } from '../card/DrawnNeighborCard';
 import { GameData } from '@lsd/back/contracts/game';
 import { useTranslation } from 'react-i18next';
+import { socket } from '@/socket';
 
 interface CoveredCardStackProps {
   cardData: CardData;
@@ -34,6 +35,28 @@ export const NeighborsDeck = ({
   itsYou,
 }: NeighborsDeckProps) => {
   const { t } = useTranslation();
+
+  const stopCardReplacement = () => {
+    if (!gameData.turn?.current.canReplaceCard || !itsYou) {
+      return false;
+    }
+
+    socket.emit('stopCardAction');
+    console.log('socketEmitted');
+  };
+
+  const chooseMarket = () => {
+    if (
+      itsYou ||
+      gameData.turn?.current.shouldSelectFilter.choiceType !== 'player'
+    ) {
+      return false;
+    }
+
+    socket.emit('turnChoosedPlayer', 'market');
+    console.log('socketEmitted');
+  };
+
   return (
     <article className="flex flex-col items-center gap-4">
       <h3 className="text-2xl">
@@ -57,9 +80,18 @@ export const NeighborsDeck = ({
         ))}
       </div>
       <div className="flex justify-center items-center gap-4 max-w-full flex-wrap">
-        {neighborsDeck.drawned.map((card) => (
-          <DrawnedNeighborCard cardData={card} key={card.id} />
-        ))}
+        {itsYou && gameData.turn?.current.canReplaceCard && (
+          <button onClick={stopCardReplacement}>Je m'arrète la !</button>
+        )}
+        {!itsYou &&
+          gameData.turn?.current.canChoosedPlayer &&
+          gameData.turn?.current.shouldSelectFilter.actionAwaited ==
+            'steal' && <button onClick={chooseMarket}>Je Prends ici</button>}
+        <div className={styles.neighborsDrawned}>
+          {neighborsDeck.drawned.map((card) => (
+            <DrawnedNeighborCard cardData={card} key={card.id} />
+          ))}
+        </div>
       </div>
     </article>
   );

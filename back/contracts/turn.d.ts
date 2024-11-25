@@ -1,4 +1,4 @@
-import { CardType, NeighborKindness, NeighborType } from './card.js';
+import { CardId, CardType, NeighborKindness, NeighborType } from './card.js';
 import { PlayerData, PlayerId } from './player.js';
 
 export interface PlayerTurnData {
@@ -11,22 +11,37 @@ export interface PlayerTurnData {
   canSummonDemon: boolean;
   canBuyNeighbor: boolean;
   canChoosedCard: boolean;
+  canChoosedPlayer: boolean;
+  canReplaceCard: boolean;
   canLaunchDices: boolean;
   cardSelector?: PlayerId;
   shouldSelectCards: boolean;
-  cardChoiceCountdown: number;
-  shouldSelectCardsFilter?: {
-    numberCard?: number;
-    rangeOfSelection?:
+  shouldSelectPlayers: boolean;
+  choiceCountdown: number;
+  shouldSelectFilter?: {
+    choiceType?:
+      | 'card'
+      | 'player';
+    number?: number;
+    rangeOfSelection?: Array<
       | 'marketChoice'
       | 'opponentChoice'
       | 'selfChoice'
-      | 'null';
+      | 'null'>;
+    actionAwaited?:
+      | 'discard'
+      | 'replace'
+      | 'steal'
+      | 'pick'
+      | 'sacrifice'
+      | 'active'
+      | 'give';
     type?: Array<CardType>;
     neighborType?: Array<NeighborType>;
     neighborKindness?: Array<NeighborKindness>;
   };
-  playerChoosed: boolean;
+  playerChoosed?: boolean;
+  instanceOfMarketCanBeReplaced?: Array<CardId>;
 }
 
 export interface TurnData {

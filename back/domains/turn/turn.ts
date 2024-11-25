@@ -46,6 +46,10 @@ export class Turn implements EntityClass<TurnData> {
     this.current.choosedCard(neighborCardId);
   }
 
+  choosedPlayer(playerId: PlayerId): void {
+    this.current.choosedPlayer(playerId);
+  }
+
   summonDemon(demonCardId: CardId, neighborsSacrifiedIds: Array<CardId>): void {
     this.current.summonDemon(demonCardId, neighborsSacrifiedIds);
   }
@@ -75,7 +79,7 @@ export class Turn implements EntityClass<TurnData> {
 
     return (
       currentPlayerData.summonedDemonsCards.length >=
-        currentPlayerData.minDemonsInvocatedForWin &&
+        RULE_TO_WIN.MIN_DEMONS_INVOCATED &&
       currentPlayerData.soulsTokenCount >= RULE_TO_WIN.MIN_SOUL
     );
   }

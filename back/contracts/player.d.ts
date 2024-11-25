@@ -14,7 +14,7 @@ export interface PlayerData {
   neighborsCards: Array<NeighborCardData>;
   isBot?: boolean;
   isTheftProtected?: boolean;
-  minDemonsInvocatedForWin: number;
+  sacrificeNeighborsCountToInvokeDemon: number;
 }
 
 export interface PlayerInputData {

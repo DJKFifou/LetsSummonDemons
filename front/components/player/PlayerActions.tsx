@@ -6,9 +6,14 @@ import { useTranslation } from 'react-i18next';
 type GameActionsProps = {
   playerData: PlayerData;
   gameData: GameData;
+  itsYou: boolean;
 };
 
-export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
+export const PlayerActions = ({
+  gameData,
+  playerData,
+  itsYou,
+}: GameActionsProps) => {
   const { t } = useTranslation();
   const launchDices = () => {
     socket.emit('turnLaunchDices');
@@ -38,6 +43,16 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
   if (!current || current.player.id !== playerData.id) {
     return <article></article>;
   }
+
+  const stopCardChoice = () => {
+    if (!gameData.turn?.current.shouldSelectCards && !itsYou) {
+      console.log('return false');
+      return false;
+    }
+
+    socket.emit('stopCardAction');
+    console.log('socketEmitted');
+  };
 
   return (
     <article className="playerActions">
@@ -76,6 +91,11 @@ export const PlayerActions = ({ gameData, playerData }: GameActionsProps) => {
           placeholder={t('player.playerActions.giveCardInput')}
         />
       </div>
+      {itsYou &&
+        (gameData.turn?.current.canChoosedCard ||
+          gameData.turn?.current.canChoosedPlayer) && (
+          <button onClick={stopCardChoice}>Annuler</button>
+        )}
     </article>
   );
 };

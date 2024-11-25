@@ -13,6 +13,7 @@ import {
   DoesNotHaveThisDemonCoveredError,
   DoesNotHaveThisNeighborError,
 } from './player.errors.js';
+import { SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON } from '../../constants/game.js';
 
 export class Player implements EntityClass<PlayerData> {
   protected id: PlayerId;
@@ -26,7 +27,7 @@ export class Player implements EntityClass<PlayerData> {
   protected neighborsCards: Array<NeighborCard>;
   protected isBot: boolean;
   protected isTheftProtected: boolean;
-  protected minDemonsInvocatedForWin: number;
+  protected sacrificeNeighborsCountToInvokeDemon: number;
 
   constructor(playerData: PlayerInputData) {
     this.id = uuidv4();
@@ -40,7 +41,8 @@ export class Player implements EntityClass<PlayerData> {
     this.neighborsCards = [];
     this.isBot = false;
     this.isTheftProtected = false;
-    this.minDemonsInvocatedForWin = 3;
+    this.sacrificeNeighborsCountToInvokeDemon =
+      SACRIFICE_NEIGHBORS_COUNT_TO_INVOKE_DEMON;
   }
 
   get data(): PlayerData {
@@ -56,7 +58,8 @@ export class Player implements EntityClass<PlayerData> {
       neighborsCards: this.neighborsCards.map((card) => card.data),
       isBot: this.isBot,
       isTheftProtected: this.isTheftProtected,
-      minDemonsInvocatedForWin: this.minDemonsInvocatedForWin,
+      sacrificeNeighborsCountToInvokeDemon:
+        this.sacrificeNeighborsCountToInvokeDemon,
     };
   }
 
@@ -66,10 +69,6 @@ export class Player implements EntityClass<PlayerData> {
 
   addSoulToken(count: number = 1): void {
     this.soulsTokenCount += count;
-  }
-
-  setMinDemonsInvocatedForWin(count: number = 3) {
-    this.minDemonsInvocatedForWin = count;
   }
 
   resetBoysAndGirlsSoulsTokenCount() {
@@ -106,6 +105,10 @@ export class Player implements EntityClass<PlayerData> {
 
   addCoveredDemonCard(demonCard: DemonCard): void {
     this.coveredDemonsCards.push(demonCard);
+  }
+
+  setSacrificeNeighborsCountToInvokeDemon(count: number) {
+    this.sacrificeNeighborsCountToInvokeDemon = count;
   }
 
   removeCoveredDemonCardById(demonIdToRemove: CardId): DemonCard {
@@ -204,6 +207,11 @@ export class Player implements EntityClass<PlayerData> {
     }
 
     return card;
+  }
+
+  stealNeighborCardToPlayerById(cardId: CardId, player: Player) {
+    const neighborCard = player.removeNeighborCardById(cardId);
+    this.addNeighborCard(neighborCard);
   }
 
   getNeighborCards(): Array<NeighborCard> {

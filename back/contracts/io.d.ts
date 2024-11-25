@@ -17,6 +17,8 @@ export interface IClientToServerEvents {
   testGiveCard: (CardId: CardId) => void;
   turnBuyNeighbor: (neighborCardId: CardId) => void;
   turnChoosedCard: (neighborCardId: CardId) => void;
+  stopCardAction: () => void;
+  turnChoosedPlayer: (playerId: PlayerId) => void;
   turnInvokeDemon: ({
     demonCardId,
     neighborsSacrifiedIds,
