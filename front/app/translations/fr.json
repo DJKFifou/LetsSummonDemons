@@ -48,7 +48,7 @@
       "title": "Créer ou rejoindre une partie",
       "name": "Nom",
       "createButton": "Créer une partie",
-      "gameId": "Id de la partie",
+      "gameId": "ID",
       "joinButton": "Rejoindre la partie"
     },
     "inGame": {

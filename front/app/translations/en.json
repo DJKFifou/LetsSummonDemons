@@ -48,7 +48,7 @@
       "title": "Create or Join a Game",
       "name": "Name",
       "createButton": "Create Game",
-      "gameId": "Game ID",
+      "gameId": "ID",
       "joinButton": "Join Game"
     },
     "inGame": {

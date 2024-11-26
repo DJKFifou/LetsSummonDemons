@@ -46,7 +46,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <main className="h-screen">
       {isConnected ? (
         <>
           <TranslationButtons />
