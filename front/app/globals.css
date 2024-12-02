@@ -31,11 +31,6 @@ a {
   text-decoration: none;
 }
 
-input,
-button {
-  @apply border border-black;
-}
-
 .card[aria-selected='true'] {
   box-shadow:
     #fff 0 -1px 4px,
