@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const TranslationButtons = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -14,22 +14,23 @@ export const TranslationButtons = () => {
     i18n.changeLanguage(savedLanguage);
   }, []);
 
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedLanguage = event.target.value;
+    changeLanguage(selectedLanguage);
+  };
+
   return (
     <article>
-      <div className="absolute top-0 right-0 flex justify-end gap-4 z-10">
-        <button
-          onClick={() => changeLanguage('fr')}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Français
-        </button>
-        <button
-          onClick={() => changeLanguage('en')}
-          className="px-4 py-2 bg-green-500 text-white rounded"
-        >
-          English
-        </button>
-      </div>
+      <select
+        name="translationSelect"
+        id="translationSelect"
+        className="absolute top-10 right-10 z-10 bg-black text-white"
+        onChange={handleSelectChange}
+        defaultValue={localStorage.getItem('language') || 'en'}
+      >
+        <option value="fr">{t('layout.translationButtons.fr')}</option>
+        <option value="en">{t('layout.translationButtons.en')}</option>
+      </select>
     </article>
   );
 };

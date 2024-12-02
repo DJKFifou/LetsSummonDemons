@@ -1,5 +1,6 @@
 'use client';
 import { TranslationButtons } from '@/components/layout/TranslationButtons';
+import { SoundButton } from '@/components/layout/SoundButton';
 import { IngameScreen } from '@/components/screens/IngameScreen';
 import { HomeScreen } from '@/components/screens/HomeScreen';
 import { socket } from '@/socket';
@@ -50,6 +51,7 @@ export default function Home() {
       {isConnected ? (
         <>
           <TranslationButtons />
+          <SoundButton />
           {gameData && playerId ? (
             <IngameScreen playerId={playerId} gameData={gameData} />
           ) : (

@@ -16,6 +16,18 @@
       "players": "PLAYERS"
     }
   },
+  "layout": {
+    "soundButton": {
+      "sound": "ACTIVATED SOUND"
+    },
+    "translationButtons": {
+      "en": "EN",
+      "fr": "FR"
+    },
+    "backButton": {
+      "back": "BACK"
+    }
+  },
   "neighborsDeck": {
     "neighborsDeck": {
       "neighborsDeck": "Neighbors Deck"
