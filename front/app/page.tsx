@@ -1,7 +1,7 @@
 'use client';
 import { TranslationButtons } from '@/components/layout/TranslationButtons';
 import { IngameScreen } from '@/components/screens/IngameScreen';
-import { JoinOrCreateGameScreen } from '@/components/screens/JoinOrCreateGameScreen';
+import { HomeScreen } from '@/components/screens/HomeScreen';
 import { socket } from '@/socket';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
@@ -53,7 +53,7 @@ export default function Home() {
           {gameData && playerId ? (
             <IngameScreen playerId={playerId} gameData={gameData} />
           ) : (
-            <JoinOrCreateGameScreen />
+            <HomeScreen />
           )}
         </>
       ) : (

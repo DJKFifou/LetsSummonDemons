@@ -46,7 +46,7 @@
   "screens": {
     "joinOrCreate": {
       "title": "Create or Join a Game",
-      "name": "Name",
+      "pseudo": "Pseudo",
       "createButton": "Create Game",
       "gameId": "ID",
       "joinButton": "Join Game"
@@ -54,6 +54,12 @@
     "inGame": {
       "title": "In game",
       "startButton": "Start"
+    },
+    "home": {
+      "playButton": "PLAY",
+      "rulesButton": "GAME RULES",
+      "paramsButton": "SETTINGS",
+      "creditsButton": "CREDITS"
     }
   },
   "soul": {

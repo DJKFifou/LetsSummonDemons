@@ -680,6 +680,10 @@ video {
   position: sticky;
 }
 
+.bottom-16 {
+  bottom: 4rem;
+}
+
 .left-0 {
   left: 0px;
 }
@@ -766,6 +770,10 @@ video {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.w-96 {
+  width: 24rem;
 }
 
 .w-\[10vw\] {

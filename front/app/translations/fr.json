@@ -46,7 +46,7 @@
   "screens": {
     "joinOrCreate": {
       "title": "Créer ou rejoindre une partie",
-      "name": "Nom",
+      "pseudo": "Pseudo",
       "createButton": "Créer une partie",
       "gameId": "ID",
       "joinButton": "Rejoindre la partie"
@@ -54,6 +54,12 @@
     "inGame": {
       "title": "En partie",
       "startButton": "Démarrer"
+    },
+    "home": {
+      "playButton": "JOUER",
+      "rulesButton": "RĖGLES DU JEU",
+      "paramsButton": "PARAMĖTRES",
+      "creditsButton": "CRÉDITS"
     }
   },
   "soul": {

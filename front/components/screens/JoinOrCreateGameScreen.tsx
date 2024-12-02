@@ -22,7 +22,7 @@ export const JoinOrCreateGameScreen = () => {
       <div className="flex flex-col gap-4">
         <div className="flex gap-6 justify-center items-center">
           <label className="text-xl font-semibold">
-            {t('screens.joinOrCreate.name')}
+            {t('screens.joinOrCreate.pseudo')}
           </label>
           <input
             value={name}
