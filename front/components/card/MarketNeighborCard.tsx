@@ -90,7 +90,7 @@ export const MarketNeighborCard = ({
   };
 
   return (
-    <article className="flex flex-col justify-center">
+    <article className="flex flex-col justify-center items-center">
       <Card cardData={cardData} />
       {isBuyable && !gameData.turn?.current.shouldSelectCards && (
         <button onClick={buyNeighbor}>

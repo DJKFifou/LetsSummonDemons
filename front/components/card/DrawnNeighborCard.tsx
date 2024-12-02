@@ -6,7 +6,7 @@ type DrawnedNeighborCardProps = {
 };
 export const DrawnedNeighborCard = ({ cardData }: DrawnedNeighborCardProps) => {
   return (
-    <article className="flex flex-col justify-center">
+    <article className="flex flex-col justify-center items-center">
       <Card cardData={cardData} />
     </article>
   );
