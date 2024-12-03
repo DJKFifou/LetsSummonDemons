@@ -8,6 +8,7 @@ export type GameState = 'starting' | 'started' | 'ended';
 
 export interface GameData {
   id: GameId;
+  hostId: PlayerId;
   players: Array<PlayerData>;
   state: GameState;
   neighborsDeck: NeighborsDeckData;
