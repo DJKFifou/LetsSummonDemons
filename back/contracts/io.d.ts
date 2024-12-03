@@ -6,6 +6,7 @@ import { PlayerId } from './player.js';
 export interface IServerToClientEvents {
   gameData: (gameData: GameData) => void;
   playerId: (playerId: PlayerId) => void;
+  hostId: (playerId: PlayerId) => void;
 }
 
 export interface IClientToServerEvents {
@@ -34,6 +35,7 @@ export interface IServerToServerEvents {}
 export interface ISocketSessionData {
   gameId?: GameId;
   playerId?: GameId;
+  hostId?: GameId;
 }
 
 export type IoServer = Server<

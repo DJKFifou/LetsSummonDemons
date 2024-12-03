@@ -7,10 +7,11 @@ type SoulsProps = {
 
 export const Souls = ({ count }: SoulsProps) => {
   const { t } = useTranslation();
+
   return (
     <article>
       <p>
-        {count} {t('soul.souls.souls')}{' '}
+        {count} {t('soul.souls.souls')}
       </p>
       <ul className="flex gap-2 list-none">
         {Array.from({ length: count }, (_, index) => (

@@ -45,6 +45,7 @@ function shortUuidv4(): string {
 
 export class Game implements EntityClass<GameData> {
   protected id: GameId;
+  protected hostId: PlayerId;
   protected players: Player[];
   protected state: GameState;
   protected winner?: PlayerId;
@@ -63,6 +64,7 @@ export class Game implements EntityClass<GameData> {
     this.state = 'starting';
 
     this.dices = Array.from({ length: DICE_COUNT }, () => new Dice());
+    this.hostId = null;
   }
 
   addPlayer(player: Player): void {
@@ -75,6 +77,10 @@ export class Game implements EntityClass<GameData> {
     }
 
     this.players.push(player);
+
+    if (!this.hostId) {
+      this.hostId = player.data.id;
+    }
 
     this.emitDataToSockets();
   }
@@ -137,6 +143,7 @@ export class Game implements EntityClass<GameData> {
   get data(): GameData {
     return {
       id: this.id,
+      hostId: this.hostId,
       players: this.players.map((player) => player.data),
       state: this.state,
       turn: this.turn?.data,

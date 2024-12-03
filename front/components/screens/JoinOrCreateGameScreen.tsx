@@ -1,6 +1,9 @@
 import { socket } from '@/socket';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { TranslationButtons } from '@/components/layout/TranslationButtons';
+import { SoundButton } from '@/components/layout/SoundButton';
+import { Logo } from '@/components/layout/Logo';
 
 interface JoinOrCreateGameScreenProps {
   onBack: () => void;
@@ -22,9 +25,11 @@ export const JoinOrCreateGameScreen = ({
   };
 
   return (
-    <article className="h-full flex flex-col items-center">
+    <article className="container mx-auto h-full flex flex-col items-center">
+      <TranslationButtons />
+      <SoundButton />
       <div className="absolute top-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-10">
-        <img className="w-48" src="/images/lsd.svg" alt="Logo" />
+        <Logo />
         <h3 className="text-center text-2xl font-semibold">
           Rejoignez une session ou lancez votre propre rituel pour invoquer des
           démons.
@@ -36,18 +41,21 @@ export const JoinOrCreateGameScreen = ({
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full py-4 px-6 bg-black border-white text-white text-xl font-semibold"
+            className="w-full py-4 px-6 bg-black border-2 border-white text-white text-xl font-semibold"
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-8 mt-96">
-        <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 gap-24 mt-96">
+        <div className="flex flex-col items-center text-center gap-8">
           <h2 className="text-4.5xl font-semibold">
             REJOINDRE UN RITUEL MAUDIT
           </h2>
           <h5 className="text-xl font-semibold">
             Vous avez reçu un code ? Rejoignez vos amis pour invoquer des forces
             obscures.
+          </h5>
+          <h5 className="py-4 text-xl font-semibold">
+            NOMBRE DE JOUEURS : 2 - 5
           </h5>
           <button
             onClick={createGame}
@@ -56,7 +64,7 @@ export const JoinOrCreateGameScreen = ({
             {t('screens.joinOrCreate.createButton')}
           </button>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col items-center text-center gap-8">
           <h2 className="text-4.5xl font-semibold">
             DEVENIR LE MAÎTRE DU RITUEL
           </h2>
@@ -69,7 +77,7 @@ export const JoinOrCreateGameScreen = ({
               {t('screens.joinOrCreate.gameId')}
             </label> */}
             <input
-              className="w-full py-4 px-6 bg-black border-white text-white text-xl font-semibold uppercase text-center"
+              className="w-full py-4 px-6 bg-black border-2 border-white text-white text-xl font-semibold uppercase text-center"
               value={gameId}
               placeholder="XXXXXX"
               onChange={(e) => setGameId(e.target.value)}

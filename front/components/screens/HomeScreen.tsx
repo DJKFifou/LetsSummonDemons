@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { JoinOrCreateGameScreen } from './JoinOrCreateGameScreen';
+import { TranslationButtons } from '@/components/layout/TranslationButtons';
+import { SoundButton } from '@/components/layout/SoundButton';
+import { Logo } from '@/components/layout/Logo';
 
 export const HomeScreen = () => {
   const { t } = useTranslation();
@@ -17,9 +20,11 @@ export const HomeScreen = () => {
   }
 
   return (
-    <article className="relative h-full flex flex-col items-center justify-center text-xl font-semibold">
+    <article className="h-full flex flex-col items-center justify-center text-xl font-semibold">
+      <TranslationButtons />
+      <SoundButton />
       <div className="flex flex-col gap-20">
-        <img src="/images/lsd.svg" alt="Logo" />
+        <Logo home={true} />
         <div className="flex flex-col items-center gap-4">
           <button
             onClick={() => handleScreenChange('joinOrCreate')}
