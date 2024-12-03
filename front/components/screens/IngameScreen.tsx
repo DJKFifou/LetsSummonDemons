@@ -21,28 +21,36 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
   const isHost = gameData.hostId === playerId;
 
   return (
-    <article className="container mx-auto h-full flex flex-col items-center">
+    <article className="relative container mx-auto h-full flex flex-col items-center">
       {gameData.state === 'starting' && (
-        <div>
+        <div className="flex items-center justify-center h-full text-center">
           <TranslationButtons />
           <SoundButton />
           <Logo />
           {isHost && (
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col items-center gap-10">
               <h2 className="text-4.5xl font-semibold">
                 en attente d’autres joueurs...
               </h2>
+              <div className="flex items-center gap-8">
+                <span className="text-3xl">{gameData.id}</span>
+                <span className="p-4 border-2 border-white">COPIER</span>
+              </div>
               <h5 className="text-xl font-semibold">
                 Envoyez ce code à vos comparses pour qu’ils rejoignent le
                 cercle. Ensuite, semez le désordre.
               </h5>
-              <div className="flex gap-8">
-                <span>{gameData.id}</span>
-                <span className="p-4 border-2 border-white">COPIER</span>
+              <div className="absolute left-1/2 bottom-16 -translate-x-1/2 flex flex-col gap-6 text-xl font-semibold">
+                <h5>
+                  {gameData.players.length} joueurs ont rejoint le rituel.
+                </h5>
+                <button
+                  onClick={startGame}
+                  className="w-96 py-4 px-6 bg-white text-black"
+                >
+                  {t('screens.inGame.startButton')}
+                </button>
               </div>
-              <button onClick={startGame}>
-                {t('screens.inGame.startButton')}
-              </button>
             </div>
           )}
           {!isHost && (

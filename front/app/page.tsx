@@ -45,7 +45,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="h-screen">
+    <main className="relative h-screen max-w-screen">
       {isConnected ? (
         <>
           {gameData && playerId ? (

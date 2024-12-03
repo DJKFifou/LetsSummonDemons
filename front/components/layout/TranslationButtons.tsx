@@ -24,7 +24,7 @@ export const TranslationButtons = () => {
       <select
         name="translationSelect"
         id="translationSelect"
-        className="absolute top-10 right-10 z-10 bg-black text-white"
+        className="absolute top-10 right-10 z-10 bg-black text-white text-xl font-semibold"
         onChange={handleSelectChange}
         defaultValue={localStorage.getItem('language') || 'en'}
       >
