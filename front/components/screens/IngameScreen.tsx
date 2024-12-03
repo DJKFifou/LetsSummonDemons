@@ -18,10 +18,14 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
     socket.emit('gameStart');
   };
 
+  const copyGameId = () => {
+    navigator.clipboard.writeText(gameData.id);
+  };
+
   const isHost = gameData.hostId === playerId;
 
   return (
-    <article className="relative container mx-auto h-full flex flex-col items-center">
+    <article className="container mx-auto h-full flex flex-col items-center">
       {gameData.state === 'starting' && (
         <div className="flex items-center justify-center h-full text-center">
           <TranslationButtons />
@@ -34,7 +38,12 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
               </h2>
               <div className="flex items-center gap-8">
                 <span className="text-3xl">{gameData.id}</span>
-                <span className="p-4 border-2 border-white">COPIER</span>
+                <span
+                  onClick={copyGameId}
+                  className="p-4 border-2 border-white cursor-pointer"
+                >
+                  COPIER
+                </span>
               </div>
               <h5 className="text-xl font-semibold">
                 Envoyez ce code à vos comparses pour qu’ils rejoignent le
@@ -57,7 +66,7 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
             <div className="flex flex-col gap-10">
               <h2 className="text-4.5xl font-semibold">partie rejointe !</h2>
               <h5 className="text-xl font-semibold">
-                En attente d’autres joueurs... (2/3)
+                En attente d’autres joueurs... ({gameData.players.length}/5)
               </h5>
             </div>
           )}

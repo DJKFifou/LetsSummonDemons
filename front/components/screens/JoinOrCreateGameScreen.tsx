@@ -29,7 +29,7 @@ export const JoinOrCreateGameScreen = ({
       <TranslationButtons />
       <SoundButton />
       <Logo />
-      <div className="absolute top-28 left-1/2 -translate-x-1/2 flex flex-col items-center gap-10 w-1/2">
+      <div className="absolute top-40 left-1/2 -translate-x-1/2 flex flex-col items-center gap-10 w-1/2">
         <h3 className="text-center text-2xl font-semibold">
           Rejoignez une session ou lancez votre propre rituel pour invoquer des
           démons.
