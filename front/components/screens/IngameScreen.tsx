@@ -1,4 +1,5 @@
 import { socket } from '@/socket';
+import { useEffect, useState } from 'react';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
 import { GameDataDisplay } from '../game/Game';
@@ -12,8 +13,48 @@ type IngameScreenProps = {
   gameData: GameData;
 };
 
+interface ConsoleMessage {
+  text: string;
+  timestamp: number;
+  id: number;
+  opacity: number;
+}
+
 export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
   const { t } = useTranslation();
+
+  const [consoleMessages, setConsoleMessages] = useState<ConsoleMessage[]>([]);
+
+  const MESSAGE_LIFETIME = 8000;
+  const FADE_DURATION = 1000;
+
+  useEffect(() => {
+    const newMessages = gameData.gameConsole.map((line, index) => ({
+      text: line,
+      timestamp: Date.now(),
+      id: index,
+      opacity: 1,
+    }));
+
+    setConsoleMessages(newMessages);
+
+    newMessages.forEach((message) => {
+      setTimeout(() => {
+        setConsoleMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.id === message.id ? { ...msg, opacity: 0 } : msg,
+          ),
+        );
+
+        setTimeout(() => {
+          setConsoleMessages((prevMessages) =>
+            prevMessages.filter((msg) => msg.id !== message.id),
+          );
+        }, FADE_DURATION);
+      }, MESSAGE_LIFETIME);
+    });
+  }, [gameData.gameConsole]);
+
   const startGame = () => {
     socket.emit('gameStart');
   };
@@ -26,6 +67,23 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
 
   return (
     <article className="container mx-auto h-full flex flex-col items-center">
+      {/* Console Start */}
+      <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
+        {consoleMessages.map((message) => {
+          const opacity = Math.max(0, message.opacity);
+
+          return (
+            <div
+              key={message.id}
+              className="transition-opacity duration-1000 ease-in-out"
+              style={{ opacity }}
+            >
+              {message.text}
+            </div>
+          );
+        })}
+      </div>
+      {/* Console End */}
       {gameData.state === 'starting' && (
         <div className="flex items-center justify-center h-full text-center">
           <TranslationButtons />

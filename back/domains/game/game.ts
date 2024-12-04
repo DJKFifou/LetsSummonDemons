@@ -32,7 +32,7 @@ import {
 } from './game.errors.js';
 
 function shortUuidv4(): string {
-  let uuidArray: string[] = [];
+  const uuidArray: string[] = [];
   uuidv4()
     .split('')
     .forEach((char) => {
@@ -48,6 +48,7 @@ export class Game implements EntityClass<GameData> {
   protected hostId: PlayerId;
   protected players: Player[];
   protected state: GameState;
+  gameConsole: [string];
   protected winner?: PlayerId;
 
   turn?: Turn;
@@ -62,6 +63,7 @@ export class Game implements EntityClass<GameData> {
     this.players = [];
     this.turn = null;
     this.state = 'starting';
+    this.gameConsole = [''];
 
     this.dices = Array.from({ length: DICE_COUNT }, () => new Dice());
     this.hostId = null;
@@ -80,6 +82,10 @@ export class Game implements EntityClass<GameData> {
 
     if (!this.hostId) {
       this.hostId = player.data.id;
+      this.gameConsole.shift();
+      this.gameConsole.push(`${player.data.name} a créé la partie.`);
+    } else {
+      this.gameConsole.push(`${player.data.name} a rejoint la partie.`);
     }
 
     this.emitDataToSockets();
@@ -146,6 +152,7 @@ export class Game implements EntityClass<GameData> {
       hostId: this.hostId,
       players: this.players.map((player) => player.data),
       state: this.state,
+      gameConsole: this.gameConsole,
       turn: this.turn?.data,
       neighborsDeck: this.neighborsDeck?.data,
     };
