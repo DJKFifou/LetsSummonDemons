@@ -11,6 +11,7 @@ export interface GameData {
   hostId: PlayerId;
   players: Array<PlayerData>;
   state: GameState;
+  gameConsole: [string];
   neighborsDeck: NeighborsDeckData;
   turn?: TurnData;
   winner?: PlayerId;
