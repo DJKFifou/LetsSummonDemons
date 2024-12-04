@@ -41,6 +41,7 @@
     "lint": "eslint . --ext .ts --ext .js --ext .mjs --ext .mts --ext tsx --ext jsx",
     "prettier": "prettier --config .prettierrc --write .",
     "dev": "concurrently --names \"BUILD,BACK,FRONT,TAILWIND\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgCyan.bold\" \"npm run build:watch -w back\" \"npm run dev -w back\" \"npm run dev -w front\" \"npm run tailwind:watch\"",
+    "build": "npm run build -w back && npm run build -w front",
     "start": "npm run start -w back",
     "tailwind:build": "tailwindcss -i ./front/app/globals.css -o ./front/dist/globals.css --minify",
     "tailwind:watch": "tailwindcss -i ./front/app/globals.css -o ./front/dist/globals.css --watch"
