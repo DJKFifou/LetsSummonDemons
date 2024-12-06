@@ -220,12 +220,12 @@ export class PlayerTurn implements EntityClass<PlayerTurnData> {
     cardOwner: Player,
     choiceType: 'card' | 'player',
     choiceNumber: number,
-    rangeOfSelection: Array<String>,
-    actionAwaited: String,
+    rangeOfSelection: Array<string>,
+    actionAwaited: string,
     type?: Array<CardType>,
     neighborType?: Array<NeighborType>,
     neighborKindness?: Array<NeighborKindness>,
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     let response = false;
 
     if (choiceType == 'card') {
