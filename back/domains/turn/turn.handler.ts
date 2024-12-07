@@ -54,7 +54,7 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     game.turn.buyNeighbor(neighborCardId);
 
     game.gameConsole.push(
-      `${game.data.turn.current.player.name} bought a card named ${
+      `${game.data.turn.current.player.name} bought ${
         game.data.turn.current.player.neighborsCards[
           game.data.turn.current.player.neighborsCards.length - 1
         ].name
@@ -116,10 +116,6 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     }
 
     game.turn.endTurn();
-
-    game.gameConsole.push(
-      `${game.data.turn.current.player.name} ended his turn`,
-    );
 
     socket.emit('gameData', game.data);
   });

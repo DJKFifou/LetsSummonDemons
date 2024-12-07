@@ -59,6 +59,10 @@ export class Turn implements EntityClass<TurnData> {
       throw new CannotEndTurnError();
     }
 
+    this.game.gameConsole.push(
+      `${this.game.data.turn.current.player.name} ended his turn`,
+    );
+
     this.game.playerList.forEach((player) => {
       player.getNeighborCards().forEach((neighborCard) => {
         neighborCard.isActivableSetter();
@@ -69,6 +73,10 @@ export class Turn implements EntityClass<TurnData> {
       this.game.end(this.current.data.player);
     } else {
       this.nextPlayer();
+
+      this.game.gameConsole.push(
+        `${this.game.data.turn.current.player.name} started his turn`,
+      );
 
       this.game.emitDataToSockets();
     }
