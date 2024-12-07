@@ -1,5 +1,5 @@
 import { socket } from '@/socket';
-import { CardId } from '@lsd/back/contracts/card';
+import { CardData, CardId } from '@lsd/back/contracts/card';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
 import { useState } from 'react';
@@ -71,7 +71,7 @@ export const PlayerDataDisplay = ({
     setNeighborsToSacrifice([]);
   };
 
-  const choosedCard = (cardData) => {
+  const choosedCard = (cardData: any) => {
     if (!gameData.turn?.current.shouldSelectCards) {
       return false;
     }
@@ -93,7 +93,7 @@ export const PlayerDataDisplay = ({
     console.log('socketEmitted');
   };
 
-  const choosePlayer = (playerId) => {
+  const choosePlayer = (playerId: any) => {
     if (
       itsYou ||
       gameData.turn?.current?.shouldSelectFilter?.choiceType !== 'player'
@@ -105,7 +105,7 @@ export const PlayerDataDisplay = ({
     console.log('socketEmitted');
   };
 
-  const isSelectable = (card, action: string): boolean => {
+  const isSelectable = (card: any, action: string): boolean => {
     const currentTurn = gameData.turn?.current;
     if (
       !currentTurn ||

@@ -74,7 +74,7 @@ export const MarketNeighborCard = ({
       );
     }
   };
-  const isReplacable = (cardId): boolean => {
+  const isReplacable = (cardId: any): boolean => {
     const currentTurn = gameData.turn?.current;
     let cardIsReplacable = false;
     if (!currentTurn || !currentTurn.canReplaceCard) {
