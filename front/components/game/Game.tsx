@@ -38,15 +38,18 @@ export const GameDataDisplay = ({
       </div>
       <p>{t('game.game.players')}:</p>
       <div className="flex gap-2">
-        {gameData.players.map((player) => (
-          <PlayerDataDisplay
-            gameData={gameData}
-            playerData={player}
-            itsTurn={gameData.turn?.current.player.id === player.id}
-            itsYou={player.id === playerId}
-            key={player.id}
-          />
-        ))}
+        {gameData.players
+          .slice()
+          .sort((a, b) => (a.id === playerId ? -1 : b.id === playerId ? 1 : 0))
+          .map((player) => (
+            <PlayerDataDisplay
+              gameData={gameData}
+              playerData={player}
+              itsTurn={gameData.turn?.current.player.id === player.id}
+              itsYou={player.id === playerId}
+              key={player.id}
+            />
+          ))}
       </div>
     </article>
   );
