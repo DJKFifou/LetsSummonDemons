@@ -53,6 +53,14 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     game.turn.buyNeighbor(neighborCardId);
 
+    game.gameConsole.push(
+      `${game.data.turn.current.player.name} bought a card named ${
+        game.data.turn.current.player.neighborsCards[
+          game.data.turn.current.player.neighborsCards.length - 1
+        ].name
+      }`,
+    );
+
     socket.emit('gameData', game.data);
   });
 
@@ -75,9 +83,8 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('stopCardAction', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
-
     game.turn.current.choiceCountdown = 0;
-    
+
     socket.emit('gameData', game.data);
   });
 
@@ -90,6 +97,14 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     game.turn.summonDemon(demonCardId, neighborsSacrifiedIds);
 
+    game.gameConsole.push(
+      `${game.data.turn.current.player.name} invoked ${
+        game.data.turn.current.player.summonedDemonsCards[
+          game.data.turn.current.player.summonedDemonsCards.length - 1
+        ].name
+      }`,
+    );
+
     socket.emit('gameData', game.data);
   });
 
@@ -101,6 +116,10 @@ export const registerTurnHandlers = (_io: IoServer, socket: IoSocket): void => {
     }
 
     game.turn.endTurn();
+
+    game.gameConsole.push(
+      `${game.data.turn.current.player.name} ended his turn`,
+    );
 
     socket.emit('gameData', game.data);
   });

@@ -25,7 +25,6 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
 
     socket.emit('playerId', player.data.id);
     socket.emit('hostId', player.data.id);
-    // socket.emit('gameConsole', `${player.data.name} a créé la partie.`);
   });
 
   socket.on('gameJoin', ({ gameId, playerInputData }) => {

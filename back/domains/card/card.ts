@@ -57,6 +57,9 @@ export class Card<T extends GenericCardData> implements EntityClass<T> {
     console.log(
       `${this.data.name} activated for ${cardOwner.data.name} by ${game.data.turn.current.player.name}`,
     );
+    game.gameConsole.push(
+      `${this.data.name} activated for ${cardOwner.data.name} by ${game.data.turn.current.player.name}`,
+    );
 
     game.emitDataToSockets();
   }
