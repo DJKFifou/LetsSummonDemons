@@ -8,9 +8,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "i18next": "^24.0.5",
     "next": "14.0.2",
+    "next-i18next": "^15.4.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-i18next": "^15.1.3",
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
