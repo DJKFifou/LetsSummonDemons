@@ -23,37 +23,37 @@ interface ConsoleMessage {
 export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
   const { t } = useTranslation();
 
-  const [consoleMessages, setConsoleMessages] = useState<ConsoleMessage[]>([]);
+  // const [consoleMessages, setConsoleMessages] = useState<ConsoleMessage[]>([]);
 
-  const MESSAGE_LIFETIME = 8000;
-  const FADE_DURATION = 1000;
+  // const MESSAGE_LIFETIME = 8000;
+  // const FADE_DURATION = 1000;
 
-  useEffect(() => {
-    const newMessages = gameData.gameConsole.map((line, index) => ({
-      text: line,
-      timestamp: Date.now(),
-      id: index,
-      opacity: 1,
-    }));
+  // useEffect(() => {
+  //   const newMessages = gameData.gameConsole.map((line, index) => ({
+  //     text: line,
+  //     timestamp: Date.now(),
+  //     id: index,
+  //     opacity: 1,
+  //   }));
 
-    setConsoleMessages(newMessages);
+  //   setConsoleMessages(newMessages);
 
-    newMessages.forEach((message) => {
-      setTimeout(() => {
-        setConsoleMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === message.id ? { ...msg, opacity: 0 } : msg,
-          ),
-        );
+  //   newMessages.forEach((message) => {
+  //     setTimeout(() => {
+  //       setConsoleMessages((prevMessages) =>
+  //         prevMessages.map((msg) =>
+  //           msg.id === message.id ? { ...msg, opacity: 0 } : msg,
+  //         ),
+  //       );
 
-        setTimeout(() => {
-          setConsoleMessages((prevMessages) =>
-            prevMessages.filter((msg) => msg.id !== message.id),
-          );
-        }, FADE_DURATION);
-      }, MESSAGE_LIFETIME);
-    });
-  }, [gameData.gameConsole]);
+  //       setTimeout(() => {
+  //         setConsoleMessages((prevMessages) =>
+  //           prevMessages.filter((msg) => msg.id !== message.id),
+  //         );
+  //       }, FADE_DURATION);
+  //     }, MESSAGE_LIFETIME);
+  //   });
+  // }, [gameData.gameConsole]);
 
   const startGame = () => {
     socket.emit('gameStart');
@@ -69,7 +69,7 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
     <article className="container mx-auto h-full flex flex-col items-center">
       {/* Console Start */}
       <div className="absolute top-4 left-4 flex flex-col items-start gap-2">
-        {consoleMessages.map((message) => {
+        {/* {consoleMessages.map((message) => {
           const opacity = Math.max(0, message.opacity);
 
           return (
@@ -81,7 +81,10 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
               {message.text}
             </div>
           );
-        })}
+        })} */}
+        {gameData.gameConsole.slice(-5).map((line, index) => (
+          <span key={index}>{line}</span>
+        ))}
       </div>
       {/* Console End */}
       {gameData.state === 'starting' && (
