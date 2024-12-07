@@ -3,6 +3,7 @@
     "@types/uuid": "^9.0.7",
     "concurrently": "^8.2.2",
     "i18next": "^24.0.0",
+    "next-i18next": "^15.4.0",
     "react-i18next": "^15.1.1",
     "tslib": "~2.6",
     "uuid": "^9.0.1"
