@@ -21,7 +21,9 @@ export const Card = ({
   const { t } = useTranslation();
   return (
     <figure
-      className="card relative w-[10vw] rounded-full"
+      className={`card relative ${
+        cardData.type === 'DEMON' ? 'w-[3vw]' : 'w-[10vw]'
+      } rounded-full`}
       aria-selected={isSelected}
     >
       <Image

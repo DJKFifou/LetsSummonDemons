@@ -62,7 +62,7 @@ export const NeighborsDeck = ({
       <h3 className="text-2xl">
         {t('neighborsDeck.neighborsDeck.neighborsDeck')}
       </h3>
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         {neighborsDeck.market[0] && (
           <CoveredCardStack
             cardCount={neighborsDeck.remainingCardsCount}
