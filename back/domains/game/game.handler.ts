@@ -30,7 +30,14 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('gameJoin', ({ gameId, playerInputData }) => {
     const game = gameRepository.getGameById(gameId);
 
-    if (!game) {
+    if (
+      !game ||
+      !playerInputData.name?.trim() ||
+      game.data.players.length >= 5 ||
+      game.playerList.some(
+        (player) => player.data.name === playerInputData.name,
+      )
+    ) {
       return;
       // todo handle no game found
     }
