@@ -13,7 +13,7 @@ interface CoveredCardStackProps {
 }
 const CoveredCardStack = ({ cardData, cardCount }: CoveredCardStackProps) => {
   return (
-    <div className="coveredCardStack relative *:absolute ">
+    <div className="coveredCardStack relative *:absolute">
       {cardCount > 1 && <Card cardData={cardData} covered={true} />}
       {cardCount > 2 && <Card cardData={cardData} covered={true} />}
       {cardCount > 3 && <Card cardData={cardData} covered={true} />}
@@ -63,12 +63,12 @@ export const NeighborsDeck = ({
         {t('neighborsDeck.neighborsDeck.neighborsDeck')}
       </h3>
       <div className="grid grid-cols-3 gap-4">
-        {neighborsDeck.market[0] && (
+        {/* {neighborsDeck.market[0] && (
           <CoveredCardStack
             cardCount={neighborsDeck.remainingCardsCount}
             cardData={neighborsDeck.market[0]}
           />
-        )}
+        )} */}
         {neighborsDeck.market.map((card) => (
           <MarketNeighborCard
             gameData={gameData}

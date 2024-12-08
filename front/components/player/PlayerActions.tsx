@@ -55,8 +55,8 @@ export const PlayerActions = ({
   };
 
   return (
-    <article className="playerActions">
-      <div className="numbersContainer">
+    <article className="playerActions flex flex-col gap-1">
+      <div className="numbersContainer flex flex-col items-center gap-1">
         {current.launchedDices && (
           <span>
             {t('player.playerActions.dicesResult')} {current.dicesResult}
@@ -73,7 +73,10 @@ export const PlayerActions = ({
           placeholder={t('player.playerActions.diceInput')}
         />
         {current.canLaunchDices && (
-          <button onClick={launchDices}>
+          <button
+            className="w-[10vw] h-[10vw] bg-gray-400 rounded-full"
+            onClick={launchDices}
+          >
             {t('player.playerActions.launchDices')}
           </button>
         )}
@@ -81,7 +84,7 @@ export const PlayerActions = ({
           <button onClick={endTurn}>{t('player.playerActions.endTurn')}</button>
         )}
       </div>
-      <div className="giveCardContainer">
+      <div className="giveCardContainer flex flex-col gap-1">
         <button onClick={testGiveCard}>
           {t('player.playerActions.testGiveCard')}
         </button>
