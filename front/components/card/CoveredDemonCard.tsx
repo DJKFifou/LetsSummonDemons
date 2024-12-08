@@ -8,6 +8,7 @@ type CoveredDemonCard = {
   isSelected?: boolean;
   isYourCard?: boolean;
   onToggleSelect?: () => void;
+  width?: string;
 };
 export const CoveredDemonCard = ({
   cardData,
@@ -15,6 +16,7 @@ export const CoveredDemonCard = ({
   isSelected,
   isYourCard,
   onToggleSelect,
+  width,
 }: CoveredDemonCard) => {
   const [isCovered, setIsCovered] = useState(false);
 
@@ -34,6 +36,7 @@ export const CoveredDemonCard = ({
         onToggleSelect={onToggleSelect}
         covered={!isCovered && !isSelected}
         cardData={cardData}
+        width={width}
       />
     </article>
   );

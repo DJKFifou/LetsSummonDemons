@@ -10,6 +10,7 @@ type CardProps = {
   isSelectable?: boolean;
   isSelected?: boolean;
   onToggleSelect?: () => void;
+  width?: string;
 };
 export const Card = ({
   cardData,
@@ -17,13 +18,12 @@ export const Card = ({
   isSelected,
   isSelectable,
   onToggleSelect,
+  width,
 }: CardProps) => {
   const { t } = useTranslation();
   return (
     <figure
-      className={`card relative ${
-        cardData.type === 'DEMON' ? 'w-[3vw]' : 'w-[10vw]'
-      } rounded-full`}
+      className={`card relative ${width ? width : 'w-[10vw]'} rounded-full`}
       aria-selected={isSelected}
     >
       <Image
