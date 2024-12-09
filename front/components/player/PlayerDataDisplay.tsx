@@ -28,6 +28,11 @@ export const PlayerDataDisplay = ({
   const [visibleSection, setVisibleSection] = useState<
     'neighborsCards' | 'demonCards'
   >('neighborsCards');
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded((prev) => !prev);
+  };
 
   const { t } = useTranslation();
   const itsYourTurn = itsTurn && itsYou;
@@ -218,28 +223,48 @@ export const PlayerDataDisplay = ({
               {/* <Souls count={playerData.soulsTokenCount} /> */}
             </div>
             <div className="flex flex-col w-1/2">
-              <div>
+              <div className="flex justify-between">
+                <div>
+                  <button
+                    className={`py-2 px-6 ${
+                      visibleSection === 'neighborsCards'
+                        ? 'bg-slate-200'
+                        : 'bg-slate-400'
+                    }  text-black`}
+                    onClick={() => setVisibleSection('neighborsCards')}
+                  >
+                    CARTES ({playerData.neighborsCards.length})
+                  </button>
+                  <button
+                    className={`py-2 px-6 ${
+                      visibleSection === 'demonCards'
+                        ? 'bg-slate-200'
+                        : 'bg-slate-400'
+                    }  text-black`}
+                    onClick={() => setVisibleSection('demonCards')}
+                  >
+                    DEMONS ({playerData.summonedDemonsCards.length}/3)
+                  </button>
+                </div>
                 <button
-                  className="bg-slate-200"
-                  onClick={() => setVisibleSection('neighborsCards')}
+                  className="w-10 h-10 -translate-x-4 translate-y-4 bg-slate-300 text-black"
+                  onClick={toggleExpand}
                 >
-                  CARTES ({playerData.neighborsCards.length})
-                </button>
-                <button
-                  className="bg-slate-400"
-                  onClick={() => setVisibleSection('demonCards')}
-                >
-                  DEMONS ({playerData.summonedDemonsCards.length}/3)
+                  {isExpanded ? '-' : '+'}
                 </button>
               </div>
-              <div className="flex flex-col justify-end h-48 px-6 py-4 bg-slate-200">
+              <div
+                className={`flex flex-col justify-end min-h-48 ${
+                  isExpanded ? 'h-auto' : 'h-48'
+                } px-6 py-4 bg-slate-200 overflow-hidden`}
+              >
                 <div>
                   <div>
                     {/* <p className="cursor-pointer font-bold">
                       {t('player.playerDataDisplay.coveredDemonCards')}:
                     </p> */}
                     {visibleSection === 'demonCards' && (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 flex-wrap-reverse">
                         {playerData.coveredDemonsCards.map((card) => (
                           <CoveredDemonCard
                             isYourCard={itsYou}
@@ -262,7 +287,7 @@ export const PlayerDataDisplay = ({
                     {/* <p className="cursor-pointer font-bold">
                       {t('player.playerDataDisplay.summonedDemonCards')}:
                     </p> */}
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap-reverse">
                       {playerData.summonedDemonsCards.map((card) => (
                         <Card cardData={card} key={card.id} width={'w-20'} />
                       ))}
@@ -274,7 +299,7 @@ export const PlayerDataDisplay = ({
                     {t('player.playerDataDisplay.neighborsCards')}:
                   </p> */}
                   {visibleSection === 'neighborsCards' && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap-reverse">
                       {playerData.neighborsCards.map((card) => (
                         <div key={card.id}>
                           <Card
