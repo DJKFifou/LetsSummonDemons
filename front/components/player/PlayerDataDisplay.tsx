@@ -180,7 +180,7 @@ export const PlayerDataDisplay = ({
     <article>
       {itsYou ? (
         <>
-          <div className="flex gap-2 p-2">
+          <div className="flex justify-center gap-2 p-2">
             <p>
               {/* <b>{t('player.playerDataDisplay.player')}</b> */}
               {!itsYou && gameData.turn?.current.canChoosedPlayer && (
@@ -189,11 +189,11 @@ export const PlayerDataDisplay = ({
                 </button>
               )}
             </p>
-            {itsTurn && (
+            {/* {itsTurn && (
               <p>
                 <b>{t('player.playerDataDisplay.turn')}</b>
               </p>
-            )}
+            )} */}
             {canSummonDemon && (
               <button onClick={summonDemon}>
                 {t('player.playerDataDisplay.summonSelectedDemon')}
@@ -205,123 +205,141 @@ export const PlayerDataDisplay = ({
             <p>
               {t('player.playerDataDisplay.name')}: {playerData.name}
             </p> */}
-            <div>
-              <p>{t('player.playerDataDisplay.candleCard')}:</p>
+            <div className="flex flex-col justify-end items-center">
+              {/* <p>{t('player.playerDataDisplay.candleCard')}:</p> */}
               <div className="flex gap-2">
                 {playerData.candleCard && (
                   <Card cardData={playerData.candleCard} />
                 )}
               </div>
-              <Souls count={playerData.soulsTokenCount} />
+              <p>
+                {playerData.soulsTokenCount} {t('soul.souls.souls')}
+              </p>
+              {/* <Souls count={playerData.soulsTokenCount} /> */}
             </div>
-            <div className="flex flex-col">
-              <div onClick={() => setVisibleSection('demonCards')}>
+            <div className="flex flex-col w-1/2">
+              <div>
+                <button
+                  className="bg-slate-200"
+                  onClick={() => setVisibleSection('neighborsCards')}
+                >
+                  CARTES ({playerData.neighborsCards.length})
+                </button>
+                <button
+                  className="bg-slate-400"
+                  onClick={() => setVisibleSection('demonCards')}
+                >
+                  DEMONS ({playerData.summonedDemonsCards.length}/3)
+                </button>
+              </div>
+              <div className="flex flex-col justify-end h-48 px-6 py-4 bg-slate-200">
                 <div>
-                  <p className="cursor-pointer font-bold">
-                    {t('player.playerDataDisplay.coveredDemonCards')}:
-                  </p>
-                  {visibleSection === 'demonCards' && (
+                  <div>
+                    {/* <p className="cursor-pointer font-bold">
+                      {t('player.playerDataDisplay.coveredDemonCards')}:
+                    </p> */}
+                    {visibleSection === 'demonCards' && (
+                      <div className="flex gap-2">
+                        {playerData.coveredDemonsCards.map((card) => (
+                          <CoveredDemonCard
+                            isYourCard={itsYou}
+                            isSummonable={
+                              itsYourTurn &&
+                              gameData.turn?.current.canSummonDemon &&
+                              !gameData.turn?.current.shouldSelectCards
+                            }
+                            cardData={card}
+                            onToggleSelect={() => toggleDemonToSummon(card.id)}
+                            isSelected={demonToSummonId === card.id}
+                            key={card.id}
+                            width={'w-20'}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    {/* <p className="cursor-pointer font-bold">
+                      {t('player.playerDataDisplay.summonedDemonCards')}:
+                    </p> */}
                     <div className="flex gap-2">
-                      {playerData.coveredDemonsCards.map((card) => (
-                        <CoveredDemonCard
-                          isYourCard={itsYou}
-                          isSummonable={
-                            itsYourTurn &&
-                            gameData.turn?.current.canSummonDemon &&
-                            !gameData.turn?.current.shouldSelectCards
-                          }
-                          cardData={card}
-                          onToggleSelect={() => toggleDemonToSummon(card.id)}
-                          isSelected={demonToSummonId === card.id}
-                          key={card.id}
-                        />
+                      {playerData.summonedDemonsCards.map((card) => (
+                        <Card cardData={card} key={card.id} width={'w-20'} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  {/* <p className="cursor-pointer font-bold">
+                    {t('player.playerDataDisplay.neighborsCards')}:
+                  </p> */}
+                  {visibleSection === 'neighborsCards' && (
+                    <div className="flex gap-2">
+                      {playerData.neighborsCards.map((card) => (
+                        <div key={card.id}>
+                          <Card
+                            isSelectable={!!demonToSummonId}
+                            isSelected={neighborsToSacrifice.includes(card.id)}
+                            onToggleSelect={() =>
+                              toggleNeighborToSacrifice(card.id)
+                            }
+                            cardData={card}
+                            width={'w-20'}
+                          />
+                          {itsYou && card.discardableToActivateIt && (
+                            <button onClick={() => choosedCard(card)}>
+                              Défausser et activer {card.name}
+                            </button>
+                          )}
+                          {itsYou && card.discardableToActivateIt && (
+                            <button onClick={stopDiscardSelfCardChoice}>
+                              Ne pas défausser et activer {card.name}
+                            </button>
+                          )}
+                          {!itsYou &&
+                            isSelectable(card, 'steal') &&
+                            gameData.turn?.current.canChoosedCard && (
+                              <button onClick={() => choosedCard(card)}>
+                                Voler {card.name}
+                              </button>
+                            )}
+                          {gameData.turn?.current?.shouldSelectFilter?.rangeOfSelection?.includes(
+                            'opponentChoice',
+                          )
+                            ? !itsYou &&
+                              isSelectable(card, 'discard') &&
+                              gameData.turn?.current.canChoosedCard && (
+                                <button onClick={() => choosedCard(card)}>
+                                  Défausser {card.name}
+                                </button>
+                              )
+                            : itsYou &&
+                              isSelectable(card, 'discard') &&
+                              gameData.turn?.current.canChoosedCard && (
+                                <button onClick={() => choosedCard(card)}>
+                                  Défausser {card.name}
+                                </button>
+                              )}
+                          {itsYou &&
+                            isSelectable(card, 'sacrifice') &&
+                            gameData.turn?.current.canChoosedCard && (
+                              <button onClick={() => choosedCard(card)}>
+                                Sacrifier {card.name}
+                              </button>
+                            )}
+                          {itsYou &&
+                            isSelectable(card, 'active') &&
+                            gameData.turn?.current.canChoosedCard &&
+                            card.name !== 'DESTINY' && (
+                              <button onClick={() => choosedCard(card)}>
+                                Activer {card.name}
+                              </button>
+                            )}
+                        </div>
                       ))}
                     </div>
                   )}
                 </div>
-                <div>
-                  <p className="cursor-pointer font-bold">
-                    {t('player.playerDataDisplay.summonedDemonCards')}:
-                  </p>
-                  <div className="flex gap-2">
-                    {playerData.summonedDemonsCards.map((card) => (
-                      <Card cardData={card} key={card.id} />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p
-                  onClick={() => setVisibleSection('neighborsCards')}
-                  className="cursor-pointer font-bold"
-                >
-                  {t('player.playerDataDisplay.neighborsCards')}:
-                </p>
-                {visibleSection === 'neighborsCards' && (
-                  <div className="flex gap-2">
-                    {playerData.neighborsCards.map((card) => (
-                      <div key={card.id}>
-                        <Card
-                          isSelectable={!!demonToSummonId}
-                          isSelected={neighborsToSacrifice.includes(card.id)}
-                          onToggleSelect={() =>
-                            toggleNeighborToSacrifice(card.id)
-                          }
-                          cardData={card}
-                        />
-                        {itsYou && card.discardableToActivateIt && (
-                          <button onClick={() => choosedCard(card)}>
-                            Défausser et activer {card.name}
-                          </button>
-                        )}
-                        {itsYou && card.discardableToActivateIt && (
-                          <button onClick={stopDiscardSelfCardChoice}>
-                            Ne pas défausser et activer {card.name}
-                          </button>
-                        )}
-                        {!itsYou &&
-                          isSelectable(card, 'steal') &&
-                          gameData.turn?.current.canChoosedCard && (
-                            <button onClick={() => choosedCard(card)}>
-                              Voler {card.name}
-                            </button>
-                          )}
-                        {gameData.turn?.current?.shouldSelectFilter?.rangeOfSelection?.includes(
-                          'opponentChoice',
-                        )
-                          ? !itsYou &&
-                            isSelectable(card, 'discard') &&
-                            gameData.turn?.current.canChoosedCard && (
-                              <button onClick={() => choosedCard(card)}>
-                                Défausser {card.name}
-                              </button>
-                            )
-                          : itsYou &&
-                            isSelectable(card, 'discard') &&
-                            gameData.turn?.current.canChoosedCard && (
-                              <button onClick={() => choosedCard(card)}>
-                                Défausser {card.name}
-                              </button>
-                            )}
-                        {itsYou &&
-                          isSelectable(card, 'sacrifice') &&
-                          gameData.turn?.current.canChoosedCard && (
-                            <button onClick={() => choosedCard(card)}>
-                              Sacrifier {card.name}
-                            </button>
-                          )}
-                        {itsYou &&
-                          isSelectable(card, 'active') &&
-                          gameData.turn?.current.canChoosedCard &&
-                          card.name !== 'DESTINY' && (
-                            <button onClick={() => choosedCard(card)}>
-                              Activer {card.name}
-                            </button>
-                          )}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
             {itsYourTurn && (
@@ -342,9 +360,7 @@ export const PlayerDataDisplay = ({
                 <Card cardData={playerData.candleCard} />
               )}
             </div>
-            <p className="text-2xl font-medium text-center">
-              {playerData.name}
-            </p>
+            <p className="text-xl font-medium text-center">{playerData.name}</p>
             <div className="flex gap-2">
               {playerData.coveredDemonsCards.map((card) => (
                 <CoveredDemonCard

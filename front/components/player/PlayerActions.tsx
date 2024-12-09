@@ -55,13 +55,31 @@ export const PlayerActions = ({
   };
 
   return (
-    <article className="playerActions flex flex-col gap-1">
-      <div className="numbersContainer flex flex-col items-center gap-1">
+    <article className="playerActions flex gap-1">
+      <div className="numbersContainer flex flex-col justify-end items-center gap-1">
         {current.launchedDices && (
           <span>
             {t('player.playerActions.dicesResult')} {current.dicesResult}
           </span>
         )}
+        <button
+          className="w-[10vw] h-[10vw] bg-gray-400 rounded-full"
+          onClick={current.canLaunchDices ? launchDices : endTurn}
+        >
+          {current.canLaunchDices
+            ? t('player.playerActions.launchDices')
+            : t('player.playerActions.endTurn')}
+        </button>
+      </div>
+      <div className="giveCardContainer flex flex-col justify-end gap-1">
+        <button onClick={testGiveCard}>
+          {t('player.playerActions.testGiveCard')}
+        </button>
+        <input
+          type="text"
+          id="giveCardInput"
+          placeholder={t('player.playerActions.giveCardInput')}
+        />
         {current.canLaunchDices && (
           <button onClick={testDices}>
             {t('player.playerActions.testDices')}
@@ -71,27 +89,6 @@ export const PlayerActions = ({
           type="number"
           id="diceInput"
           placeholder={t('player.playerActions.diceInput')}
-        />
-        {current.canLaunchDices && (
-          <button
-            className="w-[10vw] h-[10vw] bg-gray-400 rounded-full"
-            onClick={launchDices}
-          >
-            {t('player.playerActions.launchDices')}
-          </button>
-        )}
-        {current.canEndTurn && (
-          <button onClick={endTurn}>{t('player.playerActions.endTurn')}</button>
-        )}
-      </div>
-      <div className="giveCardContainer flex flex-col gap-1">
-        <button onClick={testGiveCard}>
-          {t('player.playerActions.testGiveCard')}
-        </button>
-        <input
-          type="text"
-          id="giveCardInput"
-          placeholder={t('player.playerActions.giveCardInput')}
         />
       </div>
       {itsYou &&
