@@ -53,6 +53,43 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
     socket.emit('playerId', player.data.id);
   });
 
+  socket.on('deckShow', () => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+    game.showDeck();
+  });
+
+  socket.on('playerReady', () => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+
+    console.log('game.playersReady', game.playersReady);
+    console.log('game.playerList', game.playerList);
+    console.log('socket.data.playerId', socket.data.playerId);
+
+    if (!game) {
+      return;
+    }
+
+    game.playerList.forEach((player) => {
+      if (player.data.isBot) {
+        game.playersReady.push(player.data.id);
+      }
+    });
+
+    if (game.playersReady.includes(socket.data.playerId)) {
+      return;
+    }
+
+    game.playersReady.push(socket.data.playerId);
+
+    if (game.playersReady.length === game.playerList.length) {
+      game.start();
+    }
+
+    console.log('game.playersReady', game.playersReady);
+    console.log('game.playerList', game.playerList);
+    console.log('socket.data.playerId', socket.data.playerId);
+  });
+
   socket.on('gameStart', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 

@@ -48,6 +48,7 @@ export class Game implements EntityClass<GameData> {
   protected hostId: PlayerId;
   protected players: Player[];
   protected state: GameState;
+  playersReady: PlayerId[];
   gameConsole: [string];
   protected winner?: PlayerId;
 
@@ -61,6 +62,7 @@ export class Game implements EntityClass<GameData> {
   constructor() {
     this.id = shortUuidv4();
     this.players = [];
+    this.playersReady = [];
     this.turn = null;
     this.state = 'starting';
     this.gameConsole = [''];
@@ -97,6 +99,11 @@ export class Game implements EntityClass<GameData> {
 
   get playerList(): Player[] {
     return this.players;
+  }
+
+  showDeck(): void {
+    this.state = 'showDeck';
+    this.emitDataToSockets();
   }
 
   start(): void {
@@ -151,6 +158,7 @@ export class Game implements EntityClass<GameData> {
       id: this.id,
       hostId: this.hostId,
       players: this.players.map((player) => player.data),
+      playersReady: this.playersReady,
       state: this.state,
       gameConsole: this.gameConsole,
       turn: this.turn?.data,

@@ -13,6 +13,8 @@ export interface IClientToServerEvents {
   gameCreate: ({ playerInputData: PlayerInputData }) => void;
   gameJoin: ({ gameId: GameId, playerInputData: PlayerInputData }) => void;
   gameStart: () => void;
+  deckShow: () => void;
+  playerReady: () => void;
   turnLaunchDices: () => void;
   testDices: (number: number) => void;
   testGiveCard: (CardId: CardId) => void;

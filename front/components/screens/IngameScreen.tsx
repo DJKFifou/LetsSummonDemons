@@ -2,6 +2,7 @@ import { socket } from '@/socket';
 import { useEffect, useState } from 'react';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
+import { ShowDeckDisplay } from '../game/ShowDeck';
 import { GameDataDisplay } from '../game/Game';
 import { useTranslation } from 'react-i18next';
 import { TranslationButtons } from '@/components/layout/TranslationButtons';
@@ -55,8 +56,8 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
   //   });
   // }, [gameData.gameConsole]);
 
-  const startGame = () => {
-    socket.emit('gameStart');
+  const showDeck = () => {
+    socket.emit('deckShow');
   };
 
   const copyGameId = () => {
@@ -115,7 +116,7 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
                   {gameData.players.length} joueurs ont rejoint le rituel.
                 </h5>
                 <button
-                  onClick={startGame}
+                  onClick={showDeck}
                   className="w-96 py-4 px-6 bg-white text-black"
                 >
                   {t('screens.inGame.startButton')}
@@ -149,6 +150,9 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
           <button>Invité</button>
         </div>
       )} */}
+      {gameData.state === 'showDeck' && (
+        <ShowDeckDisplay playerId={playerId} gameData={gameData} />
+      )}
       {gameData.state === 'started' && (
         <GameDataDisplay playerId={playerId} gameData={gameData} />
       )}

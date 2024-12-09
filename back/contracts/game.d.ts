@@ -4,12 +4,13 @@ import { TurnData } from './turn.js';
 
 export type GameId = string;
 
-export type GameState = 'starting' | 'started' | 'ended';
+export type GameState = 'starting' | 'started' | 'showDeck' | 'ended';
 
 export interface GameData {
   id: GameId;
   hostId: PlayerId;
   players: Array<PlayerData>;
+  playersReady: Array<PlayerId>;
   state: GameState;
   gameConsole: [string];
   neighborsDeck: NeighborsDeckData;
