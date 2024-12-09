@@ -17,7 +17,7 @@ export const GameDataDisplay = ({
   const isMarketOpen = itsYourTurn && !!gameData.turn?.current.canBuyNeighbor;
 
   const positions = [
-    'left-0 bottom-0',
+    'left-1/2 bottom-0 -translate-x-1/2 w-full',
     'left-1/4 top-0',
     'right-1/4 top-0',
     'left-0 top-1/4',
