@@ -61,42 +61,23 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
   socket.on('playerReady', () => {
     const game = gameRepository.getGameById(socket.data.gameId);
 
-    console.log('game.playersReady', game.playersReady);
-    console.log('game.playerList', game.playerList);
-    console.log('socket.data.playerId', socket.data.playerId);
-
-    if (!game) {
-      return;
-    }
+    if (!game) return;
 
     game.playerList.forEach((player) => {
-      if (player.data.isBot) {
+      if (player.data.isBot && !game.playersReady.includes(player.data.id)) {
         game.playersReady.push(player.data.id);
       }
     });
 
-    if (game.playersReady.includes(socket.data.playerId)) {
-      return;
+    if (!game.playersReady.includes(socket.data.playerId)) {
+      game.playersReady.push(socket.data.playerId);
     }
 
-    game.playersReady.push(socket.data.playerId);
+    socket.to(game.data.id).emit('playersReadyUpdate', game.playersReady);
+    socket.emit('playersReadyUpdate', game.playersReady);
 
     if (game.playersReady.length === game.playerList.length) {
       game.start();
     }
-
-    console.log('game.playersReady', game.playersReady);
-    console.log('game.playerList', game.playerList);
-    console.log('socket.data.playerId', socket.data.playerId);
-  });
-
-  socket.on('gameStart', () => {
-    const game = gameRepository.getGameById(socket.data.gameId);
-
-    if (!game) {
-      return;
-    }
-
-    game.start();
   });
 };

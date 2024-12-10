@@ -7,12 +7,12 @@ export interface IServerToClientEvents {
   gameData: (gameData: GameData) => void;
   playerId: (playerId: PlayerId) => void;
   hostId: (playerId: PlayerId) => void;
+  playersReadyUpdate: (playerIds: Array<PlayerId>) => void;
 }
 
 export interface IClientToServerEvents {
   gameCreate: ({ playerInputData: PlayerInputData }) => void;
   gameJoin: ({ gameId: GameId, playerInputData: PlayerInputData }) => void;
-  gameStart: () => void;
   deckShow: () => void;
   playerReady: () => void;
   turnLaunchDices: () => void;
