@@ -8,6 +8,7 @@ export interface IServerToClientEvents {
   playerId: (playerId: PlayerId) => void;
   hostId: (playerId: PlayerId) => void;
   playersReadyUpdate: (playerIds: Array<PlayerId>) => void;
+  gameChatMessage: (gameChat: Array<ChatMessage>) => void;
 }
 
 export interface IClientToServerEvents {
@@ -15,6 +16,7 @@ export interface IClientToServerEvents {
   gameJoin: ({ gameId: GameId, playerInputData: PlayerInputData }) => void;
   deckShow: () => void;
   playerReady: () => void;
+  chatMessage: (message: string) => void;
   turnLaunchDices: () => void;
   testDices: (number: number) => void;
   testGiveCard: (CardId: CardId) => void;
@@ -53,3 +55,8 @@ export type IoSocket = Socket<
   IServerToServerEvents,
   ISocketSessionData
 >;
+
+export interface ChatMessage {
+  playerName: string;
+  message: string;
+}

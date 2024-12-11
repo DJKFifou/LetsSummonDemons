@@ -50,6 +50,7 @@ export class Game implements EntityClass<GameData> {
   protected state: GameState;
   playersReady: PlayerId[];
   gameConsole: [string];
+  gameChat: { playerName: string; message: string }[];
   protected winner?: PlayerId;
 
   turn?: Turn;
@@ -66,6 +67,7 @@ export class Game implements EntityClass<GameData> {
     this.turn = null;
     this.state = 'starting';
     this.gameConsole = [''];
+    this.gameChat = [];
 
     this.dices = Array.from({ length: DICE_COUNT }, () => new Dice());
     this.hostId = null;
@@ -162,6 +164,7 @@ export class Game implements EntityClass<GameData> {
       playersReady: this.playersReady,
       state: this.state,
       gameConsole: this.gameConsole,
+      gameChat: this.gameChat,
       turn: this.turn?.data,
       neighborsDeck: this.neighborsDeck?.data,
     };
@@ -177,4 +180,8 @@ export class Game implements EntityClass<GameData> {
   emitDataToSockets(): void {
     this.toSockets().emit('gameData', this.data);
   }
+}
+export interface ChatMessage {
+  playerName: string;
+  message: string;
 }

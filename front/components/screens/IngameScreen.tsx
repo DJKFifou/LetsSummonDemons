@@ -14,6 +14,11 @@ type IngameScreenProps = {
   gameData: GameData;
 };
 
+interface ChatMessage {
+  playerName: string;
+  message: string;
+}
+
 interface ConsoleMessage {
   text: string;
   timestamp: number;
@@ -66,6 +71,34 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
 
   const isHost = gameData.hostId === playerId;
 
+  const [inputValue, setInputValue] = useState('');
+  // const [gameChat, setGameChat] = useState<string[]>(gameData.gameChat);
+  const [gameChat, setGameChat] = useState<ChatMessage[]>(gameData.gameChat);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && inputValue.trim() !== '') {
+      socket.emit('chatMessage', inputValue);
+      setInputValue('');
+    }
+  };
+
+  useEffect(() => {
+    // const handleGameChatUpdate = (updatedGameChat: string[]) => {
+    //   setGameChat(updatedGameChat);
+    // };
+    const handleGameChatUpdate = (updatedGameChat: ChatMessage[]) => {
+      setGameChat(updatedGameChat);
+    };
+
+    socket.on('gameChatMessage', handleGameChatUpdate);
+
+    return () => {
+      socket.off('gameChatMessage', handleGameChatUpdate);
+    };
+  }, []);
+
+  console.log('gameData', gameData);
+
   return (
     <article className="container mx-auto h-full flex flex-col items-center">
       {/* Console Start */}
@@ -83,10 +116,30 @@ export const IngameScreen = ({ gameData, playerId }: IngameScreenProps) => {
             </div>
           );
         })} */}
-        {gameData.gameConsole.slice(-5).map((line, index) => (
-          <span key={index}>{line}</span>
-        ))}
+        <div className="flex flex-col gap-2">
+          {gameData.gameConsole.slice(-5).map((line, index) => (
+            <span key={index}>{line}</span>
+          ))}
+        </div>
+        <div className="flex flex-col justify-end gap-2 h-[11.5rem] border border-gray-400">
+          <div className="game-chat-messages">
+            {gameChat.slice(-5).map((chatMessage, index) => (
+              <div key={index} className="game-chat-message">
+                <strong>{chatMessage.playerName}:</strong> {chatMessage.message}
+              </div>
+            ))}
+          </div>
+          <input
+            type="text"
+            placeholder="Écrivez un message..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="text-black"
+          />
+        </div>
       </div>
+      {/* <div className="absolute top-32 left-4 flex flex-col items-start gap-2"></div> */}
       {/* Console End */}
       {gameData.state === 'starting' && (
         <div className="flex items-center justify-center h-full text-center">

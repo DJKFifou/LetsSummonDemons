@@ -15,7 +15,9 @@ export const ShowDeckDisplay = ({
   playerId,
 }: ShowDeckDisplayProps) => {
   const { t } = useTranslation();
-  const [playersReady, setPlayersReady] = useState(gameData.playersReady);
+  const [playersReady, setPlayersReady] = useState<string[]>(
+    gameData.playersReady,
+  );
 
   const PlayerReady = () => {
     socket.emit('playerReady');

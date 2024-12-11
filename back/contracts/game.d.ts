@@ -13,6 +13,7 @@ export interface GameData {
   playersReady: Array<PlayerId>;
   state: GameState;
   gameConsole: [string];
+  gameChat: { playerName: string; message: string }[];
   neighborsDeck: NeighborsDeckData;
   turn?: TurnData;
   winner?: PlayerId;

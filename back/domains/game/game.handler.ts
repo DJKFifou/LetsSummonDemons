@@ -80,4 +80,19 @@ export const registerGameHandlers = (_io: IoServer, socket: IoSocket): void => {
       game.start();
     }
   });
+
+  socket.on('chatMessage', (message) => {
+    const game = gameRepository.getGameById(socket.data.gameId);
+    const player = game.playerList.find(
+      (p) => p.data.id === socket.data.playerId,
+    ); // Assuming you have player data stored
+    const playerName = player ? player.data.name : 'Unknown Player'; // Get the player's name, default to 'Unknown Player'
+
+    // Push both player name and message to the game chat
+    game.gameChat.push({ playerName, message });
+
+    // Emit the updated game chat to all clients
+    socket.to(game.data.id).emit('gameChatMessage', game.gameChat);
+    socket.emit('gameChatMessage', game.gameChat);
+  });
 };
