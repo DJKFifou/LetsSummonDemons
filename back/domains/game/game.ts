@@ -102,17 +102,18 @@ export class Game implements EntityClass<GameData> {
   }
 
   showDeck(): void {
-    this.state = 'showDeck';
-    this.emitDataToSockets();
-  }
-
-  start(): void {
     if (this.players.length < MIN_GAME_PLAYERS) {
       throw new StartWithoutEnoughPlayersError();
     }
 
     this.shuffleDecks();
     this.distribute();
+    this.state = 'showDeck';
+
+    this.emitDataToSockets();
+  }
+
+  start(): void {
     this.state = 'started';
 
     this.nextTurn();

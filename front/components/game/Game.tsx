@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerId } from '@lsd/back/contracts/player';
 import { NeighborsDeck } from '../neighborsDeck/NeighborsDeck';
 import { PlayerDataDisplay } from '../player/PlayerDataDisplay';
+import { OverlayDisplay } from '../game/Overlay';
 import { useTranslation } from 'react-i18next';
 
 type GameDataDisplayProps = {
@@ -15,6 +17,21 @@ export const GameDataDisplay = ({
   const { t } = useTranslation();
   const itsYourTurn = gameData.turn?.current.player.id === playerId;
   const isMarketOpen = itsYourTurn && !!gameData.turn?.current.canBuyNeighbor;
+
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const [activePlayerId, setActivePlayerId] = useState<PlayerId | null>(null);
+  const [selectedPlayerId, setSelectedPlayerId] = useState<PlayerId | null>(
+    null,
+  );
+
+  const toggleOverlayVisibility = (
+    id: PlayerId | null,
+    selectedId?: PlayerId,
+  ) => {
+    setActivePlayerId(overlayVisible ? null : id);
+    setOverlayVisible(!overlayVisible);
+    if (selectedId) setSelectedPlayerId(selectedId);
+  };
 
   const positions = [
     'left-1/2 bottom-0 -translate-x-1/2 w-full',
@@ -53,16 +70,38 @@ export const GameDataDisplay = ({
           .map((player, index) => {
             const positionClass =
               player.id === playerId ? positions[0] : positions[index];
-
+            console.log('gameData.players', gameData.players);
             return (
-              <div className={`absolute ${positionClass}`} key={player.id}>
-                <PlayerDataDisplay
-                  gameData={gameData}
-                  playerData={player}
-                  itsTurn={gameData.turn?.current.player.id === player.id}
-                  itsYou={player.id === playerId}
+              <div>
+                <div
+                  className={`absolute ${positionClass} ${
+                    player.id === playerId ? '' : 'cursor-pointer'
+                  }`}
                   key={player.id}
-                />
+                  onClick={() => {
+                    if (player.id !== playerId) {
+                      toggleOverlayVisibility(playerId, player.id);
+                    }
+                  }}
+                >
+                  <PlayerDataDisplay
+                    gameData={gameData}
+                    playerData={player}
+                    itsTurn={gameData.turn?.current.player.id === player.id}
+                    itsYou={player.id === playerId}
+                    key={player.id}
+                  />
+                </div>
+                <div>
+                  {overlayVisible && activePlayerId === player.id && (
+                    <OverlayDisplay
+                      gameData={gameData}
+                      playerId={activePlayerId}
+                      setOverlayVisible={setOverlayVisible}
+                      selectedPlayerId={selectedPlayerId}
+                    />
+                  )}
+                </div>
               </div>
             );
           })}

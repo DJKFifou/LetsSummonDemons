@@ -1,12 +1,13 @@
 import { socket } from '@/socket';
+import { useState } from 'react';
 import { CardData, CardId } from '@lsd/back/contracts/card';
 import { GameData } from '@lsd/back/contracts/game';
 import { PlayerData } from '@lsd/back/contracts/player';
-import { useState } from 'react';
 import { Card } from '../card/Card';
 import { CoveredDemonCard } from '../card/CoveredDemonCard';
 import { Souls } from '../soul/Souls';
 import { PlayerActions } from './PlayerActions';
+import { OverlayDisplay } from '../game/Overlay';
 import { useTranslation } from 'react-i18next';
 
 type PlayerDataDisplayProps = {
