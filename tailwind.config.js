@@ -8,10 +8,11 @@ export default {
         red: '#D83928',
         yellow: '#FFC800',
       },
-      // fontFamily: {
-      //   title: ['BaiJamjuree', 'sans-serif'],
-      //   body: ['Noka', 'sans-serif'],
-      // },
+      fontFamily: {
+        benguiatBold: ['Benguiat-bold'],
+        benguiatBook: ['Benguiat-book'],
+        benguiatMedium: ['Benguiat-Medium'],
+      },
       screens: {
         '4xs': '320px',
         '3xs': '380px',
