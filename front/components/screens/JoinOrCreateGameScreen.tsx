@@ -26,6 +26,11 @@ export const JoinOrCreateGameScreen = ({
 
   return (
     <article className="container mx-auto h-full flex flex-col items-center">
+      <img
+        className="absolute w-full h-full object-cover -z-10"
+        src="/backgrounds/joinOrCreateGameBg.jpg"
+        alt="Background"
+      />
       <TranslationButtons />
       <SoundButton />
       <Logo />

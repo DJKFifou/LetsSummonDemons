@@ -24,7 +24,7 @@ export const TranslationButtons = () => {
       <select
         name="translationSelect"
         id="translationSelect"
-        className="absolute top-10 right-10 z-10 bg-black text-white text-xl font-semibold"
+        className="absolute top-10 right-10 z-10 bg-transparent *:bg-black text-red font-benguiatMedium cursor-pointer"
         onChange={handleSelectChange}
         defaultValue={localStorage.getItem('language') || 'en'}
       >

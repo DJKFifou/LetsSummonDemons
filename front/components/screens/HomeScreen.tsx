@@ -20,22 +20,39 @@ export const HomeScreen = () => {
   }
 
   return (
-    <article className="h-full flex flex-col items-center justify-center text-xl font-semibold">
+    <article className="h-full flex flex-col items-center justify-center font-benguiatMedium">
+      <video
+        src="/backgrounds/homeBg.mp4"
+        className="absolute w-full h-full object-cover -z-10"
+        autoPlay
+        muted
+        loop
+      />
       <TranslationButtons />
       <SoundButton />
       <div className="flex flex-col gap-20">
         <Logo home={true} />
         <div className="flex flex-col items-center gap-4">
-          <button
-            onClick={() => handleScreenChange('joinOrCreate')}
-            className="w-96 py-4 px-6 bg-white text-black"
-          >
-            {t('screens.home.playButton')}
-          </button>
-          <button className="w-96 py-4 px-6 border-2 border-white">
+          <div>
+            <button
+              onClick={() => handleScreenChange('joinOrCreate')}
+              className="relative flex gap-2 justify-center items-center w-[17.5rem] py-4 px-6 text-xl text-shadow"
+            >
+              {t('screens.home.playButton')}
+              <img src="/images/croix-satan.svg" alt="" />
+              <img
+                className="absolute w-full h-full object-contain"
+                src="/images/cta-border.svg"
+                alt=""
+              />
+            </button>
+          </div>
+          <button className="py-4 px-6 text-xl text-shadow">
             {t('screens.home.rulesButton')}
           </button>
-          <button>{t('screens.home.paramsButton')}</button>
+          <button className="text-xl text-shadow">
+            {t('screens.home.paramsButton')}
+          </button>
         </div>
       </div>
       <button className="absolute bottom-10">

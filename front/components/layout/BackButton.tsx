@@ -5,7 +5,7 @@ export const BackButton = () => {
 
   return (
     <article>
-      <button className="absolute bottom-10 left-10 z-10 text-xl font-semibold">
+      <button className="absolute bottom-10 left-10 z-10 text-xl font-benguiatMedium">
         {t('layout.backButton.back')}
       </button>
     </article>
