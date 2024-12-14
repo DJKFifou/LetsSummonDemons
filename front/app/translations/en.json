@@ -21,8 +21,8 @@
       "sound": "ACTIVATED SOUND"
     },
     "translationButtons": {
-      "en": "EN",
-      "fr": "FR"
+      "en": "ENGLISH",
+      "fr": "FRANÇAIS"
     },
     "backButton": {
       "back": "BACK"
@@ -68,7 +68,7 @@
       "startButton": "Start"
     },
     "home": {
-      "playButton": "PLAY",
+      "playButton": "START A RITUAL",
       "rulesButton": "GAME RULES",
       "paramsButton": "SETTINGS",
       "creditsButton": "CREDITS"

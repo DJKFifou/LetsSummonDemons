@@ -18,11 +18,11 @@
   },
   "layout": {
     "soundButton": {
-      "sound": "SON ACTIVÉ"
+      "sound": "SON : ACTIVÉ"
     },
     "translationButtons": {
-      "en": "EN",
-      "fr": "FR"
+      "en": "ENGLISH",
+      "fr": "FRANÇAIS"
     },
     "backButton": {
       "back": "RETOUR"
@@ -68,7 +68,7 @@
       "startButton": "Démarrer"
     },
     "home": {
-      "playButton": "JOUER",
+      "playButton": "LANCER UN RITUEL",
       "rulesButton": "RĖGLES DU JEU",
       "paramsButton": "PARAMĖTRES",
       "creditsButton": "CRÉDITS"
