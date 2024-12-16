@@ -9,7 +9,7 @@ export const Logo: React.FC<LogoProps> = ({ home }) => {
         home ? '' : 'absolute left-1/2 -translate-x-1/2 top-10 w-48'
       }`}
     >
-      <img src="/images/logo.svg" alt="Logo" />
+      <img src="/images/logo-red.svg" alt="Logo" />
     </article>
   );
 };

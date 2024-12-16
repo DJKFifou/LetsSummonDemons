@@ -38,13 +38,13 @@ export const HomeScreen = () => {
               onClick={() => handleScreenChange('joinOrCreate')}
               className="relative flex gap-2 justify-center items-center w-[17.5rem] py-4 px-6 text-xl text-shadow"
             >
-              {t('screens.home.playButton')}
-              <img src="/images/croix-satan.svg" alt="" />
               <img
-                className="absolute w-full h-full object-contain"
+                className="absolute w-full h-full object-contain fill-linear-gradient"
                 src="/images/cta-border.svg"
                 alt=""
               />
+              {t('screens.home.playButton')}
+              <img src="/images/croix-satan.svg" alt="" />
             </button>
           </div>
           <button className="py-4 px-6 text-xl text-shadow">

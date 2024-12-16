@@ -18,7 +18,7 @@
   },
   "layout": {
     "soundButton": {
-      "sound": "ACTIVATED SOUND"
+      "sound": "SOUND : ACTIVATED"
     },
     "translationButtons": {
       "en": "ENGLISH",
@@ -59,9 +59,8 @@
     "joinOrCreate": {
       "title": "Create or Join a Game",
       "pseudo": "Pseudo",
-      "createButton": "Create Game",
-      "gameId": "ID",
-      "joinButton": "Join Game"
+      "createButton": "CREATE",
+      "joinButton": "JOIN"
     },
     "inGame": {
       "title": "In game",

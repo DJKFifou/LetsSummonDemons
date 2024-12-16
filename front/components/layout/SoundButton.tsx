@@ -9,7 +9,7 @@ export const SoundButton = () => {
         <input type="checkbox" id="soundButton" />
         <div className="relative w-12 h-12 flex justify-center items-center *:absolute">
           <img src="/images/sound.svg" alt="" />
-          <img src="/images/sound-border.svg" alt="" />
+          <img src="/images/circle-border.svg" alt="" />
         </div>
         <label htmlFor="soundButton">{t('layout.soundButton.sound')}</label>
       </div>

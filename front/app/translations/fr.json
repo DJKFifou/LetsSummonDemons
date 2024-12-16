@@ -59,9 +59,8 @@
     "joinOrCreate": {
       "title": "Créer ou rejoindre une partie",
       "pseudo": "Pseudo",
-      "createButton": "Créer une partie",
-      "gameId": "ID",
-      "joinButton": "Rejoindre la partie"
+      "createButton": "CRÉER",
+      "joinButton": "REJOINDRE"
     },
     "inGame": {
       "title": "En partie",
